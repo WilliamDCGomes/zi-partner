@@ -1,0 +1,117 @@
+name: zi_partner
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.4 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.1.0
+  get: ^4.6.5
+  uuid: ^3.0.7
+  intl: ^0.17.0
+  lottie: ^2.3.0
+  location: ^4.4.0
+  provider: ^6.0.5
+  geocoding: ^2.1.0
+  geolocator: ^9.0.2
+  local_auth: ^2.1.6
+  file_picker: ^5.2.6
+  image_picker: ^0.8.7
+  flutter_picker: ^2.1.0
+  path_provider: ^2.0.14
+  cupertino_icons: ^1.0.5
+  email_validator: ^2.1.17
+  responsive_sizer: ^3.1.1
+  easy_image_viewer: ^1.2.0
+  flutter_flavorizr: ^2.1.5
+  package_info_plus: ^3.0.3
+  shared_preferences: ^2.0.20
+  flutter_localization: ^0.1.10
+  flutter_image_compress: ^1.1.3
+  mask_text_input_formatter: ^2.4.0
+  flutter_keyboard_visibility: ^5.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.1
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.1
+  flutter_native_splash: ^2.2.9
+  flutter_launcher_icons: ^0.10.0
+
+# Rodar sempre que quiser atualizar a splashscreen
+# flutter clean
+# flutter pub get
+# flutter pub run flutter_native_splash:create
+flutter_native_splash:
+  background_image: assets/images/Background_Azul.png
+  background_image_dark: assets/images/Background_Azul.png
+  image: assets/images/Icon_App.png
+  image_dark: assets/images/Icon_App.png
+
+  android_12:
+    background_image: assets/images/Background_Azul.png
+    background_image_dark: assets/images/Background_Azul.png
+    image: assets/images/Icon_App.png
+    image_dark: assets/images/Icon_App.png
+
+  web: false
+
+# Rodar sempre que quiser atualizar o icone
+# flutter clean
+# flutter pub get
+# flutter pub run flutter_launcher_icons:main
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/Icon_App.png"
+  adaptive_icon_background: "assets/images/background_icon.png"
+  adaptive_icon_foreground: "assets/images/Icon_App.png"
+
+# Rodar sempre que quiser adicionar o flavor
+# flutter clean
+# flutter pub get
+#flutter pub run flutter_flavorizr
+flavorizr:
+  app:
+    android:
+      flavorDimensions: "flavor-type"
+    ios:
+  flavors:
+    dev:
+      app:
+        name: "Zi Partner DEV"
+      android:
+        applicationId: "com.zipartner.zi_partner_dev"
+      ios:
+        bundleId: "com.zipartner.zi_partner_dev"
+    hmlg:
+      app:
+        name: "Zi Partner HMLG"
+      android:
+        applicationId: "com.zipartner.zi_partner_hmlg"
+      ios:
+        bundleId: "com.zipartner.zi_partner_hmlg"
+    prod:
+      app:
+        name: "Zi Partner"
+      android:
+        applicationId: "com.zipartner.zi_partner"
+      ios:
+        bundleId: "com.zipartner.zi_partner"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/svgs/
+    - assets/json/

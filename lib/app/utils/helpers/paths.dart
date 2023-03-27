@@ -1,0 +1,51 @@
+class Paths{
+  static final String jsonPath = "lib/app/assets/json/";
+  static final String svgsPath = "lib/app/assets/svgs/";
+  static final String imagesPath = "lib/app/assets/images/";
+
+  static final String Icon = "${imagesPath}Icon.png";
+  static final String Logo = "${imagesPath}Logo.png";
+  static final String Cofre = "${imagesPath}Cofre.png";
+  static final String Money = "${imagesPath}Money.png";
+  static final String Video = "${imagesPath}Video.png";
+  static final String Camera = "${imagesPath}Camera.png";
+  static final String Malote = "${imagesPath}Malote.png";
+  static final String Pelucia = "${imagesPath}Pelucia.png";
+  static final String Icon_App = "${imagesPath}Icon_App.png";
+  static final String Icon_Azul = "${imagesPath}Icon_Azul.png";
+  static final String Icon_Rosa = "${imagesPath}Icon_Rosa.png";
+  static final String Relatorio = "${imagesPath}Relatorio.png";
+  static final String Background = "${imagesPath}Background.png";
+  static final String Edit_Photo = "${imagesPath}Edit_Photo.png";
+  static final String Icon_Preto = "${imagesPath}Icon_Preto.png";
+  static final String Icone_Home = "${imagesPath}icone_home.png";
+  static final String Icone_Sair = "${imagesPath}Icone_Sair.png";
+  static final String Manutencao = "${imagesPath}Manutencao.png";
+  static final String Ocorrencia = "${imagesPath}Ocorrencia.png";
+  static final String Icon_Branco = "${imagesPath}Icon_Branco.png";
+  static final String Localizacao = "${imagesPath}Localizacao.png";
+  static final String Logo_Branca = "${imagesPath}Logo_Branca.png";
+  static final String Pelucia_Add = "${imagesPath}Pelucia_Add.png";
+  static final String Icon_Amarelo = "${imagesPath}Icon_Amarelo.png";
+  static final String Icone_Perfil = "${imagesPath}Icone_Perfil.png";
+  static final String Solicitacoes = "${imagesPath}Solicitacoes.png";
+  static final String Novo_Usuario = "${imagesPath}Novo_Usuario.png";
+  static final String Icone_Contato = "${imagesPath}Icone_Contato.png";
+  static final String Logo_Colorida = "${imagesPath}Logo_Colorida.png";
+  static final String Novo_Lembrete = "${imagesPath}Novo_Lembrete.png";
+  static final String Icone_Endereco = "${imagesPath}Icone_Endereco.png";
+  static final String Pelucia_Remove = "${imagesPath}Pelucia_Remove.png";
+  static final String Background_Azul = "${imagesPath}Background_Azul.png";
+  static final String Maquina_Pelucia = "${imagesPath}Maquina_Pelucia.png";
+  static final String Recolher_Dinheiro = "${imagesPath}Recolher_Dinheiro.png";
+  static final String Icone_Configuracao = "${imagesPath}Icone_Configuracao.png";
+  static final String Logo_Cor_Background = "${imagesPath}Logo_Cor_Background.png";
+  static final String Icone_Redefinir_Senha = "${imagesPath}Icone_Redefinir_Senha.png";
+  static final String Malote_Com_Tesouraria = "${imagesPath}Malote_Com_Tesouraria.png";
+  static final String Icone_Configuracao_Biometria = "${imagesPath}Icone_Configuracao_Biometria.png";
+  static final String Icone_Exibicao_Esqueci_Senha = "${imagesPath}Icone_Exibicao_Esqueci_Senha.png";
+
+  static final String error = "${jsonPath}error.json";
+  static final String loading = "${jsonPath}loading.json";
+  static final String successAnimation = "${jsonPath}success_animation.json";
+}
