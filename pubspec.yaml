@@ -47,6 +47,9 @@ dev_dependencies:
   flutter_native_splash: ^2.2.9
   flutter_launcher_icons: ^0.10.0
 
+# Rodar sempre que quiser gerar os arquivos .g
+# flutter pub run build_runner build --delete-conflicting-outputs
+
 # Rodar sempre que quiser atualizar a splashscreen
 # flutter clean
 # flutter pub get
@@ -79,7 +82,7 @@ flutter_icons:
 # Rodar sempre que quiser adicionar o flavor
 # flutter clean
 # flutter pub get
-#flutter pub run flutter_flavorizr
+# flutter pub run flutter_flavorizr
 flavorizr:
   app:
     android:
