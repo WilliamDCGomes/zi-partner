@@ -8,7 +8,7 @@ import '../../../../base/services/user_service.dart';
 import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
 import '../../../utils/sharedWidgets/popups/information_popup.dart';
-import '../../login/page/login_page_page.dart';
+import '../../login/page/login_page.dart';
 
 class InitialPageController extends GetxController {
   late SharedPreferences sharedPreferences;

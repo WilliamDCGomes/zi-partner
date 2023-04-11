@@ -49,13 +49,13 @@ class _CheckboxListTileWidgetState extends State<CheckboxListTileWidget> {
                 scale: .1.h,
                 child: Checkbox(
                   checkColor: widget.checkedColor ?? AppColors.whiteColor,
-                  activeColor: AppColors.defaultColor,
+                  activeColor: AppColors.blackColor,
                   value: widget.checked,
-                  hoverColor: AppColors.defaultColor,
+                  hoverColor: AppColors.blackColor,
                   side: MaterialStateBorderSide.resolveWith(
                     (states) => BorderSide(
                       width: .25.h,
-                      color: AppColors.defaultColor,
+                      color: AppColors.blackColor,
                     ),
                   ),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -67,7 +67,7 @@ class _CheckboxListTileWidgetState extends State<CheckboxListTileWidget> {
               padding: EdgeInsets.only(left: widget.spaceBetween ?? 2.w),
               child: TextWidget(
                 widget.radioText,
-                textColor: widget.titleColor ?? AppColors.defaultColor,
+                textColor: widget.titleColor ?? AppColors.blackColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 15.sp,
                 maxLines: 1,

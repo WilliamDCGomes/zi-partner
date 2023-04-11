@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../modules/login/page/login_page_page.dart';
+import '../../../modules/login/page/login_page.dart';
 import '../../stylePages/app_colors.dart';
 import '../button_widget.dart';
 import '../text_widget.dart';

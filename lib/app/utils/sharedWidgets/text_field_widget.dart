@@ -83,7 +83,7 @@ class TextFieldWidget extends StatelessWidget {
       labelText: hintText,
       labelStyle: TextStyle(
         fontSize: 16.sp,
-        color: hasError != null && hasError! ? AppColors.redColor : hintTextColor ?? AppColors.defaultColor,
+        color: hasError != null && hasError! ? AppColors.redColor : hintTextColor ?? AppColors.blackColor,
       ),
       errorMaxLines: 3,
       suffixIcon: iconTextField,
@@ -98,7 +98,7 @@ class TextFieldWidget extends StatelessWidget {
 
   TextStyle standardTextStyle() {
     return TextStyle(
-      color: textColor ?? AppColors.defaultColor,
+      color: textColor ?? AppColors.blackColor,
       fontSize: fontSize ?? 16.sp,
     );
   }
@@ -107,7 +107,7 @@ class TextFieldWidget extends StatelessWidget {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(
-        color: hasError != null && hasError! ? AppColors.redColor : borderColor ?? AppColors.defaultColor,
+        color: hasError != null && hasError! ? AppColors.redColor : borderColor ?? AppColors.blackColor,
         width: .25.h,
       ),
     );
@@ -142,7 +142,7 @@ class TextFieldWidget extends StatelessWidget {
           textAlign: textAlign ?? TextAlign.start,
           textAlignVertical: textAlignVertical ?? TextAlignVertical.center,
           focusNode: focusNode,
-          cursorColor: AppColors.defaultColor,
+          cursorColor: AppColors.blackColor,
           keyboardType: keyboardType ?? TextInputType.text,
           decoration: decoration ?? standardDecoration(),
           inputFormatters: maskTextInputFormatter,
