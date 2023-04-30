@@ -8,6 +8,7 @@ import '../../../utils/helpers/masks_for_text_fields.dart';
 import '../../../utils/helpers/text_field_validators.dart';
 import '../../../utils/sharedWidgets/button_widget.dart';
 import '../../../utils/sharedWidgets/checkbox_list_tile_widget.dart';
+import '../../../utils/sharedWidgets/rich_text_two_different_widget.dart';
 import '../../../utils/sharedWidgets/text_button_widget.dart';
 import '../../../utils/sharedWidgets/text_field_widget.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
@@ -27,11 +28,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late LoginPageController controller;
+  late LoginController controller;
 
   @override
   void initState() {
-    controller = Get.put(LoginPageController(widget.cancelFingerPrint));
+    controller = Get.put(LoginController(widget.cancelFingerPrint));
     super.initState();
   }
 
@@ -253,6 +254,18 @@ class _LoginPageState extends State<LoginPage> {
                                         focusNode: controller.loginButtonFocusNode,
                                         widthButton: 75.w,
                                         onPressed: () => controller.loginPressed(),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 3.h),
+                                      child: TextButtonWidget(
+                                        onTap: () {
+
+                                        },
+                                        richText: const RichTextTwoDifferentWidget(
+                                          firstText: "Não tem Cadastro? ",
+                                          secondText: "Clique Aqui!",
+                                        ),
                                       ),
                                     ),
                                   ],

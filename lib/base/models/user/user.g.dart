@@ -10,14 +10,6 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       name: json['name'] as String,
       tellphone: json['tellphone'] as String?,
       document: json['document'] as String?,
-      balanceMoney: json['balanceMoney'] as int?,
-      balanceStuffedAnimals: json['balanceStuffedAnimals'] as int?,
-      pouchLastUpdate: json['pouchLastUpdate'] == null
-          ? null
-          : DateTime.parse(json['pouchLastUpdate'] as String),
-      stuffedAnimalsLastUpdate: json['stuffedAnimalsLastUpdate'] == null
-          ? null
-          : DateTime.parse(json['stuffedAnimalsLastUpdate'] as String),
       userName: json['userName'] as String,
       password: json['password'] as String?,
     )
@@ -41,8 +33,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       ..district = json['district'] as String?
       ..complement = json['complement'] as String?
       ..cellphone = json['cellphone'] as String?
-      ..email = json['email'] as String?
-      ..code = json['code'] as int?;
+      ..email = json['email'] as String?;
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
@@ -63,12 +54,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'complement': instance.complement,
       'cellphone': instance.cellphone,
       'email': instance.email,
-      'code': instance.code,
-      'balanceStuffedAnimals': instance.balanceStuffedAnimals,
-      'stuffedAnimalsLastUpdate':
-          instance.stuffedAnimalsLastUpdate?.toIso8601String(),
-      'pouchLastUpdate': instance.pouchLastUpdate?.toIso8601String(),
-      'balanceMoney': instance.balanceMoney,
       'userName': instance.userName,
       'password': instance.password,
     };

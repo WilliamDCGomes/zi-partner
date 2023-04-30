@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zi_partner/app/utils/helpers/static_informations.dart';
 import 'package:zi_partner/base/viewControllers/loggedUser/logged_user_viewcontroller.dart';
 import '../../../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/services/user_service.dart';
@@ -23,6 +24,7 @@ class InitialPageController extends GetxController {
   @override
   void onInit() async {
     sharedPreferences = await SharedPreferences.getInstance();
+    StaticInformations.sharedPreferences = sharedPreferences;
     await _loadFirstScreen();
     super.onInit();
   }

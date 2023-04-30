@@ -4,18 +4,20 @@ import 'package:flutter/foundation.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zi_partner/app/modules/mainMenu/page/main_menu_page.dart';
 import '../../../../base/models/user/user.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/services/user_service.dart';
 import '../../../../base/viewControllers/authenticateResponse/authenticate_response.dart';
 import '../../../../base/viewControllers/loggedUser/logged_user_viewcontroller.dart';
+import '../../../enums/enums.dart';
 import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/helpers/format_numbers.dart';
 import '../../../utils/helpers/internet_connection.dart';
 import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
 import '../../../utils/sharedWidgets/popups/information_popup.dart';
 
-class LoginPageController extends GetxController {
+class LoginController extends GetxController {
   late bool cancelFingerPrint;
   late RxBool cpfInputHasError;
   late RxBool passwordInputHasError;
@@ -34,7 +36,7 @@ class LoginPageController extends GetxController {
   late IUserService _userService;
   late User? _user;
 
-  LoginPageController(this.cancelFingerPrint) {
+  LoginController(this.cancelFingerPrint) {
     _initializeVariables();
   }
 
@@ -114,6 +116,8 @@ class LoginPageController extends GetxController {
   loginPressed() async {
     try {
       if (formKey.currentState!.validate()) {
+        _goToNextPage();
+        return;
         await loadingWithSuccessOrErrorWidget.startAnimation();
 
         if (!await _doLoginServer(false)) {
@@ -174,10 +178,6 @@ class LoginPageController extends GetxController {
     if (_user != null) {
       await sharedPreferences.setString("name", _user!.name);
       await sharedPreferences.setString("birthdate", DateFormatToBrazil.formatDate(_user!.birthdayDate));
-      await sharedPreferences.setString("balanceMoney", _user!.balanceMoney.toString());
-      await sharedPreferences.setString("pouchLastUpdate", _user!.pouchLastUpdate.toString());
-      await sharedPreferences.setString("balanceStuffedAnimals", _user!.balanceStuffedAnimals.toString());
-      await sharedPreferences.setString("stuffedAnimalsLastUpdate", _user!.stuffedAnimalsLastUpdate.toString());
       switch (_user!.gender) {
         case TypeGender.masculine:
           await sharedPreferences.setString("gender", "Masculino");
@@ -207,7 +207,6 @@ class LoginPageController extends GetxController {
       await sharedPreferences.setString("cellPhone", _user!.cellphone ?? "");
       await sharedPreferences.setString("email", _user!.email ?? "");
       await sharedPreferences.setString("uf", _user!.uf ?? "");
-      await sharedPreferences.setString("code", _user!.code.toString());
       LoggedUserViewController.birthdate = DateFormatToBrazil.formatDate(_user!.birthdayDate);
       LoggedUserViewController.cpf = _user!.document ?? "";
       LoggedUserViewController.cep = _user!.cep ?? "";
@@ -286,7 +285,7 @@ class LoginPageController extends GetxController {
   }
 
   _goToNextPage() async {
-
+    Get.offAll(() => const MainMenuPage());
   }
 
   _resetLogin(String message) async {

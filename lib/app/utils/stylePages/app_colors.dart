@@ -11,6 +11,7 @@ class AppColors {
   static const Color transparentColor = Colors.transparent;
   static const Color defaultColor = Color(0XFFB6350E);
   static const Color orangeColor = Color(0XFFEA6F55);
+  static const Color greenColor = Color(0XFF4CCC93);
   static const Color redColor = Color(0XFFC81B1B);
   static const Color grayTextColor = Color(0XFFA9A9A9);
   static const Color backgroundColor = Color(0XFFE7E3E3);

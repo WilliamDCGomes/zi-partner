@@ -23,8 +23,10 @@ dependencies:
   local_auth: ^2.1.6
   file_picker: ^5.2.6
   image_picker: ^0.8.7
+  age_calculator: ^1.0.0
   flutter_picker: ^2.1.0
   path_provider: ^2.0.14
+  carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.5
   email_validator: ^2.1.17
   responsive_sizer: ^3.1.1

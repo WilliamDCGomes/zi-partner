@@ -20,6 +20,13 @@ class FormatNumbers {
     return "";
   }
 
+  static String numbersToStringOneDigit(double? value) {
+    if (value != null) {
+      return value.toStringAsFixed(1).replaceAll('.', ',');
+    }
+    return "";
+  }
+
   static String formatVideoTime(int minutes, int seconds) {
     String formatedMinutes = "";
     String formatedSeconds = "";
