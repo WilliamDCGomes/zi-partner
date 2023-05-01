@@ -38,7 +38,7 @@ class SnackbarWidget {
       maxLines: maxLine ?? 1,
       fontWeight: FontWeight.bold,
     ),
-    duration: const Duration(seconds: 2),
+    duration: const Duration(seconds: 4),
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: backgrondColor,
     margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),

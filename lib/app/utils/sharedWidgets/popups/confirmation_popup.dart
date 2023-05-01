@@ -8,7 +8,9 @@ import '../text_widget.dart';
 
 class ConfirmationPopup extends StatefulWidget {
   final bool? showSecondButton;
+  final bool disableGetBack;
   final String title;
+  final Color? titleColor;
   final String? subTitle;
   final Widget? child;
   final String? firstButtonText;
@@ -20,9 +22,11 @@ class ConfirmationPopup extends StatefulWidget {
     Key? key,
     required this.title,
     this.showSecondButton,
+    this.titleColor,
     this.subTitle,
     this.firstButtonText,
     this.secondButtonText,
+    this.disableGetBack = false,
     required this.firstButton,
     required this.secondButton,
     this.child,
@@ -79,7 +83,7 @@ class _ConfirmationPopupState extends State<ConfirmationPopup> {
                   ),
                   child: TextWidget(
                     widget.title,
-                    textColor: AppColors.whiteColor,
+                    textColor: widget.titleColor ?? AppColors.whiteColor,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -87,8 +91,8 @@ class _ConfirmationPopupState extends State<ConfirmationPopup> {
                 widget.child == null
                     ? _popUp()
                     : Expanded(
-                        child: _popUp(),
-                      ),
+                  child: _popUp(),
+                ),
               ],
             ),
           ),
@@ -98,56 +102,56 @@ class _ConfirmationPopupState extends State<ConfirmationPopup> {
   }
 
   Widget _popUp() => Padding(
-        padding: EdgeInsets.all(2.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            TextWidget(
-              widget.subTitle ?? "",
-              textColor: AppColors.blackColor,
-              fontSize: 16.sp,
-              maxLines: 5,
-              fontWeight: FontWeight.bold,
-            ),
-            if (widget.child != null) Expanded(child: widget.child!),
-            Padding(
-              padding: EdgeInsets.only(top: 2.h),
-              child: Row(
-                mainAxisAlignment:
-                    (widget.showSecondButton ?? true) ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
-                children: [
-                  Visibility(
-                    visible: widget.showSecondButton ?? true,
-                    child: ButtonWidget(
-                      hintText: widget.firstButtonText ?? "NÃO",
-                      heightButton: 5.h,
-                      widthButton: 32.w,
-                      fontWeight: FontWeight.bold,
-                      backgroundColor: AppColors.whiteColor,
-                      borderColor: AppColors.defaultColor,
-                      textColor: AppColors.defaultColor,
-                      onPressed: () {
-                        widget.firstButton();
-                        Get.back();
-                      },
-                    ),
-                  ),
-                  ButtonWidget(
-                    hintText: widget.secondButtonText ?? "SIM",
-                    heightButton: 5.h,
-                    widthButton: 32.w,
-                    fontWeight: FontWeight.bold,
-                    onPressed: () {
-                      widget.secondButton();
-                      Get.back();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
+    padding: EdgeInsets.all(2.h),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        TextWidget(
+          widget.subTitle ?? "",
+          textColor: AppColors.blackColor,
+          fontSize: 16.sp,
+          maxLines: 5,
+          fontWeight: FontWeight.bold,
         ),
-      );
+        if (widget.child != null) Expanded(child: widget.child!),
+        Padding(
+          padding: EdgeInsets.only(top: 2.h),
+          child: Row(
+            mainAxisAlignment:
+            (widget.showSecondButton ?? true) ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
+            children: [
+              Visibility(
+                visible: widget.showSecondButton ?? true,
+                child: ButtonWidget(
+                  hintText: widget.firstButtonText ?? "NÃO",
+                  heightButton: 5.h,
+                  widthButton: 32.w,
+                  fontWeight: FontWeight.bold,
+                  backgroundColor: AppColors.whiteColor,
+                  borderColor: AppColors.redColor,
+                  textColor: AppColors.redColor,
+                  onPressed: () {
+                    widget.firstButton();
+                    if(!widget.disableGetBack) Get.back();
+                  },
+                ),
+              ),
+              ButtonWidget(
+                hintText: widget.secondButtonText ?? "SIM",
+                heightButton: 5.h,
+                widthButton: 32.w,
+                fontWeight: FontWeight.bold,
+                onPressed: () {
+                  widget.secondButton();
+                  if(!widget.disableGetBack) Get.back();
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

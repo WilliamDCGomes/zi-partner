@@ -13,6 +13,7 @@ import '../../../utils/sharedWidgets/text_button_widget.dart';
 import '../../../utils/sharedWidgets/text_field_widget.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
 import '../../../utils/stylePages/app_colors.dart';
+import '../../registerUser/page/register_user_page.dart';
 import '../controller/login_page_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -257,11 +258,9 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 3.h),
+                                      padding: EdgeInsets.only(top: 2.5.h),
                                       child: TextButtonWidget(
-                                        onTap: () {
-
-                                        },
+                                        onTap: () => Get.to(() => const RegisterUserPage()),
                                         richText: const RichTextTwoDifferentWidget(
                                           firstText: "Não tem Cadastro? ",
                                           secondText: "Clique Aqui!",

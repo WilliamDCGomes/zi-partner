@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:lazy_loading_list/lazy_loading_list.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/utils/helpers/format_numbers.dart';
 import '../../../../base/models/person/person.dart';
@@ -22,14 +23,12 @@ class CardPersonWidget extends StatelessWidget {
       width: 80.w,
       margin: EdgeInsets.only(bottom: 2.h),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-            2.h
-        ),
-        color: AppColors.grayTextColor,
+        borderRadius: BorderRadius.circular(2.h),
+        color: AppColors.defaultColorWithOpacity,
       ),
       child: Stack(
         children: [
-          person.picture != null && person.picture!.isNotEmpty ? CarouselSlider.builder(
+          if (person.picture != null && person.picture!.isNotEmpty) CarouselSlider.builder(
             carouselController: person.carouselController,
             itemCount: person.picture!.length,
             options: CarouselOptions(
@@ -38,20 +37,26 @@ class CardPersonWidget extends StatelessWidget {
               enableInfiniteScroll: false,
               scrollPhysics: const BouncingScrollPhysics(),
             ),
-            itemBuilder: (context, itemIndex, pageViewIndex) {
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2.h),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      person.picture![itemIndex],
+            itemBuilder: (context, index, pageViewIndex) {
+              return LazyLoadingList(
+                initialSizeOfItems: 2,
+                index: index,
+                loadMore: () {},
+                hasMore: true,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2.h),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(
+                        person.picture![index],
+                      ),
                     ),
                   ),
                 ),
               );
             },
-          ) : Center(
+          ) else Center(
             child: TextWidget(
               "Sem fotos",
               fontSize: 22.sp,
@@ -201,6 +206,29 @@ class CardPersonWidget extends StatelessWidget {
                 ),
               ],
             ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: EdgeInsets.only(top: 1.5.h, right: 2.w),
+              child: InkWell(
+                onTap: () {
+
+                },
+                child: Container(
+                  padding: EdgeInsets.all(.5.h),
+                  decoration: BoxDecoration(
+                    color: AppColors.black40TransparentColor,
+                    borderRadius: BorderRadius.circular(1.h)
+                  ),
+                  child: Icon(
+                    Icons.info_outline,
+                    color: AppColors.whiteColor,
+                    size: 4.h,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

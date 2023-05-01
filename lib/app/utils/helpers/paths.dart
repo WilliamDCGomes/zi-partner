@@ -21,17 +21,19 @@ class Paths{
   static const String foto1Perfil6 = "${imagesPath}foto1-perfil6.jpg";
   static const String foto2Perfil6 = "${imagesPath}foto2-perfil6.jpg";
   static const String foto3Perfil6 = "${imagesPath}foto3-perfil6.jpg";
-  static const String matchIcon = "${imagesPath}match_icon.png";
-  static const String denyPerson = "${imagesPath}deny_person.png";
   static const String academiaImagem = "${imagesPath}academia-imagem.jpg";
   static const String ilustracaoAcademia1 = "${imagesPath}ilustracao-academia-1.jpg";
   static const String ilustracaoAcademia2 = "${imagesPath}ilustracao-academia-2.jpg";
+  static const String matchIcon = "${imagesPath}match_icon.png";
+  static const String denyPerson = "${imagesPath}deny_person.png";
+  static const String tabHomeIcon = "${imagesPath}tab_home_icon.png";
+  static const String messagesIcon = "${imagesPath}messages_icon.png";
   static const String gymPlaceIcon = "${imagesPath}gym_place_icon.png";
   static const String matchesTabIcon = "${imagesPath}matches_tab_icon.png";
   static const String profileManIcon = "${imagesPath}profile_man_icon.png";
+  static const String adicionarImagem = "${imagesPath}adicionar_imagem.png";
   static const String profileWomanIcon = "${imagesPath}profile_woman_icon.png";
-  static const String tabHomeIcon = "${imagesPath}tab_home_icon.png";
-  static const String messagesIcon = "${imagesPath}messages_icon.png";
+  static const String iconeExibicaoCadastroUsuario = "${imagesPath}icone_exibicao_cadastro_usuario.png";
 
   static const String error = "${jsonPath}error.json";
   static const String loading = "${jsonPath}loading.json";

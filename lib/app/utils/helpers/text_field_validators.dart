@@ -114,14 +114,17 @@ class TextFieldValidators {
   }
 
   static String? phoneValidation(String? value) {
-    if (value != null && value.trim().length > 0 && value.trim().length != 14) {
+    if (value != null && value.trim().isNotEmpty && value.trim().length != 14) {
       return "Telefone Inválido";
     }
     return null;
   }
 
   static String? cellPhoneValidation(String? value) {
-    if (value != null && value.trim().length > 0 && value.trim().length != 14 && value.trim().length != 15) {
+    if(value == null || value.isEmpty){
+      return "Informe o Celular";
+    }
+    else if (value.trim().isNotEmpty && value.trim().length != 14 && value.trim().length != 15) {
       return "Celular Inválido";
     }
     return null;
@@ -154,7 +157,7 @@ class TextFieldValidators {
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 }

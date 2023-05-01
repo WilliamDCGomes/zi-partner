@@ -45,7 +45,7 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
                     ),
                     Expanded(
                       child: TextWidget(
-                        "Encontre parceiros(as)\npara treino!",
+                        "Encontre pessoas\npara treinar!",
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
                         textColor: AppColors.defaultColor,

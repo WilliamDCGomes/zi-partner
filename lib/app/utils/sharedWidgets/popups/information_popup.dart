@@ -10,14 +10,18 @@ class InformationPopup extends StatefulWidget {
   final String warningMessage;
   final Widget? title;
   final double? fontSize;
+  final Color? titleColor;
   final Color? popupColor;
+  final bool success;
 
   const InformationPopup({
     Key? key,
     required this.warningMessage,
     this.title,
     this.fontSize,
+    this.titleColor,
     this.popupColor,
+    this.success = false,
   }) : super(key: key);
 
   @override
@@ -62,7 +66,7 @@ class _InformationPopupState extends State<InformationPopup> {
                   width: 90.w,
                   padding: EdgeInsets.all(1.h),
                   decoration: BoxDecoration(
-                    color: widget.popupColor ?? AppColors.defaultColor,
+                    color: widget.popupColor ?? (widget.success ? AppColors.successGreenColor : AppColors.redColor),
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(1.h),
                       topLeft: Radius.circular(1.h),
@@ -70,7 +74,7 @@ class _InformationPopupState extends State<InformationPopup> {
                   ),
                   child: widget.title ?? TextWidget(
                     "AVISO",
-                    textColor: AppColors.whiteColor,
+                    textColor: widget.titleColor ?? AppColors.whiteColor,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -97,8 +101,8 @@ class _InformationPopupState extends State<InformationPopup> {
                             heightButton: 5.h,
                             widthButton: 32.w,
                             fontWeight: FontWeight.bold,
-                            backgroundColor: widget.popupColor,
-                            borderColor:  widget.popupColor,
+                            backgroundColor: widget.popupColor ?? (widget.success ? AppColors.successGreenColor : AppColors.redColor),
+                            borderColor: widget.popupColor ?? (widget.success ? AppColors.successGreenColor : AppColors.redColor),
                             onPressed: () => Get.back(),
                           ),
                         ),
