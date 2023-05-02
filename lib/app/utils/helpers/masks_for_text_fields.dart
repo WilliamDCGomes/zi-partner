@@ -1,47 +1,51 @@
+import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class MasksForTextFields {
-  static final MaskTextInputFormatter phoneNumberMask = MaskTextInputFormatter(
+  static final loginMask = FilteringTextInputFormatter.allow(
+    RegExp(r'[a-zA-Z0-9]'),
+  );
+  static final phoneNumberMask = MaskTextInputFormatter(
       mask: '(##) ####-####',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy
   );
-  static final MaskTextInputFormatter phoneNumberAcceptExtraNumberMask = MaskTextInputFormatter(
+  static final phoneNumberAcceptExtraNumberMask = MaskTextInputFormatter(
       mask: '(##) ####-#####',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy
   );
-  static final MaskTextInputFormatter cellPhoneNumberMask = MaskTextInputFormatter(
+  static final cellPhoneNumberMask = MaskTextInputFormatter(
       mask: '(##) #####-####',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy
   );
-  static final MaskTextInputFormatter cepMask = MaskTextInputFormatter(
+  static final cepMask = MaskTextInputFormatter(
       mask: '#####-###',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy
   );
-  static final MaskTextInputFormatter cpfMask = MaskTextInputFormatter(
+  static final cpfMask = MaskTextInputFormatter(
       mask: '###.###.###-##',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy
   );
-  static final MaskTextInputFormatter birthDateMask = MaskTextInputFormatter(
+  static final birthDateMask = MaskTextInputFormatter(
       mask: '##/##/####',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy
   );
-  static final MaskTextInputFormatter shirtDateMask = MaskTextInputFormatter(
+  static final shirtDateMask = MaskTextInputFormatter(
       mask: '##/##',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy
   );
-  static final MaskTextInputFormatter cardNumberMask = MaskTextInputFormatter(
+  static final cardNumberMask = MaskTextInputFormatter(
       mask: '#### #### #### ####',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy
   );
-  static final MaskTextInputFormatter cvcCodeMask = MaskTextInputFormatter(
+  static final cvcCodeMask = MaskTextInputFormatter(
       mask: '###',
       filter: { "#": RegExp(r'[0-9]') },
       type: MaskAutoCompletionType.lazy

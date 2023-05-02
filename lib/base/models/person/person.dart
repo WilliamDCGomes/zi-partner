@@ -8,6 +8,7 @@ part 'person.g.dart';
 class Person {
   late String name;
   late String userName;
+  late String aboutMe;
   late String longitude;
   late String latitude;
   late double distance;
@@ -21,6 +22,7 @@ class Person {
   Person({
     required this.name,
     required this.userName,
+    required this.aboutMe,
     required this.longitude,
     required this.latitude,
     required this.distance,

@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/utils/helpers/paths.dart';
 import '../../../utils/helpers/app_close_controller.dart';
 import '../../../utils/helpers/masks_for_text_fields.dart';
+import '../../../utils/helpers/platform_type.dart';
 import '../../../utils/helpers/text_field_validators.dart';
 import '../../../utils/sharedWidgets/button_widget.dart';
 import '../../../utils/sharedWidgets/checkbox_list_tile_widget.dart';
@@ -53,77 +54,77 @@ class _LoginPageState extends State<LoginPage> {
                 colors: AppColors.backgroundFirstScreenColor,
               ),
             ),
-            child: Stack(
-              children: [
-                Container(
-                  height: 30.h,
-                  width: 100.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.h)),
-                    color: AppColors.defaultColor,
-                    image: const DecorationImage(
-                      image: AssetImage(
-                        Paths.academiaImagem,
-                      ),
-                      fit: BoxFit.fill,
-                      opacity: .3,
-                    ),
-                  ),
-                  child: Center(
-                    child: TextWidget(
-                      "Zi Partner",
-                      textColor: AppColors.whiteColorWithOpacity,
-                      fontSize: 35.sp,
-                      textAlign: TextAlign.center,
-                      fontWeight: FontWeight.bold,
-                      maxLines: 4,
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 10.h,
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    height: 30.h,
                     width: 100.w,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.h)),
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.h)),
                       color: AppColors.defaultColor,
+                      image: const DecorationImage(
+                        image: AssetImage(
+                          Paths.academiaImagem,
+                        ),
+                        fit: BoxFit.fill,
+                        opacity: .3,
+                      ),
                     ),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: KeyboardVisibilityBuilder(
-                        builder: (context, isKeyboardVisible){
-                          if(!isKeyboardVisible){
-                            return Padding(
-                              padding: EdgeInsets.symmetric(vertical: 2.h),
-                              child: Obx(
-                                () => Visibility(
-                                  visible: controller.appVersion.value.isNotEmpty,
-                                  child: TextWidget(
-                                    "Versão: ${controller.appVersion.value}",
-                                    textColor: AppColors.whiteColor,
-                                    fontSize: 16.sp,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          return SizedBox(height: 3.h,);
-                        }
+                    child: Center(
+                      child: TextWidget(
+                        "Zi Partner",
+                        textColor: AppColors.whiteColorWithOpacity,
+                        fontSize: 35.sp,
+                        textAlign: TextAlign.center,
+                        fontWeight: FontWeight.bold,
+                        maxLines: 4,
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 28.h),
-                  child: Scaffold(
-                    backgroundColor: AppColors.transparentColor,
-                    body: GestureDetector(
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      },
-                      child: Padding(
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 10.h,
+                      width: 100.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(15.h)),
+                        color: AppColors.defaultColor,
+                      ),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: KeyboardVisibilityBuilder(
+                          builder: (context, isKeyboardVisible){
+                            if(!isKeyboardVisible){
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 2.h),
+                                child: Obx(
+                                  () => Visibility(
+                                    visible: controller.appVersion.value.isNotEmpty,
+                                    child: TextWidget(
+                                      "Versão: ${controller.appVersion.value}",
+                                      textColor: AppColors.whiteColor,
+                                      fontSize: 16.sp,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return SizedBox(height: 3.h,);
+                          }
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 28.h),
+                    child: Scaffold(
+                      backgroundColor: AppColors.transparentColor,
+                      body: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.w),
                         child: Column(
                           children: [
@@ -153,25 +154,26 @@ class _LoginPageState extends State<LoginPage> {
                                             () => TextFieldWidget(
                                               controller: controller.userInputController,
                                               hintText: "Usuário",
-                                              height: 9.h,
-                                              width: double.infinity,
-                                              hasError: controller.cpfInputHasError.value,
+                                              hasError: controller.loginInputHasError.value,
                                               enableSuggestions: true,
-                                              keyboardType: TextInputType.number,
-                                              maskTextInputFormatter: [MasksForTextFields.cpfMask],
                                               textInputAction: TextInputAction.next,
-                                              validator: (String? value) {
-                                                String? validation = TextFieldValidators.cpfValidation(value);
-                                                if(validation != null && validation != ""){
-                                                  controller.cpfInputHasError.value = true;
-                                                }
-                                                else{
-                                                  controller.cpfInputHasError.value = false;
-                                                }
-                                                return validation;
-                                              },
+                                              height: PlatformType.isTablet(context) ? 7.h : 9.h,
+                                              width: double.infinity,
+                                              keyboardType: TextInputType.name,
+                                              textCapitalization: TextCapitalization.words,
+                                              maskTextInputFormatter: [MasksForTextFields.loginMask],
                                               onEditingComplete: (){
                                                 controller.passwordInputFocusNode.requestFocus();
+                                              },
+                                              validator: (String? value) {
+                                                String? validation = TextFieldValidators.loginValidation(value);
+                                                if(validation != null && validation != ""){
+                                                  controller.loginInputHasError.value = true;
+                                                }
+                                                else{
+                                                  controller.loginInputHasError.value = false;
+                                                }
+                                                return validation;
                                               },
                                             ),
                                           ),
@@ -276,9 +278,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                ),
-                controller.loadingWithSuccessOrErrorWidget,
-              ],
+                  controller.loadingWithSuccessOrErrorWidget,
+                ],
+              ),
             ),
           ),
         ),

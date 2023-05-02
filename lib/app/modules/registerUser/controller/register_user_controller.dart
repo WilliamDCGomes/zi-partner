@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../../../base/models/addressInformation/address_information.dart';
@@ -63,6 +64,7 @@ class RegisterUserController extends GetxController {
   late TextEditingController passwordTextController;
   late TextEditingController confirmPasswordTextController;
   late TextEditingController gymNameTextController;
+  late TextEditingController aboutMeTextController;
   late FocusNode userNameFocusNode;
   late FocusNode birthDateFocusNode;
   late FocusNode streetFocusNode;
@@ -76,6 +78,7 @@ class RegisterUserController extends GetxController {
   late List<HeaderRegisterStepperWidget> headerRegisterStepperList;
   late List<BodyRegisterStepperWidget> bodyRegisterStepperList;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
+  late ScrollController imagesListController;
   late IConsultCepService _consultCepService;
 
   RegisterUserController(){
@@ -135,6 +138,7 @@ class RegisterUserController extends GetxController {
     passwordTextController = TextEditingController();
     confirmPasswordTextController = TextEditingController();
     gymNameTextController = TextEditingController();
+    aboutMeTextController = TextEditingController();
     userNameFocusNode = FocusNode();
     birthDateFocusNode = FocusNode();
     streetFocusNode = FocusNode();
@@ -145,32 +149,38 @@ class RegisterUserController extends GetxController {
     emailFocusNode = FocusNode();
     confirmEmailFocusNode = FocusNode();
     confirmPasswordFocusNode = FocusNode();
+    imagesListController = ScrollController();
     loadingWithSuccessOrErrorWidget = LoadingWithSuccessOrErrorWidget();
     headerRegisterStepperList = const [
       HeaderRegisterStepperWidget(
-        firstText: "PASSO 1 DE 5",
+        firstText: "PASSO 1 DE 6",
         secondText: "Dados Pessoais",
         thirdText: "Informe os dados pessoais para continuar o cadastro.",
       ),
       HeaderRegisterStepperWidget(
-        firstText: "PASSO 2 DE 5",
+        firstText: "PASSO 2 DE 6",
         secondText: "Senha de Acesso",
         thirdText: "Crie uma senha para realizar o acesso na plataforma.",
       ),
       HeaderRegisterStepperWidget(
-        firstText: "PASSO 3 DE 5",
+        firstText: "PASSO 3 DE 6",
         secondText: "Dados de Contato",
         thirdText: "Preencha os dados de contato para que seja possível a comunicação.",
       ),
       HeaderRegisterStepperWidget(
-        firstText: "PASSO 4 DE 5",
+        firstText: "PASSO 4 DE 6",
         secondText: "Academias Frequentadas",
         thirdText: "Adicione as academias que você costuma frequentar.",
       ),
       HeaderRegisterStepperWidget(
-        firstText: "PASSO 5 DE 5",
+        firstText: "PASSO 5 DE 6",
         secondText: "Fotos",
-        thirdText: "Adicione as suas fotos no aplicativo.",
+        thirdText: "Adicione as suas fotos no aplicativo (Máximo de 6 fotos).",
+      ),
+      HeaderRegisterStepperWidget(
+        firstText: "PASSO 6 DE 6",
+        secondText: "Sobre mim",
+        thirdText: "Fale um pouco sobre você e como é o seu treino.",
       ),
     ];
     bodyRegisterStepperList = [
@@ -192,6 +202,10 @@ class RegisterUserController extends GetxController {
       ),
       BodyRegisterStepperWidget(
         indexView: 4,
+        controller: this,
+      ),
+      BodyRegisterStepperWidget(
+        indexView: 5,
         controller: this,
       ),
     ];
@@ -291,7 +305,7 @@ class RegisterUserController extends GetxController {
   }
 
   _nextPage() async {
-    if(activeStep.value < 4) {
+    if(activeStep.value < 5) {
       activeStep.value ++;
     } else {
       await _saveUser();
@@ -399,6 +413,24 @@ class RegisterUserController extends GetxController {
           _nextPage();
         }
         break;
+      case 5:
+        if(aboutMeTextController.text.isEmpty){
+          await showDialog(
+            context: Get.context!,
+            builder: (BuildContext context) {
+              return ConfirmationPopup(
+                title: "Aviso",
+                subTitle: "Você não disse nada sobre você, tem certeza que deseja finalizar?",
+                firstButton: () {},
+                secondButton: () => _nextPage(),
+              );
+            },
+          );
+        }
+        else {
+          _nextPage();
+        }
+        break;
     }
   }
 
@@ -486,6 +518,7 @@ class RegisterUserController extends GetxController {
         final image = await ViewPicture.addNewPicture();
         if (image != null && image.isNotEmpty) {
           int quantity = 0;
+
           for(var personImage in image){
             if(images.length < 6) {
               images.add(personImage);
@@ -501,6 +534,20 @@ class RegisterUserController extends GetxController {
               );
               break;
             }
+          }
+
+          if(images.isNotEmpty && images.length > 1 && quantity == 1) {
+            await imagesListController.position.moveTo(
+              imagesListController.positions.last.maxScrollExtent,
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeOut,
+            );
+            await SchedulerBinding.instance.endOfFrame;
+            await imagesListController.position.moveTo(
+              imagesListController.positions.last.maxScrollExtent,
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeOut,
+            );
           }
         }
       }

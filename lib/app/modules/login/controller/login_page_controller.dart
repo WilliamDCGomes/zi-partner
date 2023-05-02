@@ -19,7 +19,7 @@ import '../../../utils/sharedWidgets/popups/information_popup.dart';
 
 class LoginController extends GetxController {
   late bool cancelFingerPrint;
-  late RxBool cpfInputHasError;
+  late RxBool loginInputHasError;
   late RxBool passwordInputHasError;
   late RxBool passwordFieldEnabled;
   late RxBool keepConected;
@@ -46,6 +46,7 @@ class LoginController extends GetxController {
     appVersion.value = (await PackageInfo.fromPlatform()).version;
     userInputController.text = FormatNumbers.stringToCpf(sharedPreferences.getString("user_logged") ?? "");
     if (kDebugMode) {
+      userInputController.text = "Wiuta";
       passwordInputController.text = "ZiPartner@2023";
     }
     await _getKeepConnected();
@@ -61,7 +62,7 @@ class LoginController extends GetxController {
 
   _initializeVariables() {
     _user = null;
-    cpfInputHasError = false.obs;
+    loginInputHasError = false.obs;
     passwordInputHasError = false.obs;
     passwordFieldEnabled = true.obs;
     keepConected = false.obs;

@@ -35,7 +35,7 @@ class TitleWithBackButtonWidget extends StatelessWidget {
                 padding: EdgeInsets.only(right: 2.w),
                 child: Icon(
                   Icons.arrow_back_ios,
-                  color: titleColor ?? AppColors.backgroundColor,
+                  color: titleColor ?? AppColors.defaultColor,
                   size: 3.h,
                 ),
               ),
@@ -46,7 +46,7 @@ class TitleWithBackButtonWidget extends StatelessWidget {
                   onTap: backButtonPressedFuctionOverride ?? () => Get.back(),
                   child: TextWidget(
                     title,
-                    textColor: titleColor ?? AppColors.backgroundColor,
+                    textColor: titleColor ?? AppColors.defaultColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 18.sp,
                     textAlign: TextAlign.start,
@@ -60,7 +60,7 @@ class TitleWithBackButtonWidget extends StatelessWidget {
                 onTap: onTapRightIcon,
                 child: Icon(
                   rightIcon,
-                  color: titleColor ?? AppColors.backgroundColor,
+                  color: titleColor ?? AppColors.defaultColor,
                   size: 3.h,
                 ),
               ),

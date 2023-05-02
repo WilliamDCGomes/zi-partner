@@ -46,12 +46,19 @@ class TextFieldValidators {
     return null;
   }
 
+  static String? loginValidation(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Informe o nome do usuário";
+    }
+    return null;
+  }
+
   static String? passwordValidation(String? value) {
     if (value == null || value.trim().isEmpty) {
       return "Informe a Senha";
     }
     if (value.trim().length < 6) {
-      return "A Senha deve conter no mínimo 6 dígitos";
+      return "A senha deve conter no mínimo 6 dígitos";
     }
     return null;
   }

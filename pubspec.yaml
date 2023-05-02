@@ -79,9 +79,9 @@ flutter_native_splash:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/Icon_App.png"
+  image_path: "assets/images/app_icon.png"
   adaptive_icon_background: "assets/images/background_icon.png"
-  adaptive_icon_foreground: "assets/images/Icon_App.png"
+  adaptive_icon_foreground: "assets/images/app_icon.png"
 
 # Rodar sempre que quiser adicionar o flavor
 # flutter clean

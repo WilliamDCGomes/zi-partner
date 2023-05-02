@@ -5,12 +5,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/utils/sharedWidgets/button_widget.dart';
 import 'package:zi_partner/app/utils/sharedWidgets/text_widget.dart';
 import '../../../utils/helpers/masks_for_text_fields.dart';
-import '../../../utils/helpers/paths.dart';
 import '../../../utils/helpers/platform_type.dart';
 import '../../../utils/helpers/text_field_validators.dart';
 import '../../../utils/helpers/view_picture.dart';
 import '../../../utils/sharedWidgets/dropdown_button_widget.dart';
+import '../../../utils/sharedWidgets/gym_item_widget.dart';
 import '../../../utils/sharedWidgets/picture_person_widget.dart';
+import '../../../utils/sharedWidgets/text_field_description_widget.dart';
 import '../../../utils/sharedWidgets/text_field_widget.dart';
 import '../../../utils/stylePages/app_colors.dart';
 import '../controller/register_user_controller.dart';
@@ -79,6 +80,7 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
                         width: double.infinity,
                         keyboardType: TextInputType.name,
                         enableSuggestions: true,
+                        maskTextInputFormatter: [MasksForTextFields.loginMask],
                         textInputAction: TextInputAction.next,
                         hasError: widget.controller.userNameInputHasError.value,
                         validator: (String? value) {
@@ -105,7 +107,7 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
                         height: PlatformType.isTablet(context) ? 7.h : 9.h,
                         width: double.infinity,
                         keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
+                        textInputAction: TextInputAction.done,
                         maskTextInputFormatter: [MasksForTextFields.birthDateMask],
                         hasError: widget.controller.birthdayInputHasError.value,
                         validator: (String? value) {
@@ -317,101 +319,69 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
           // Entrys do quarto stepper
           Visibility(
             visible: widget.indexView == 3,
-            child: Form(
-              key: widget.controller.formKeyContactInformation,
-              child: Obx(
-                () => SizedBox(
-                  height: 40.h,
-                  child: Column(
+            child: SizedBox(
+              height: 40.h,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: TextFieldWidget(
-                              controller: widget.controller.gymNameTextController,
-                              hintText: "Nome da Academia",
-                              textInputAction: TextInputAction.done,
-                              height: PlatformType.isTablet(context) ? 7.h : 9.h,
-                              keyboardType: TextInputType.name,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          ButtonWidget(
-                            hintText: "OK",
-                            widthButton: 20.w,
-                            fontWeight: FontWeight.bold,
-                            onPressed: () => widget.controller.addGyms(),
-                          ),
-                        ],
-                      ),
-                      TextWidget(
-                        "Academias",
-                        fontSize: 18.sp,
-                        textAlign: TextAlign.start,
-                        fontWeight: FontWeight.w600,
-                        textColor: AppColors.blackColor,
+                      Expanded(
+                        child: TextFieldWidget(
+                          controller: widget.controller.gymNameTextController,
+                          hintText: "Nome da Academia",
+                          textInputAction: TextInputAction.done,
+                          height: PlatformType.isTablet(context) ? 7.h : 9.h,
+                          keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.words,
+                        ),
                       ),
                       SizedBox(
-                        height: 1.h,
+                        width: 2.w,
                       ),
-                      Expanded(
-                        child: Obx(
-                          () => Visibility(
-                            visible: widget.controller.gymsList.isNotEmpty,
-                            replacement: Center(
-                              child: TextWidget(
-                                "Nenhuma academia adicionada",
-                                textColor: AppColors.grayTextColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18.sp,
-                              ),
-                            ),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: widget.controller.gymsList.length,
-                              itemBuilder: (context, index) => Container(
-                                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-                                margin: EdgeInsets.only(bottom: 2.h),
-                                decoration: BoxDecoration(
-                                  color: AppColors.defaultColor,
-                                  borderRadius: BorderRadius.circular(1.h)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextWidget(
-                                        widget.controller.gymsList[index],
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w500,
-                                        textAlign: TextAlign.start,
-                                        maxLines: 2,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    InkWell(
-                                      onTap: () => widget.controller.deleteGyms(index),
-                                      child: Icon(
-                                        Icons.delete,
-                                        size: 2.5.h,
-                                        color: AppColors.whiteColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                      ButtonWidget(
+                        hintText: "OK",
+                        widthButton: 20.w,
+                        fontWeight: FontWeight.bold,
+                        onPressed: () => widget.controller.addGyms(),
                       ),
                     ],
                   ),
-                ),
+                  TextWidget(
+                    "Academias",
+                    fontSize: 18.sp,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w600,
+                    textColor: AppColors.blackColor,
+                  ),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  Expanded(
+                    child: Obx(
+                          () => Visibility(
+                        visible: widget.controller.gymsList.isNotEmpty,
+                        replacement: Center(
+                          child: TextWidget(
+                            "Nenhuma academia adicionada",
+                            textColor: AppColors.grayTextColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: widget.controller.gymsList.length,
+                          itemBuilder: (context, index) => GymItemList(
+                            gymName: widget.controller.gymsList[index],
+                            onDelete: () => widget.controller.deleteGyms(index)
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -419,60 +389,74 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
           // Entrys do quinto stepper
           Visibility(
             visible: widget.indexView == 4,
-            child: Form(
-              key: widget.controller.formKeyContactInformation,
-              child: Obx(
-                () => SizedBox(
-                  height: 40.h,
-                  child: Column(
-                    children: [
-                      ButtonWidget(
-                        hintText: "Adicionar imagem",
-                        fontWeight: FontWeight.bold,
-                        widthButton: 75.w,
-                        onPressed: () async => await widget.controller.addNewPicture(),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Expanded(
-                        child: Visibility(
-                          visible: widget.controller.images.isNotEmpty,
-                          replacement: Center(
-                            child: TextWidget(
-                              "Nenhuma imagem adicionada",
-                              textColor: AppColors.grayTextColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18.sp,
-                            ),
-                          ),
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: widget.controller.images.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () => ViewPicture.openPicture(widget.controller.images[index]),
-                                onLongPress: () async => await widget.controller.removePicture(index),
-                                child: LazyLoadingList(
-                                  initialSizeOfItems: 2,
-                                  index: index,
-                                  loadMore: () {},
-                                  hasMore: true,
-                                  child: PicturePersonWidget(
-                                    path: widget.controller.images[index],
-                                  ),
-                                ),
-                              );
-                            },
+            child: Obx(
+              () => SizedBox(
+                height: 40.h,
+                child: Column(
+                  children: [
+                    ButtonWidget(
+                      hintText: "Adicionar imagem",
+                      fontWeight: FontWeight.bold,
+                      widthButton: 75.w,
+                      onPressed: () async => await widget.controller.addNewPicture(),
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Expanded(
+                      child: Visibility(
+                        visible: widget.controller.images.isNotEmpty,
+                        replacement: Center(
+                          child: TextWidget(
+                            "Nenhuma imagem adicionada",
+                            textColor: AppColors.grayTextColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.sp,
                           ),
                         ),
+                        child: ListView.builder(
+                          controller: widget.controller.imagesListController,
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: widget.controller.images.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () => ViewPicture.openPicture(widget.controller.images[index]),
+                              child: LazyLoadingList(
+                                initialSizeOfItems: 2,
+                                index: index,
+                                loadMore: () {},
+                                hasMore: true,
+                                child: PicturePersonWidget(
+                                  path: widget.controller.images[index],
+                                  onDelete: () async => await widget.controller.removePicture(index),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
+            ),
+          ),
+
+          // Entrys do sexto stepper
+          Visibility(
+            visible: widget.indexView == 5,
+            child: TextFieldDescriptionWidget(
+              controller: widget.controller.aboutMeTextController,
+              hintText: "Fale sobre você",
+              textCapitalization: TextCapitalization.sentences,
+              height: 40.h,
+              width: double.infinity,
+              maxLines: 50,
+              keyboardType: TextInputType.text,
+              enableSuggestions: true,
+              textInputAction: TextInputAction.done,
             ),
           ),
         ],

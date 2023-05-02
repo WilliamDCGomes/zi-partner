@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/modules/findPeople/controller/find_people_controller.dart';
-import 'package:zi_partner/app/modules/findPeople/widget/card_person_widget.dart';
+import 'package:zi_partner/app/utils/sharedWidgets/card_person_widget.dart';
 import 'package:zi_partner/app/utils/stylePages/app_colors.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
 

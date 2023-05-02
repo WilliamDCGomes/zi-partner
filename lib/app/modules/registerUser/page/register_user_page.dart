@@ -66,7 +66,6 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                 width: 30.w,
                                 child: TitleWithBackButtonWidget(
                                   title: "Cadastro",
-                                  titleColor: AppColors.blackColor,
                                   backButtonPressedFuctionOverride: () async => await controller.backButtonOverridePressed(),
                                 ),
                               ),
@@ -86,7 +85,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                     child: Obx(
                                       () => Center(
                                         child: DotStepper(
-                                          dotCount: 5,
+                                          dotCount: 6,
                                           dotRadius: 1.h,
                                           activeStep: controller.activeStep.value,
                                           shape: Shape.circle,
@@ -119,7 +118,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                               padding: EdgeInsets.symmetric(horizontal: 2.h,),
                               child: Obx(
                                 () => ButtonWidget(
-                                  hintText: controller.activeStep.value < 4 ? "AVANÇAR" : "FINALIZAR",
+                                  hintText: controller.activeStep.value < 5 ? "AVANÇAR" : "FINALIZAR",
                                   fontWeight: FontWeight.bold,
                                   widthButton: double.infinity,
                                   onPressed: () {

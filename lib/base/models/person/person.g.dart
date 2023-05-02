@@ -9,6 +9,7 @@ part of 'person.dart';
 Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       name: json['name'] as String,
       userName: json['userName'] as String,
+      aboutMe: json['aboutMe'] as String,
       longitude: json['longitude'] as String,
       latitude: json['latitude'] as String,
       distance: (json['distance'] as num).toDouble(),
@@ -21,6 +22,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'name': instance.name,
       'userName': instance.userName,
+      'aboutMe': instance.aboutMe,
       'longitude': instance.longitude,
       'latitude': instance.latitude,
       'distance': instance.distance,
