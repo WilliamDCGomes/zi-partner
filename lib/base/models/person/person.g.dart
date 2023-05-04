@@ -17,6 +17,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       picture:
           (json['picture'] as List<dynamic>?)?.map((e) => e as String).toList(),
       gender: $enumDecode(_$TypeGenderEnumMap, json['gender']),
+      lastMessage: json['lastMessage'] as String? ?? "",
     );
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
@@ -25,6 +26,7 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'aboutMe': instance.aboutMe,
       'longitude': instance.longitude,
       'latitude': instance.latitude,
+      'lastMessage': instance.lastMessage,
       'distance': instance.distance,
       'gyms': instance.gyms,
       'picture': instance.picture,

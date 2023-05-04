@@ -24,6 +24,8 @@ class Paths{
   static const String academiaImagem = "${imagesPath}academia-imagem.jpg";
   static const String ilustracaoAcademia1 = "${imagesPath}ilustracao-academia-1.jpg";
   static const String ilustracaoAcademia2 = "${imagesPath}ilustracao-academia-2.jpg";
+  static const String appIcon = "${imagesPath}app_icon.png";
+  static const String logoZipartner = "${imagesPath}logo_zipartner.png";
   static const String matchIcon = "${imagesPath}match_icon.png";
   static const String denyPerson = "${imagesPath}deny_person.png";
   static const String tabHomeIcon = "${imagesPath}tab_home_icon.png";

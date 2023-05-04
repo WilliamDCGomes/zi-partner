@@ -8,15 +8,18 @@ part 'person.g.dart';
 class Person {
   late String name;
   late String userName;
+  @JsonKey(includeFromJson: false)
+  late String initialsName;
   late String aboutMe;
   late String longitude;
   late String latitude;
+  late String lastMessage;
   late double distance;
   late List<String> gyms;
   late List<String>? picture;
   late TypeGender gender;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late CarouselController carouselController;
 
   Person({
@@ -29,8 +32,21 @@ class Person {
     required this.gyms,
     required this.picture,
     required this.gender,
+    this.lastMessage = "",
   }){
     carouselController = CarouselController();
+
+    var names = name.trim().split(" ");
+
+    if(names.isNotEmpty && names.first != ""){
+      initialsName = names[0][0];
+      if(names.length > 1 && names.last != ""){
+        initialsName += names.last[0];
+      }
+    }
+    else{
+      initialsName = "NI";
+    }
   }
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zi_partner/app/modules/findPeople/page/find_people_page.dart';
 
+import '../../matchs/page/matchs_page.dart';
+
 class MainMenuController extends GetxController {
   late TabController tabController;
   late List<Widget> tabMainMenuList;
@@ -13,7 +15,7 @@ class MainMenuController extends GetxController {
   _initializeVariables(){
     tabMainMenuList = [
       const FindPeoplePage(),
-      Container(),
+      const MatchsPage(),
       Container(),
       Container(),
     ];

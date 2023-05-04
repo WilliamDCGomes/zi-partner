@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:zi_partner/app/modules/findPeople/controller/find_people_controller.dart';
-import 'package:zi_partner/app/utils/sharedWidgets/card_person_widget.dart';
 import 'package:zi_partner/app/utils/stylePages/app_colors.dart';
 import '../../../utils/helpers/paths.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
+import '../controller/matchs_controller.dart';
+import '../widget/match_card_icon_widget.dart';
 
-class FindPeoplePage extends StatefulWidget {
-  const FindPeoplePage({Key? key}) : super(key: key);
+class MatchsPage extends StatefulWidget {
+  const MatchsPage({Key? key}) : super(key: key);
 
   @override
-  State<FindPeoplePage> createState() => _FindPeoplePageState();
+  State<MatchsPage> createState() => _MatchsPageState();
 }
 
-class _FindPeoplePageState extends State<FindPeoplePage> {
-  late final FindPeopleController controller;
+class _MatchsPageState extends State<MatchsPage> {
+  late final MatchsController controller;
 
   @override
   void initState() {
-    controller = Get.put(FindPeopleController());
+    controller = Get.put(MatchsController());
     super.initState();
   }
 
@@ -54,7 +54,7 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
                     ),
                     Expanded(
                       child: TextWidget(
-                        "Encontre pessoas\npara treinar!",
+                        "Seus matchs\npara treinar!",
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
                         textColor: AppColors.defaultColor,
@@ -64,16 +64,22 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 1.h,
+                Padding(
+                  padding: EdgeInsets.only(top: 3.h, bottom: 2.h),
+                  child: TextWidget(
+                    "Matchs",
+                    textColor: AppColors.blackColor,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 Expanded(
                   child: Obx(
                     () => Visibility(
-                      visible: controller.peopleList.isNotEmpty,
+                      visible: controller.matchsList.isNotEmpty,
                       replacement: Center(
                         child: TextWidget(
-                          "Sem pessoas próximas a você!",
+                          "Você ainda não tem nenhum match, continue procurando.",
                           fontWeight: FontWeight.w600,
                           fontSize: 18.sp,
                           textColor: AppColors.grayTextColor,
@@ -82,9 +88,9 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
                       ),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: controller.peopleList.length,
-                        itemBuilder: (context, index) => CardPersonWidget(
-                          person: controller.peopleList[index],
+                        itemCount: controller.matchsList.length,
+                        itemBuilder: (context, index) => MatchCardIconWidget(
+                          person: controller.matchsList[index],
                         ),
                       ),
                     ),

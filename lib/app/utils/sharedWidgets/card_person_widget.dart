@@ -7,6 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/utils/helpers/format_numbers.dart';
 import '../../../base/models/person/person.dart';
 import '../helpers/paths.dart';
+import '../helpers/view_picture.dart';
 import 'text_widget.dart';
 import '../stylePages/app_colors.dart';
 import '../../modules/personDetail/page/person_detail_page.dart';
@@ -58,26 +59,49 @@ class _CardPersonWidgetState extends State<CardPersonWidget> {
           index: index,
           loadMore: () {},
           hasMore: true,
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.blackColor,
-              borderRadius: BorderRadius.circular(2.h),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(
+          child: InkWell(
+            onTap: () {
+              if(!widget.detail) {
+                Get.to(() =>
+                  PersonDetailPage(person: widget.person),
+                  duration: const Duration(milliseconds: 700),
+                );
+              }
+              else{
+                /// TODO - Fazer ele trazer as imagens do banco (Remover fromAsset)
+                ViewPicture.openPicture(
                   widget.person.picture![index],
+                  fromAsset: true,
+                );
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.blackColor,
+                borderRadius: BorderRadius.circular(2.h),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    widget.person.picture![index],
+                  ),
                 ),
               ),
             ),
           ),
         );
       },
-    ) : Center(
-      child: TextWidget(
-        "Sem fotos",
-        fontSize: 22.sp,
-        fontWeight: FontWeight.w600,
-        textColor: AppColors.whiteColor,
+    ) : InkWell(
+      onTap: () => Get.to(() =>
+          PersonDetailPage(person: widget.person),
+        duration: const Duration(milliseconds: 700),
+      ),
+      child: Center(
+        child: TextWidget(
+          "Sem fotos",
+          fontSize: 22.sp,
+          fontWeight: FontWeight.w600,
+          textColor: AppColors.whiteColor,
+        ),
       ),
     );
   }
@@ -97,7 +121,10 @@ class _CardPersonWidgetState extends State<CardPersonWidget> {
           children: [
             !widget.detail ? Hero(
               tag: "image-profile-${widget.person.userName}",
-              child: _getImages()
+              child: Material(
+                color: AppColors.transparentColor,
+                child: _getImages(),
+              ),
             ) : _getImages(),
             if (widget.person.picture != null &&
                 widget.person.picture!.isNotEmpty)

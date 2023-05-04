@@ -11,11 +11,13 @@ import '../controller/person_detail_controller.dart';
 
 class PersonDetailPage extends StatelessWidget {
   final Person person;
+  final bool disableMatchController;
   late final PersonDetailController controller;
 
   PersonDetailPage({
     Key? key,
     required this.person,
+    this.disableMatchController = false,
   }) : super(key: key){
     controller = PersonDetailController(person);
   }
@@ -102,7 +104,7 @@ class PersonDetailPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(1.h),
                                 border: Border.all(
                                   color: AppColors.blackColor,
-                                  width: .25.h,
+                                  width: .1.h,
                                 ),
                               ),
                               child: SizedBox(
@@ -167,7 +169,7 @@ class PersonDetailPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(1.h),
                                     border: Border.all(
                                       color: AppColors.blackColor,
-                                      width: .25.h,
+                                      width: .1.h,
                                     ),
                                   ),
                                   child: Center(
@@ -200,63 +202,66 @@ class PersonDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Hero(
-                  tag: "confirm-or-deny-profile-${controller.person.userName}",
-                  child: Card(
-                    elevation: 3,
-                    color: AppColors.whiteColorWithVeryLowOpacity,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3.h),
-                    ),
-                    margin: EdgeInsets.only(bottom: 2.h),
-                    child: Padding(
-                      padding: EdgeInsets.all(1.5.h),
-                      child: SizedBox(
-                        height: 6.h,
-                        child: ListView(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            Container(
-                              width: 6.h,
-                              padding: EdgeInsets.all(1.h),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3.h),
-                                border: Border.all(
+              Visibility(
+                visible: !disableMatchController,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Hero(
+                    tag: "confirm-or-deny-profile-${controller.person.userName}",
+                    child: Card(
+                      elevation: 3,
+                      color: AppColors.whiteColorWithVeryLowOpacity,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(3.h),
+                      ),
+                      margin: EdgeInsets.only(bottom: 2.h),
+                      child: Padding(
+                        padding: EdgeInsets.all(1.5.h),
+                        child: SizedBox(
+                          height: 6.h,
+                          child: ListView(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              Container(
+                                width: 6.h,
+                                padding: EdgeInsets.all(1.h),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3.h),
+                                  border: Border.all(
+                                    color: AppColors.redColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Image.asset(
+                                  Paths.denyPerson,
                                   color: AppColors.redColor,
-                                  width: 2,
+                                  height: 2.h,
                                 ),
                               ),
-                              child: Image.asset(
-                                Paths.denyPerson,
-                                color: AppColors.redColor,
-                                height: 2.h,
+                              SizedBox(
+                                width: 5.w,
                               ),
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Container(
-                              height: 6.h,
-                              width: 6.h,
-                              padding: EdgeInsets.all(1.h),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3.h),
-                                border: Border.all(
+                              Container(
+                                height: 6.h,
+                                width: 6.h,
+                                padding: EdgeInsets.all(1.h),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3.h),
+                                  border: Border.all(
+                                    color: AppColors.greenColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Image.asset(
+                                  Paths.matchIcon,
                                   color: AppColors.greenColor,
-                                  width: 2,
+                                  height: 2.h,
                                 ),
                               ),
-                              child: Image.asset(
-                                Paths.matchIcon,
-                                color: AppColors.greenColor,
-                                height: 2.h,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

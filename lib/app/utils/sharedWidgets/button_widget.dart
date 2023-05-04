@@ -15,6 +15,7 @@ class ButtonWidget extends StatelessWidget {
   final Color? textColor;
   final FocusNode? focusNode;
   final Function()? onPressed;
+  final Widget? child;
 
   const ButtonWidget(
       { Key? key,
@@ -29,6 +30,7 @@ class ButtonWidget extends StatelessWidget {
         this.textColor,
         this.focusNode,
         this.onPressed,
+        this.child,
       }) : super(key: key);
 
   @override
@@ -50,7 +52,7 @@ class ButtonWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(radioButton ?? 1.h),
           ),
         ),
-        child: TextWidget(
+        child: child ?? TextWidget(
           hintText ?? "",
           textColor: textColor ?? AppColors.whiteColor,
           fontSize: textSize ?? (

@@ -10,11 +10,11 @@ import '../sharedWidgets/popups/confirmation_popup.dart';
 import '../sharedWidgets/popups/information_popup.dart';
 
 class ViewPicture {
-  static openPicture(String path) {
+  static openPicture(String path, {bool fromAsset = false}) {
     try {
       showImageViewer(
         Get.context!,
-        Image.memory(base64Decode(path)).image,
+        fromAsset ? Image.asset(path).image : Image.memory(base64Decode(path)).image,
       );
     } catch (_) {
       showDialog(
