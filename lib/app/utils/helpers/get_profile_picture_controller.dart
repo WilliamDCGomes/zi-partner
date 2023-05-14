@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../../base/services/interfaces/iuser_service.dart';
 import '../sharedWidgets/popups/information_popup.dart';
 
 class GetProfilePictureController {
-  static loadProfilePicture(RxBool loadingPicture, RxBool hasPicture, RxString profileImagePath, SharedPreferences sharedPreferences) async {
+  static loadProfilePicture(RxBool loadingPicture, RxBool hasPicture, RxString profileImagePath, IUserService userService) async {
     try{
       loadingPicture.value = true;
-      await Future.delayed(const Duration(milliseconds: 200));
-      profileImagePath.value = sharedPreferences.getString("profile_picture") ?? "";
+      profileImagePath.value = await userService.getUserProfilePicture();
       loadingPicture.value = false;
       hasPicture.value = profileImagePath.value.isNotEmpty;
     }

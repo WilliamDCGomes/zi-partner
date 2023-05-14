@@ -27,7 +27,7 @@ buildFlavor(Flavor flavor) async {
     800: AppColors.defaultColor,
     900: AppColors.defaultColor,
   };
-  MaterialColor colorCustom = MaterialColor(0XFF1E4767, color);
+  MaterialColor colorCustom = MaterialColor(0XFFC42404, color);
   sendLocation();
   runApp(App(color: colorCustom));
 }

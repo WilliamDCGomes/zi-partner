@@ -37,7 +37,9 @@ class InformationContainerWidget extends StatelessWidget {
         Container(
           width: double.infinity,
           margin: marginContainer ?? EdgeInsets.only(
-            top: PlatformType.isTablet(context) ? 9.h : 7.h,
+            left: 2.w,
+            top: PlatformType.isTablet(context) ? 7.h : 5.h,
+            right: 2.w,
             bottom: 2.h,
           ),
           padding: padding ?? EdgeInsets.fromLTRB(5.w, 4.h, 5.w, 3.h),
@@ -62,10 +64,7 @@ class InformationContainerWidget extends StatelessWidget {
           alignment: Alignment.topRight,
           child: Container(
             padding: EdgeInsets.all(1.5.h),
-            margin: marginIcon ?? EdgeInsets.only(
-              top: PlatformType.isTablet(context) ? 4.h : 2.h,
-              right: 1.w,
-            ),
+            margin: marginIcon,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.5.h),
               color: backgroundColor,

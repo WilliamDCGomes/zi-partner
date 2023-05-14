@@ -44,6 +44,7 @@ class _MessagesPageState extends State<MessagesPage> {
               children: [
                 Container(
                   height: 8.h,
+                  width: double.infinity,
                   padding: EdgeInsets.all(1.h),
                   margin: EdgeInsets.only(bottom: 2.h),
                   decoration: BoxDecoration(
@@ -51,7 +52,7 @@ class _MessagesPageState extends State<MessagesPage> {
                       bottom: BorderSide(
                         color: AppColors.defaultColor,
                         width: .1.h,
-                      )
+                      ),
                     ),
                   ),
                   child: Row(

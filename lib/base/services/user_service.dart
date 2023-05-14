@@ -1,9 +1,22 @@
+import 'package:zi_partner/app/utils/helpers/paths.dart';
+
 import '../models/user/user.dart';
 import '../viewControllers/authenticateResponse/authenticate_response.dart';
 import 'base/base_service.dart';
 import 'interfaces/iuser_service.dart';
 
 class UserService extends BaseService implements IUserService {
+
+  @override
+  Future<String> getUserProfilePicture() async {
+    try{
+      return Paths.profilePicture;
+    }
+    catch(_){
+      return "";
+    }
+  }
+
   @override
   Future<AuthenticateResponse?> authenticate({String? username, String? password}) async {
     return null;

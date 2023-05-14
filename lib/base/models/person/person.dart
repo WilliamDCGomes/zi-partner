@@ -39,7 +39,7 @@ class Person {
     var names = name.trim().split(" ");
 
     if(names.isNotEmpty && names.first != ""){
-      initialsName = names[0][0];
+      initialsName = names.first[0];
       if(names.length > 1 && names.last != ""){
         initialsName += names.last[0];
       }

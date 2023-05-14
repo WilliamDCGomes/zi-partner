@@ -6,6 +6,8 @@ abstract class IUserService {
 
   Future<bool> editUser(User user);
 
+  Future<String> getUserProfilePicture();
+
   Future<bool> updatePassword(String newPassword);
 
   Future<bool> forgetPasswordInternal(String password);

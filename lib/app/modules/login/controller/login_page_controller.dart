@@ -92,7 +92,7 @@ class LoginController extends GetxController {
           await _doLoginServer(true);
           await _getUserInformations();
 
-          if (userLogged != null) {
+          if (true || userLogged != null) {
             await _saveOptions();
 
             await loadingWithSuccessOrErrorWidget.stopAnimation();
@@ -249,7 +249,7 @@ class LoginController extends GetxController {
         }
       }
       if (await InternetConnection.checkConnection()) {
-        userLogged = await _userService
+        /*userLogged = await _userService
             .authenticate(
               username: fromBiometric
                   ? username
@@ -264,7 +264,7 @@ class LoginController extends GetxController {
           return false;
         }
         await sharedPreferences.setString('Token', userLogged!.token!);
-        await sharedPreferences.setString('ExpiracaoToken', userLogged!.expirationDate!.toIso8601String());
+        await sharedPreferences.setString('ExpiracaoToken', userLogged!.expirationDate!.toIso8601String());*/
         return true;
       }
       else {

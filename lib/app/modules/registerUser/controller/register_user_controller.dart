@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import '../../../../base/models/addressInformation/address_information.dart';
-import '../../../../base/services/consult_cep_service.dart';
-import '../../../../base/services/interfaces/iconsult_cep_service.dart';
-import '../../../utils/helpers/brazil_address_informations.dart';
 import '../../../utils/helpers/internet_connection.dart';
 import '../../../utils/helpers/loading.dart';
 import '../../../utils/helpers/masks_for_text_fields.dart';
@@ -27,7 +23,7 @@ class RegisterUserController extends GetxController {
   late RxBool loadingAnimation;
   late RxBool confirmPasswordFieldEnabled;
   late RxBool nameInputHasError;
-  late RxBool userNameInputHasError;
+  late RxBool loginInputHasError;
   late RxBool birthdayInputHasError;
   late RxBool cepInputHasError;
   late RxBool cityInputHasError;
@@ -41,12 +37,11 @@ class RegisterUserController extends GetxController {
   late RxString ufSelected;
   late RxString genderSelected;
   late List<String> genderList;
-  late RxList<String> ufsList;
   late RxList<String> gymsList;
   late RxList<String> images;
   late final GlobalKey<FormState> formKeyPersonalInformation;
-  late final GlobalKey<FormState> formKeyAddressInformation;
   late final GlobalKey<FormState> formKeyContactInformation;
+  late final GlobalKey<FormState> formKeyAddressInformation;
   late final GlobalKey<FormState> formKeyPasswordInformation;
   late MaskTextInputFormatter maskCellPhoneFormatter;
   late TextEditingController nameTextController;
@@ -65,7 +60,7 @@ class RegisterUserController extends GetxController {
   late TextEditingController confirmPasswordTextController;
   late TextEditingController gymNameTextController;
   late TextEditingController aboutMeTextController;
-  late FocusNode userNameFocusNode;
+  late FocusNode loginFocusNode;
   late FocusNode birthDateFocusNode;
   late FocusNode streetFocusNode;
   late FocusNode houseNumberFocusNode;
@@ -79,16 +74,9 @@ class RegisterUserController extends GetxController {
   late List<BodyRegisterStepperWidget> bodyRegisterStepperList;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
   late ScrollController imagesListController;
-  late IConsultCepService _consultCepService;
 
   RegisterUserController(){
     _initializeVariables();
-  }
-
-  @override
-  void onInit() async {
-    await _getUfsNames();
-    super.onInit();
   }
 
   _initializeVariables(){
@@ -100,7 +88,7 @@ class RegisterUserController extends GetxController {
     passwordFieldEnabled = true.obs;
     confirmPasswordFieldEnabled = true.obs;
     nameInputHasError = false.obs;
-    userNameInputHasError = false.obs;
+    loginInputHasError = false.obs;
     birthdayInputHasError = false.obs;
     cepInputHasError = false.obs;
     cityInputHasError = false.obs;
@@ -111,7 +99,6 @@ class RegisterUserController extends GetxController {
     confirmEmailInputHasError = false.obs;
     passwordInputHasError = false.obs;
     confirmPasswordInputHasError = false.obs;
-    ufsList = <String>[].obs;
     gymsList = <String>[].obs;
     images = <String>[].obs;
     genderList = [
@@ -120,8 +107,8 @@ class RegisterUserController extends GetxController {
     ];
     maskCellPhoneFormatter = MasksForTextFields.phoneNumberAcceptExtraNumberMask;
     formKeyPersonalInformation = GlobalKey<FormState>();
-    formKeyAddressInformation = GlobalKey<FormState>();
     formKeyContactInformation = GlobalKey<FormState>();
+    formKeyAddressInformation = GlobalKey<FormState>();
     formKeyPasswordInformation = GlobalKey<FormState>();
     nameTextController = TextEditingController();
     userNameTextController = TextEditingController();
@@ -139,7 +126,7 @@ class RegisterUserController extends GetxController {
     confirmPasswordTextController = TextEditingController();
     gymNameTextController = TextEditingController();
     aboutMeTextController = TextEditingController();
-    userNameFocusNode = FocusNode();
+    loginFocusNode = FocusNode();
     birthDateFocusNode = FocusNode();
     streetFocusNode = FocusNode();
     houseNumberFocusNode = FocusNode();
@@ -209,46 +196,6 @@ class RegisterUserController extends GetxController {
         controller: this,
       ),
     ];
-    _consultCepService = ConsultCepService();
-  }
-
-  searchAddressInformation() async {
-    try{
-      if(cepTextController.text.length == 9){
-        AddressInformation? addressInformation = await _consultCepService.searchCep(cepTextController.text);
-        if(addressInformation != null){
-          ufSelected.value = addressInformation.uf;
-          cityTextController.text = addressInformation.localidade;
-          streetTextController.text = addressInformation.logradouro;
-          neighborhoodTextController.text = addressInformation.bairro;
-          complementTextController.text = addressInformation.complemento;
-          formKeyAddressInformation.currentState!.validate();
-        }
-        else{
-          throw Exception();
-        }
-      }
-    }
-    catch(_){
-      ufSelected.value = "";
-      cityTextController.text = "";
-      streetTextController.text = "";
-      neighborhoodTextController.text = "";
-      complementTextController.text = "";
-    }
-  }
-
-  _getUfsNames() async {
-    try{
-      ufsList.clear();
-      List<String> states = await BrazilAddressInformations.getUfsNames();
-      for(var uf in states) {
-        ufsList.add(uf);
-      }
-    }
-    catch(_){
-      ufsList.clear();
-    }
   }
 
   _validPersonalInformationAndAdvanceNextStep() async {

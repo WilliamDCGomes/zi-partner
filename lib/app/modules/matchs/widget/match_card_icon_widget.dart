@@ -53,7 +53,7 @@ class MatchCardIconWidget extends StatelessWidget {
                     person.lastMessage,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
-                    textColor: AppColors.blackColor,
+                    textColor: AppColors.blackTransparentColor,
                     textAlign: TextAlign.start,
                   ),
                 ],

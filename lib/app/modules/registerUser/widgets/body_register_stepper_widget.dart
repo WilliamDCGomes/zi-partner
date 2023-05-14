@@ -66,14 +66,14 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
                         return validation;
                       },
                       onEditingComplete: (){
-                        widget.controller.userNameFocusNode.requestFocus();
+                        widget.controller.loginFocusNode.requestFocus();
                       },
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 1.5.h),
                       child: TextFieldWidget(
                         controller: widget.controller.userNameTextController,
-                        focusNode: widget.controller.userNameFocusNode,
+                        focusNode: widget.controller.loginFocusNode,
                         hintText: "Login",
                         textCapitalization: TextCapitalization.words,
                         height: PlatformType.isTablet(context) ? 7.h : 9.h,
@@ -82,14 +82,14 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
                         enableSuggestions: true,
                         maskTextInputFormatter: [MasksForTextFields.loginMask],
                         textInputAction: TextInputAction.next,
-                        hasError: widget.controller.userNameInputHasError.value,
+                        hasError: widget.controller.loginInputHasError.value,
                         validator: (String? value) {
                           String? validation = TextFieldValidators.standardValidation(value, "Informe o seu Login");
                           if(validation != null && validation != ""){
-                            widget.controller.nameInputHasError.value = true;
+                            widget.controller.loginInputHasError.value = true;
                           }
                           else{
-                            widget.controller.nameInputHasError.value = false;
+                            widget.controller.loginInputHasError.value = false;
                           }
                           return validation;
                         },
@@ -125,7 +125,7 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
                     Padding(
                       padding: EdgeInsets.only(top: 1.5.h),
                       child: DropdownButtonWidget(
-                        itemSelected: widget.controller.genderSelected.value == "" ? null : widget.controller.genderSelected.value,
+                        itemSelected: widget.controller.genderSelected.value.isEmpty ? null : widget.controller.genderSelected.value,
                         hintText: "Sexo",
                         height: PlatformType.isTablet(context) ? 5.h : 6.5.h,
                         width: 90.w,

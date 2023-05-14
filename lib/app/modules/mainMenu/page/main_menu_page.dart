@@ -22,7 +22,7 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
   void initState() {
     controller = Get.put(MainMenuController(), tag: 'main-menu-controller');
     controller.tabController = TabController(
-      length: 4,
+      length: 3,
       vsync: this,
     );
 
@@ -92,14 +92,6 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
                         size: 3.5.h,
                       ),
                       text: "Matchs",
-                      height: 9.h,
-                    ),
-                    Tab(
-                      icon: ImageIcon(
-                        const AssetImage(Paths.gymPlaceIcon),
-                        size: 3.5.h,
-                      ),
-                      text: "Academias",
                       height: 9.h,
                     ),
                     Tab(
