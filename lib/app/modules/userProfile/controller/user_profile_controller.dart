@@ -453,22 +453,24 @@ class UserProfileController extends GetxController {
   }
 
   addGyms() {
-    if(gymNameTextController.text.isNotEmpty){
-      FocusScope.of(Get.context!).requestFocus(FocusNode());
-      gymsList.add(gymNameTextController.text);
-      gymNameTextController.clear();
-      gymsList.sort((a, b) => a.compareTo(b));
-    }
-    else{
-      showDialog(
-        context: Get.context!,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "Informe o nome da academia para adicionar ela á lista!",
-          );
-        },
-      );
+    if(!profileIsDisabled.value) {
+      if(gymNameTextController.text.isNotEmpty){
+        FocusScope.of(Get.context!).requestFocus(FocusNode());
+        gymsList.add(gymNameTextController.text);
+        gymNameTextController.clear();
+        gymsList.sort((a, b) => a.compareTo(b));
+      }
+      else{
+        showDialog(
+          context: Get.context!,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return const InformationPopup(
+              warningMessage: "Informe o nome da academia para adicionar ela á lista!",
+            );
+          },
+        );
+      }
     }
   }
 
@@ -499,65 +501,68 @@ class UserProfileController extends GetxController {
   }
 
   addNewPicture() async {
-    try {
-      if(images.length < 6) {
-        final image = await ViewPicture.addNewPicture();
-        if (image != null && image.isNotEmpty) {
-          int quantity = 0;
+    if(!profileIsDisabled.value) {
+      try {
+        if(images.length < 6) {
+          final image = await ViewPicture.addNewPicture();
+          if (image != null && image.isNotEmpty) {
+            int quantity = 0;
 
-          for(var personImage in image){
-            if(images.length < 6) {
-              images.add(personImage);
-              quantity++;
+            for(var personImage in image){
+              if(images.length < 6) {
+                images.add(personImage);
+                quantity++;
+              }
+              else {
+                SnackbarWidget(
+                  warningText: "Aviso",
+                  informationText: quantity > 1 ? "Apenas $quantity imagens foram adicionadas à lista, o limite de fotos é 6." :
+                  "Apenas 1 imagem foi adicionada à lista, o limite de fotos é 6.",
+                  backgrondColor: AppColors.defaultColor,
+                  maxLine: 2,
+                );
+                break;
+              }
             }
-            else {
-              SnackbarWidget(
-                warningText: "Aviso",
-                informationText: quantity > 1 ? "Apenas $quantity imagens foram adicionadas à lista, o limite de fotos é 6." :
-                "Apenas 1 imagem foi adicionada à lista, o limite de fotos é 6.",
-                backgrondColor: AppColors.defaultColor,
-                maxLine: 2,
+
+            if(images.isNotEmpty && images.length > 1 && quantity == 1) {
+              await imagesListController.position.moveTo(
+                imagesListController.positions.last.maxScrollExtent,
+                duration: const Duration(seconds: 1),
+                curve: Curves.easeOut,
               );
-              break;
+              await SchedulerBinding.instance.endOfFrame;
+              await imagesListController.position.moveTo(
+                imagesListController.positions.last.maxScrollExtent,
+                duration: const Duration(seconds: 1),
+                curve: Curves.easeOut,
+              );
             }
-          }
-
-          if(images.isNotEmpty && images.length > 1 && quantity == 1) {
-            await imagesListController.position.moveTo(
-              imagesListController.positions.last.maxScrollExtent,
-              duration: const Duration(seconds: 1),
-              curve: Curves.easeOut,
-            );
-            await SchedulerBinding.instance.endOfFrame;
-            await imagesListController.position.moveTo(
-              imagesListController.positions.last.maxScrollExtent,
-              duration: const Duration(seconds: 1),
-              curve: Curves.easeOut,
-            );
           }
         }
+        else{
+          showDialog(
+            context: Get.context!,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return const InformationPopup(
+                warningMessage: "Você pode adicionar no máximo 6 imagens ao seu perfil!",
+              );
+            },
+          );
+        }
       }
-      else{
+      catch (_) {
         showDialog(
           context: Get.context!,
           barrierDismissible: false,
           builder: (BuildContext context) {
             return const InformationPopup(
-              warningMessage: "Você pode adicionar no máximo 6 imagens ao seu perfil!",
+              warningMessage: "Não foi possível adicionar a imagem",
             );
           },
         );
       }
-    } catch (_) {
-      showDialog(
-        context: Get.context!,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "Não foi possível adicionar a imagem",
-          );
-        },
-      );
     }
   }
 
