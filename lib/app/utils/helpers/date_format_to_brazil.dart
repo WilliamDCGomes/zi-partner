@@ -4,8 +4,9 @@ import 'package:intl/date_symbol_data_local.dart';
 
 class DateFormatToBrazil {
   static String formatDate(DateTime? date) {
-    if(date != null)
+    if(date != null) {
       return DateFormat('dd-MM-yyyy').format(date).replaceAll('-', '/');
+    }
     return "";
   }
 
@@ -13,14 +14,15 @@ class DateFormatToBrazil {
     if(time != null){
       String hour = (time.hour < 10 ? "0" : "") + time.hour.toString();
       String minute = (time.minute < 10 ? "0" : "") + time.minute.toString();
-      return  hour + ":" + minute;
+      return  "$hour:$minute";
     }
     return "";
   }
 
   static String formatDateAmerican(DateTime? date) {
-    if(date != null)
+    if(date != null) {
       return DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+    }
     return "";
   }
 
@@ -61,14 +63,23 @@ class DateFormatToBrazil {
   }
 
   static String formatDateAndHour(DateTime? date) {
-    if(date != null)
+    if(date != null) {
       return "${DateFormat('dd-MM-yyyy').format(date).replaceAll('-', '/')} às ${DateFormat('HH:mm').format(date)}";
+    }
+    return "";
+  }
+
+  static String hourFromDate(DateTime? date) {
+    if(date != null) {
+      return DateFormat('HH:mm').format(date);
+    }
     return "";
   }
 
   static String formatDateAndTimePdf(DateTime? date) {
-    if(date != null)
+    if(date != null) {
       return "${DateFormat('dd-MM-yyyy').format(date)}_AS_${DateFormat('HH:mm:ss:SS').format(date)}";
+    }
     return "";
   }
 
@@ -118,13 +129,13 @@ class DateFormatToBrazil {
   }
 
   static DateTime firstDateOfMonth() {
-    DateTime _todayDate = DateTime.now();
-    return DateTime(_todayDate.year, _todayDate.month, 1);
+    DateTime todayDate = DateTime.now();
+    return DateTime(todayDate.year, todayDate.month, 1);
   }
 
   static DateTime lastDateOfMonth() {
-    DateTime _todayDate = DateTime.now();
-    return DateTime(_todayDate.year, _todayDate.month + 1, 0);
+    DateTime todayDate = DateTime.now();
+    return DateTime(todayDate.year, todayDate.month + 1, 0);
   }
 
   static String weekDay(DateTime? date) {

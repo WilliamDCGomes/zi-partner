@@ -41,6 +41,7 @@ class Paths{
   static const String adicionarImagem = "${imagesPath}adicionar_imagem.png";
   static const String profileWomanIcon = "${imagesPath}profile_woman_icon.png";
   static const String iconeConfiguracaoMenu = "${imagesPath}Icone_Configuracao_Menu.png";
+  static const String iconeExibicaoEsqueciSenha = "${imagesPath}Icone_Exibicao_Esqueci_Senha.png";
   static const String iconeConfiguracaoBiometria = "${imagesPath}Icone_Configuracao_Biometria.png";
   static const String iconeExibicaoCadastroUsuario = "${imagesPath}icone_exibicao_cadastro_usuario.png";
 

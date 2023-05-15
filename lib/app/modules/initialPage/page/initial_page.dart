@@ -34,70 +34,31 @@ class _InitialPageState extends State<InitialPage> {
           color: AppColors.defaultColor,
           child: Stack(
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: RotationTransition(
-                  turns: const AlwaysStoppedAnimation(1.75 / .9),
-                  child: Transform.scale(
-                    scale: 1.2,
-                    child: Image.asset(
-                      Paths.academiaImagem,
-                      height: 25.h,
-                      opacity: const AlwaysStoppedAnimation(.4),
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: RotationTransition(
-                  turns: const AlwaysStoppedAnimation(1.75 / .9),
-                  child: Transform.scale(
-                    scale: 1.2,
-                    child: Image.asset(
-                      Paths.ilustracaoAcademia2,
-                      height: 25.h,
-                      opacity: const AlwaysStoppedAnimation(.4),
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: RotationTransition(
-                  turns: const AlwaysStoppedAnimation(.15 / 2),
-                  child: Transform.scale(
-                    scale: 1.2,
-                    child: Image.asset(
-                      Paths.ilustracaoAcademia1,
-                      opacity: const AlwaysStoppedAnimation(.5),
-                    ),
-                  ),
-                ),
-              ),
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Image.asset(
+                      Paths.logoZipartner,
+                      height: 12.h,
+                      color: AppColors.whiteColor,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 8.h),
                       child: TextWidget(
                         "Zi Partner",
-                        textColor: AppColors.whiteColorWithLessOpacity,
+                        textColor: AppColors.whiteColor,
                         fontSize: 35.sp,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.bold,
                         maxLines: 4,
-                      ),/*Image.asset(
-                        Paths.Logo_Branca,
-                        height: PlatformType.isPhone(context) ? 18.h : 12.h,
-                      ),*/
+                      ),
                     ),
                     SizedBox(
                       height: 6.h,
                       width: 6.h,
-                      child: CircularProgressIndicator(
-                        color: AppColors.whiteColorWithLessOpacity,
+                      child: const CircularProgressIndicator(
+                        color: AppColors.whiteColor,
                       ),
                     ),
                   ],

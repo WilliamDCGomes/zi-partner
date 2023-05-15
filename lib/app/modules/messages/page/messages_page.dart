@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/modules/personDetail/page/person_detail_page.dart';
+import 'package:zi_partner/app/utils/helpers/date_format_to_brazil.dart';
 import 'package:zi_partner/app/utils/stylePages/app_colors.dart';
 import '../../../../base/models/person/person.dart';
 import '../../../utils/sharedWidgets/button_widget.dart';
@@ -28,6 +29,10 @@ class _MessagesPageState extends State<MessagesPage> {
   @override
   void initState() {
     controller = Get.put(MessagesController(widget.recipientPerson));
+
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      controller.scrollController.jumpTo(controller.scrollController.position.maxScrollExtent);
+    });
     super.initState();
   }
 
@@ -120,8 +125,56 @@ class _MessagesPageState extends State<MessagesPage> {
                           ),
                           child: ListView.builder(
                             shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            controller: controller.scrollController,
                             itemCount: controller.messagesList.length,
-                            itemBuilder: (context, index) => Container(),
+                            itemBuilder: (context, index) => Align(
+                              alignment: controller.messagesList[index].itsMine ? Alignment.centerRight : Alignment.centerLeft,
+                              child: Container(
+                                constraints: BoxConstraints(maxWidth: 80.w, minWidth: 20.w),
+                                padding: EdgeInsets.all(1.h),
+                                margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(1.h),
+                                  color: controller.messagesList[index].itsMine ? AppColors.defaultColor : AppColors.defaultColorWithOpacity,
+                                ),
+                                child: LayoutBuilder(
+                                  builder: (BuildContext context, BoxConstraints constraints) {
+                                    return ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        minWidth: constraints.minWidth,
+                                        maxWidth: constraints.maxWidth,
+                                        minHeight: constraints.minHeight,
+                                        maxHeight: constraints.maxHeight,
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Flexible(
+                                            child: TextWidget(
+                                              controller.messagesList[index].message,
+                                              fontSize: 17.sp,
+                                              fontWeight: FontWeight.w400,
+                                              textAlign: TextAlign.start,
+                                              maxLines: 20,
+                                            ),
+                                          ),
+                                          SizedBox(width: 4.w),
+                                          TextWidget(
+                                            DateFormatToBrazil.hourFromDate(controller.messagesList[index].messageDate),
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeight.w400,
+                                            textAlign: TextAlign.end,
+                                            maxLines: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -156,9 +209,7 @@ class _MessagesPageState extends State<MessagesPage> {
                         color: AppColors.whiteColor,
                         size: 3.h,
                       ),
-                      onPressed: () {
-
-                      },
+                      onPressed: () => controller.sendMessage(),
                     ),
                   ],
                 ),

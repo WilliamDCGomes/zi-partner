@@ -14,6 +14,7 @@ import '../../../utils/sharedWidgets/text_button_widget.dart';
 import '../../../utils/sharedWidgets/text_field_widget.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
 import '../../../utils/stylePages/app_colors.dart';
+import '../../forgotPassword/page/forgot_password_page.dart';
 import '../../registerUser/page/register_user_page.dart';
 import '../controller/login_page_controller.dart';
 
@@ -239,9 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   fontSize: 15.sp,
                                                   height: 3.5.h,
                                                   componentPadding: EdgeInsets.zero,
-                                                  onTap: () {
-
-                                                  }
+                                                  onTap: () => Get.to(() => const ForgotPasswordPage())
                                                 ),
                                               ],
                                             ),
