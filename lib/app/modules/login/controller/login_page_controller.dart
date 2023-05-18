@@ -197,29 +197,11 @@ class LoginController extends GetxController {
           LoggedUserViewController.gender = "Não Informado";
           break;
       }
-      await sharedPreferences.setString("cpf", _user!.document ?? "");
-      await sharedPreferences.setString("cep", _user!.cep ?? "");
-      await sharedPreferences.setString("city", _user!.city ?? "");
-      await sharedPreferences.setString("street", _user!.address ?? "");
-      await sharedPreferences.setString("houseNumber", _user!.number ?? "");
-      await sharedPreferences.setString("neighborhood", _user!.district ?? "");
-      await sharedPreferences.setString("complement", _user!.complement ?? "");
-      await sharedPreferences.setString("phone", _user!.tellphone ?? "");
       await sharedPreferences.setString("cellPhone", _user!.cellphone ?? "");
       await sharedPreferences.setString("email", _user!.email ?? "");
-      await sharedPreferences.setString("uf", _user!.uf ?? "");
       LoggedUserViewController.birthdate = DateFormatToBrazil.formatDate(_user!.birthdayDate);
-      LoggedUserViewController.cpf = _user!.document ?? "";
-      LoggedUserViewController.cep = _user!.cep ?? "";
-      LoggedUserViewController.city = _user!.city ?? "";
-      LoggedUserViewController.street = _user!.address ?? "";
-      LoggedUserViewController.houseNumber = _user!.number ?? "";
-      LoggedUserViewController.neighborhood = _user!.district ?? "";
-      LoggedUserViewController.complement = _user!.complement ?? "";
-      LoggedUserViewController.phone = _user!.tellphone ?? "";
       LoggedUserViewController.cellPhone = _user!.cellphone ?? "";
       LoggedUserViewController.email = _user!.email ?? "";
-      LoggedUserViewController.uf = _user!.uf ?? "";
     }
 
     if (userLogged != null) {

@@ -7,36 +7,33 @@ part 'user.g.dart';
 @JsonSerializable()
 class User extends ZiPartnerCore {
   late String name;
-  String? tellphone;
-  DateTime? birthdayDate;
-  String? document;
-  late TypeGender gender;
-  String? cep;
-  String? uf;
-  String? city;
-  String? address;
-  String? number;
-  String? district;
-  String? complement;
-  String? cellphone;
-  String? email;
   late String userName;
-  String? password;
+  late String aboutMe;
+  late String cellphone;
+  late String email;
+  late String password;
+  late DateTime? birthdayDate;
+  late TypeGender gender;
 
   User({
     required this.name,
-    required this.tellphone,
-    required this.document,
     required this.userName,
+    required this.aboutMe,
+    required this.cellphone,
+    required this.email,
     required this.password,
+    required this.birthdayDate,
+    required this.gender,
   });
 
   User.empty() {
     name = "";
-    tellphone = "";
-    document = "";
     userName = "";
+    aboutMe = "";
+    cellphone = "";
+    email = "";
     password = "";
+    gender = TypeGender.none;
   }
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

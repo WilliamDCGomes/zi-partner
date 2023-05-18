@@ -7,7 +7,7 @@ import '../../../../base/models/person/person.dart';
 
 class MessagesController extends GetxController {
   late Person recipientPerson;
-  late RxList<Message> messagesList;
+  late RxList<Messages> messagesList;
   late TextEditingController newMessage;
   late ScrollController scrollController;
   final recipientId = const Uuid().v4();
@@ -23,108 +23,108 @@ class MessagesController extends GetxController {
   }
 
   _initializeVariables() {
-    messagesList = <Message>[].obs;
+    messagesList = <Messages>[].obs;
     newMessage = TextEditingController();
     scrollController = ScrollController();
   }
 
   _getMessages() async {
     messagesList.addAll([
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "Oi, tudo bem?",
-          messageDate: DateTime.now().add(-const Duration(minutes: 25)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 25)),
         ),
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "Aonde você treina?",
-          messageDate: DateTime.now().add(-const Duration(minutes: 25)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 25)),
         ),
-        Message(
-          senderId: recipientId,
-          recipientId: LoggedUser.id,
+        Messages(
+          userId: recipientId,
+          receiverId: LoggedUser.id,
           message: "Oi, eu Treino na Smart Fit, e você?",
-          messageDate: DateTime.now().add(-const Duration(minutes: 22)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 22)),
         ),
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "Ah que legal!",
-          messageDate: DateTime.now().add(-const Duration(minutes: 20)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 20)),
         ),
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "Eu treino lá também!",
-          messageDate: DateTime.now().add(-const Duration(minutes: 19)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 19)),
         ),
-        Message(
-          senderId: recipientId,
-          recipientId: LoggedUser.id,
+        Messages(
+          userId: recipientId,
+          receiverId: LoggedUser.id,
           message: "Ah que bom!",
-          messageDate: DateTime.now().add(-const Duration(minutes: 16)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 16)),
         ),
-        Message(
-          senderId: recipientId,
-          recipientId: LoggedUser.id,
+        Messages(
+          userId: recipientId,
+          receiverId: LoggedUser.id,
           message: "Podemos marcar um treino para amanhã as 19:00?",
-          messageDate: DateTime.now().add(-const Duration(minutes: 16)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 16)),
         ),
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "Podemos sim!",
-          messageDate: DateTime.now().add(-const Duration(minutes: 12)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 12)),
         ),
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "O que você costuma treinar?",
-          messageDate: DateTime.now().add(-const Duration(minutes: 11)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 11)),
         ),
-        Message(
-          senderId: recipientId,
-          recipientId: LoggedUser.id,
+        Messages(
+          userId: recipientId,
+          receiverId: LoggedUser.id,
           message: "Eu treino perna Segunda, peito na Quarta e costas na sexta. E você? Treina diferente disso?",
-          messageDate: DateTime.now().add(-const Duration(minutes: 8)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 8)),
         ),
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "Eu até chego a treinar, mas posso me adaptar a esse treino sem problemas",
-          messageDate: DateTime.now().add(-const Duration(minutes: 8)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 8)),
         ),
-        Message(
-          senderId: recipientId,
-          recipientId: LoggedUser.id,
+        Messages(
+          userId: recipientId,
+          receiverId: LoggedUser.id,
           message: "Ah perfeito, podemos começar com perna amanhã então?",
-          messageDate: DateTime.now().add(-const Duration(minutes: 6)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 6)),
         ),
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "Podemos sim! Sem problemas",
-          messageDate: DateTime.now().add(-const Duration(minutes: 5)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 5)),
         ),
-        Message(
-          senderId: recipientId,
-          recipientId: LoggedUser.id,
+        Messages(
+          userId: recipientId,
+          receiverId: LoggedUser.id,
           message: "Perfeito, então fica combinado para amanhã as 19:00",
-          messageDate: DateTime.now().add(-const Duration(minutes: 5)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 5)),
         ),
-        Message(
-          senderId: recipientId,
-          recipientId: LoggedUser.id,
+        Messages(
+          userId: recipientId,
+          receiverId: LoggedUser.id,
           message: "Até lá!",
-          messageDate: DateTime.now().add(-const Duration(minutes: 4)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 4)),
         ),
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: "Combinado, até lá",
-          messageDate: DateTime.now().add(-const Duration(minutes: 2)),
+          internInclusion: DateTime.now().add(-const Duration(minutes: 2)),
         ),
       ],
     );
@@ -133,11 +133,11 @@ class MessagesController extends GetxController {
   sendMessage() async {
     if(newMessage.text.isNotEmpty) {
       messagesList.add(
-        Message(
-          senderId: LoggedUser.id,
-          recipientId: recipientId,
+        Messages(
+          userId: LoggedUser.id,
+          receiverId: recipientId,
           message: newMessage.text,
-          messageDate: DateTime.now(),
+          internInclusion: DateTime.now(),
         ),
       );
       newMessage.clear();

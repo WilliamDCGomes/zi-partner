@@ -8,10 +8,15 @@ part of 'user.dart';
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       name: json['name'] as String,
-      tellphone: json['tellphone'] as String?,
-      document: json['document'] as String?,
       userName: json['userName'] as String,
-      password: json['password'] as String?,
+      aboutMe: json['aboutMe'] as String,
+      cellphone: json['cellphone'] as String,
+      email: json['email'] as String,
+      password: json['password'] as String,
+      birthdayDate: json['birthdayDate'] == null
+          ? null
+          : DateTime.parse(json['birthdayDate'] as String),
+      gender: $enumDecode(_$TypeGenderEnumMap, json['gender']),
     )
       ..id = json['id'] as String?
       ..inclusion = json['inclusion'] == null
@@ -20,20 +25,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       ..alteration = json['alteration'] == null
           ? null
           : DateTime.parse(json['alteration'] as String)
-      ..active = ZiPartnerCore.fromJsonActive(json['active'])
-      ..birthdayDate = json['birthdayDate'] == null
-          ? null
-          : DateTime.parse(json['birthdayDate'] as String)
-      ..gender = $enumDecode(_$TypeGenderEnumMap, json['gender'])
-      ..cep = json['cep'] as String?
-      ..uf = json['uf'] as String?
-      ..city = json['city'] as String?
-      ..address = json['address'] as String?
-      ..number = json['number'] as String?
-      ..district = json['district'] as String?
-      ..complement = json['complement'] as String?
-      ..cellphone = json['cellphone'] as String?
-      ..email = json['email'] as String?;
+      ..active = ZiPartnerCore.fromJsonActive(json['active']);
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
@@ -41,21 +33,13 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'alteration': instance.alteration?.toIso8601String(),
       'active': instance.active,
       'name': instance.name,
-      'tellphone': instance.tellphone,
-      'birthdayDate': instance.birthdayDate?.toIso8601String(),
-      'document': instance.document,
-      'gender': _$TypeGenderEnumMap[instance.gender]!,
-      'cep': instance.cep,
-      'uf': instance.uf,
-      'city': instance.city,
-      'address': instance.address,
-      'number': instance.number,
-      'district': instance.district,
-      'complement': instance.complement,
+      'userName': instance.userName,
+      'aboutMe': instance.aboutMe,
       'cellphone': instance.cellphone,
       'email': instance.email,
-      'userName': instance.userName,
       'password': instance.password,
+      'birthdayDate': instance.birthdayDate?.toIso8601String(),
+      'gender': _$TypeGenderEnumMap[instance.gender]!,
     };
 
 const _$TypeGenderEnumMap = {

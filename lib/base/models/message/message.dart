@@ -1,27 +1,28 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
+import '../base/zi_partner_core.dart';
 
 part 'message.g.dart';
 
 @JsonSerializable()
-class Message {
-  late String senderId;
-  late String recipientId;
+class Messages extends ZiPartnerCore {
+  late String userId;
+  late String receiverId;
   late String message;
-  late DateTime messageDate;
   @JsonKey(includeFromJson: false)
   late bool itsMine;
 
-  Message({
-    required this.senderId,
-    required this.recipientId,
+  Messages({
+    required this.userId,
+    required this.receiverId,
     required this.message,
-    required this.messageDate,
+    DateTime? internInclusion,
   }){
-    itsMine = senderId == LoggedUser.id;
+    itsMine = userId == LoggedUser.id;
+    inclusion = internInclusion;
   }
 
-  factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
+  factory Messages.fromJson(Map<String, dynamic> json) => _$MessagesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
+  Map<String, dynamic> toJson() => _$MessagesToJson(this);
 }

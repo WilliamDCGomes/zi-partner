@@ -162,7 +162,7 @@ class _MessagesPageState extends State<MessagesPage> {
                                           ),
                                           SizedBox(width: 4.w),
                                           TextWidget(
-                                            DateFormatToBrazil.hourFromDate(controller.messagesList[index].messageDate),
+                                            DateFormatToBrazil.hourFromDate(controller.messagesList[index].inclusion),
                                             fontSize: 13.sp,
                                             fontWeight: FontWeight.w400,
                                             textAlign: TextAlign.end,

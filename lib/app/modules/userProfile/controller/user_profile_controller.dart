@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:zi_partner/app/modules/login/page/login_page.dart';
-import '../../../../../../base/services/consult_cep_service.dart';
-import '../../../../../../base/services/interfaces/iconsult_cep_service.dart';
 import '../../../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../../../base/services/user_service.dart';
 import '../../../../base/models/loggedUser/logged_user.dart';
@@ -74,7 +72,6 @@ class UserProfileController extends GetxController {
   late LoadingProfilePictureWidget loadingProfilePicture;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
   late User user;
-  late IConsultCepService consultCepService;
   late IUserService _userService;
 
   UserProfileController(){
@@ -139,7 +136,6 @@ class UserProfileController extends GetxController {
     loadingProfilePicture = LoadingProfilePictureWidget();
     loadingWithSuccessOrErrorWidget = LoadingWithSuccessOrErrorWidget();
     user = User.empty();
-    consultCepService = ConsultCepService();
     _userService = UserService();
   }
 

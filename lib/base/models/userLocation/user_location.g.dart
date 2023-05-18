@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'message.dart';
+part of 'user_location.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Messages _$MessagesFromJson(Map<String, dynamic> json) => Messages(
+UserLocation _$UserLocationFromJson(Map<String, dynamic> json) => UserLocation(
       userId: json['userId'] as String,
-      receiverId: json['receiverId'] as String,
-      message: json['message'] as String,
+      latitude: json['latitude'] as String,
+      longitude: json['longitude'] as String,
     )
       ..id = json['id'] as String?
       ..inclusion = json['inclusion'] == null
@@ -20,12 +20,13 @@ Messages _$MessagesFromJson(Map<String, dynamic> json) => Messages(
           : DateTime.parse(json['alteration'] as String)
       ..active = ZiPartnerCore.fromJsonActive(json['active']);
 
-Map<String, dynamic> _$MessagesToJson(Messages instance) => <String, dynamic>{
+Map<String, dynamic> _$UserLocationToJson(UserLocation instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'inclusion': instance.inclusion?.toIso8601String(),
       'alteration': instance.alteration?.toIso8601String(),
       'active': instance.active,
       'userId': instance.userId,
-      'receiverId': instance.receiverId,
-      'message': instance.message,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
     };
