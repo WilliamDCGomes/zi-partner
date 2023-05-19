@@ -48,6 +48,10 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
-    <string>É necessário a permissão do FaceId para habilitar o login por esse formato!</string>
+    <string>É necessário a permissão para autenticação com o Touch ID ou Face ID</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>É necessário a permissão para Carregar imagens da sua Galeria</string>
+    <key>NSCameraUsageDescription</key>
+    <string>É necessário a permissão para tirar fotos com a Câmera do seu aparelho</string>
 </dict>
 </plist>

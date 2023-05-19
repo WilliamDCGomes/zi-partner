@@ -24,7 +24,5 @@ enum TypeGender {
   @JsonValue(1)
   feminine,
   @JsonValue(2)
-  other,
-  @JsonValue(4)
   none,
 }

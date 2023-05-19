@@ -11,6 +11,7 @@ class BaseService extends GetConnect {
     httpClient.timeout = const Duration(seconds: 30);
     allowAutoSignedCert = true;
   }
+
   Future<String> getToken({bool getTokenForcado = false}) async {
     try {
       sharedPreferences ??= sharedPreferences = await SharedPreferences.getInstance();

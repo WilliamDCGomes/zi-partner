@@ -47,7 +47,7 @@ class LoginController extends GetxController {
     userInputController.text = FormatNumbers.stringToCpf(sharedPreferences.getString("user_logged") ?? "");
     if (kDebugMode) {
       userInputController.text = "Wiuta";
-      passwordInputController.text = "ZiPartner@2023";
+      passwordInputController.text = "12345678";
     }
     await _getKeepConnected();
     if (!cancelFingerPrint) {
@@ -90,9 +90,8 @@ class LoginController extends GetxController {
           await loadingWithSuccessOrErrorWidget.startAnimation();
 
           await _doLoginServer(true);
-          await _getUserInformations();
 
-          if (true || userLogged != null) {
+          if (userLogged != null) {
             await _saveOptions();
 
             await loadingWithSuccessOrErrorWidget.stopAnimation();
@@ -117,15 +116,10 @@ class LoginController extends GetxController {
   loginPressed() async {
     try {
       if (formKey.currentState!.validate()) {
-        _goToNextPage();
-        return;
         await loadingWithSuccessOrErrorWidget.startAnimation();
 
         if (!await _doLoginServer(false)) {
           return;
-        }
-        if (!await _getUserInformations()) {
-          throw Exception();
         }
 
         loginButtonFocusNode.requestFocus();
@@ -168,10 +162,10 @@ class LoginController extends GetxController {
   _saveOptions() async {
     String? oldUser = sharedPreferences.getString("user_logged");
     if (oldUser == null) {
-      await sharedPreferences.setString("user_logged", userInputController.text.replaceAll('.', '').replaceAll('-', ''));
-    } else if (oldUser != userInputController.text.replaceAll('.', '').replaceAll('-', '')) {
+      await sharedPreferences.setString("user_logged", userInputController.text);
+    } else if (oldUser != userInputController.text) {
       await sharedPreferences.remove("user_finger_print");
-      await sharedPreferences.setString("user_logged", userInputController.text.replaceAll('.', '').replaceAll('-', ''));
+      await sharedPreferences.setString("user_logged", userInputController.text);
     }
 
     await sharedPreferences.setBool("keep-connected", keepConected.value);
@@ -188,20 +182,16 @@ class LoginController extends GetxController {
           await sharedPreferences.setString("gender", "Feminino");
           LoggedUserViewController.gender = "Feminino";
           break;
-        case TypeGender.other:
-          await sharedPreferences.setString("gender", "Outro");
-          LoggedUserViewController.gender = "Outro";
-          break;
         case TypeGender.none:
           await sharedPreferences.setString("gender", "Não Informado");
           LoggedUserViewController.gender = "Não Informado";
           break;
       }
-      await sharedPreferences.setString("cellPhone", _user!.cellphone ?? "");
-      await sharedPreferences.setString("email", _user!.email ?? "");
+      await sharedPreferences.setString("cellPhone", _user!.cellphone);
+      await sharedPreferences.setString("email", _user!.email);
       LoggedUserViewController.birthdate = DateFormatToBrazil.formatDate(_user!.birthdayDate);
-      LoggedUserViewController.cellPhone = _user!.cellphone ?? "";
-      LoggedUserViewController.email = _user!.email ?? "";
+      LoggedUserViewController.cellPhone = _user!.cellphone ;
+      LoggedUserViewController.email = _user!.email;
     }
 
     if (userLogged != null) {
@@ -231,11 +221,11 @@ class LoginController extends GetxController {
         }
       }
       if (await InternetConnection.checkConnection()) {
-        /*userLogged = await _userService
+        userLogged = await _userService
             .authenticate(
               username: fromBiometric
                   ? username
-                  : userInputController.text.replaceAll('.', '').replaceAll('-', '').toLowerCase().trim(),
+                  : userInputController.text.toLowerCase().trim(),
               password: fromBiometric ? password : passwordInputController.text.trim(),
             );
         if (!fromBiometric) {
@@ -246,7 +236,7 @@ class LoginController extends GetxController {
           return false;
         }
         await sharedPreferences.setString('Token', userLogged!.token!);
-        await sharedPreferences.setString('ExpiracaoToken', userLogged!.expirationDate!.toIso8601String());*/
+        await sharedPreferences.setString('ExpiracaoToken', userLogged!.expirationDate!.toIso8601String());
         return true;
       }
       else {
@@ -255,14 +245,6 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       await _resetLogin("Erro ao se conectar com o servidor.");
-      return false;
-    }
-  }
-
-  Future<bool> _getUserInformations() async {
-    try {
-      return true;
-    } catch (_) {
       return false;
     }
   }
