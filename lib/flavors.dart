@@ -34,11 +34,11 @@ class F {
   static String get baseURL {
     switch (appFlavor) {
       case Flavor.hmlg:
-        return 'https://192.168.1.35:5001/api/';
+        return 'http://192.168.1.35:5000/api/';
       case Flavor.prod:
-        return 'https://192.168.1.35:5001/api/';
+        return 'http://192.168.1.35:5000/api/';
       default:
-        return 'https://192.168.1.35:5001/api/';
+        return 'http://192.168.1.35:5000/';
     }
   }
 

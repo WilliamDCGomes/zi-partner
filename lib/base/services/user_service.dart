@@ -33,8 +33,7 @@ class UserService extends BaseService implements IUserService {
       final url = '${baseUrlApi}User/Authenticate';
       final response = await super.post(
         url,
-        null,
-        query: {
+        {
           "username": username,
           "password": password,
         },
