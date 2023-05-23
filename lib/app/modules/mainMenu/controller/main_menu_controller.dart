@@ -26,14 +26,8 @@ class MainMenuController extends GetxController {
 
   _initializeVariables(){
     LoggedUser.name = "Rafael Torres Alváres";
-    LoggedUser.birthdate = "20/04/1996";
+    LoggedUser.birthdayDate = "20/04/1996";
     LoggedUser.gender = TypeGender.masculine;
-    LoggedUser.cep = "00000-000";
-    LoggedUser.uf = "SP";
-    LoggedUser.city = "São Paulo";
-    LoggedUser.street = "Avenida Paulista";
-    LoggedUser.houseNumber = "4-4";
-    LoggedUser.neighborhood = "Avenida Paulista";
     LoggedUser.cellPhone = "99999-9999";
     LoggedUser.email = "teste@teste.com";
 

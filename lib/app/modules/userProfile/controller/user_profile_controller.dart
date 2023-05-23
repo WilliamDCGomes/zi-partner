@@ -150,7 +150,7 @@ class UserProfileController extends GetxController {
 
   _getUserInformation(){
     nameTextController.text = LoggedUser.name;
-    birthDateTextController.text = LoggedUser.birthdate;
+    birthDateTextController.text = LoggedUser.birthdayDate;
     genderSelected.value = LoggedUser.gender == TypeGender.masculine ? genderList[0] : genderList[1];
     cellPhoneTextController.text = LoggedUser.cellPhone ?? "";
     emailTextController.text = LoggedUser.email;

@@ -29,7 +29,7 @@ class ForgotPasswordController extends GetxController {
     try{
       if(formKey.currentState!.validate()){
         await loadingWithSuccessOrErrorWidget.startAnimation();
-        if(await _userService.resetPassword(emailInputController.text)){
+        /*if(await _userService.resetPassword(emailInputController.text)){
           await loadingWithSuccessOrErrorWidget.stopAnimation();
           await showDialog(
             context: Get.context!,
@@ -41,7 +41,7 @@ class ForgotPasswordController extends GetxController {
             },
           );
           await Get.offAll(() => const LoginPage());
-        }
+        }*/
         throw Exception();
       }
     }

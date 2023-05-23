@@ -7,7 +7,7 @@ class GetProfilePictureController {
   static loadProfilePicture(RxBool loadingPicture, RxBool hasPicture, RxString profileImagePath, IUserService userService) async {
     try{
       loadingPicture.value = true;
-      profileImagePath.value = await userService.getUserProfilePicture();
+      //profileImagePath.value = await userService.getUserProfilePicture();
       loadingPicture.value = false;
       hasPicture.value = profileImagePath.value.isNotEmpty;
     }

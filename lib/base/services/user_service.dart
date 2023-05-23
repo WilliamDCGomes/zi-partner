@@ -1,25 +1,10 @@
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zi_partner/app/utils/helpers/paths.dart';
 import '../models/user/user.dart';
 import '../viewControllers/authenticateResponse/authenticate_response.dart';
 import 'base/base_service.dart';
 import 'interfaces/iuser_service.dart';
 
 class UserService extends BaseService implements IUserService {
-
-  @override
-  Future<String> getUserProfilePicture() async {
-    try{
-      return Paths.profilePicture;
-    }
-    catch(_){
-      return "";
-    }
-  }
-
   @override
   Future<AuthenticateResponse?> authenticate({String? username, String? password}) async {
     try {
@@ -48,117 +33,51 @@ class UserService extends BaseService implements IUserService {
     }
   }
 
-  Future<List<User>> getAll() async {
-    try {
-      return [];
-    } catch (_) {
-      return [];
-    }
-  }
-
   @override
   Future<bool> createUser(User user) async {
     try {
-      return false;
+      final url = '${baseUrlApi}User/CreateUser';
+      final response = await super.post(url, user.toJson());
+      if (hasErrorResponse(response)) throw Exception();
+      return response.body != null;
     } catch (_) {
       return false;
     }
   }
 
   @override
-  Future<bool> editUser(User user) async {
+  Future<bool> updateUser(User user) async {
     try {
-      return false;
+      final token = await getToken();
+      final url = '${baseUrlApi}User/UpdateUser';
+      final response = await super.put(url, user.toJson(), headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response)) throw Exception();
+      return response.body != null;
     } catch (e) {
       return false;
     }
   }
 
   @override
-  Future<User?> getUser(String cpf) async {
+  Future<User?> getUserInformation(String userName) async {
     try {
-      return null;
+      final token = await getToken();
+      final url = '${baseUrlApi}User/GetUserInformation';
+      final response = await super.get(url, query: {"UserName": userName}, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response)) throw Exception();
+      return User.fromJson(response.body);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<String> getCpf(int studentRa) async {
+  Future<bool> forgetPassword(String userName, String password) async {
     try {
-      return "";
-    } catch (_) {
-      return "";
-    }
-  }
-
-  @override
-  Future<String> getEmail(String userCpf) async {
-    try {
-      return "";
-    } catch (_) {
-      return "";
-    }
-  }
-
-  @override
-  Future<String> getName(String userCpf) async {
-    try {
-      return "";
-    } catch (_) {
-      return "";
-    }
-  }
-
-  @override
-  Future<bool> registerNewUser(String email, String password) async {
-    try {
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> updatePassword(String newPassword) async {
-    try {
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> resetPassword(String email) async {
-    try {
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> loggedUser() async {
-    try {
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> loginUser(String email, String password) async {
-    try {
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> logoutUser() async {
-    try {
-      return true;
+      final url = '${baseUrlApi}User/ForgetPassword';
+      final response = await super.put(url, null, query: {"UserName": userName, "Password": password});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body;
     } catch (_) {
       return false;
     }
@@ -167,17 +86,24 @@ class UserService extends BaseService implements IUserService {
   @override
   Future<bool> forgetPasswordInternal(String password) async {
     try {
-      return true;
+      final url = '${baseUrlApi}User/ForgetPasswordInternal';
+      final response = await super.put(url, null, query: {"Password": password});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body;
     } catch (_) {
       return false;
     }
   }
-}
 
-class MyHttpOverrides extends HttpOverrides{
   @override
-  HttpClient createHttpClient(SecurityContext? context){
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  Future<bool> deleteUser(String userId) async {
+    try {
+      final url = '${baseUrlApi}User/DeleteUser';
+      final response = await super.delete(url, query: {"UserId": userId});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body;
+    } catch (_) {
+      return false;
+    }
   }
 }

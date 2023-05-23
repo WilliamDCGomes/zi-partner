@@ -60,12 +60,12 @@ class ResetPasswordController extends GetxController {
 
   Future<bool?> _validPasswordReset() async {
     try{
-      bool valid =  await _userService.loginUser(
-        LoggedUser.email,
-        oldPasswordInput.text,
+      var valid =  await _userService.authenticate(
+        username: LoggedUser.userName,
+        password: oldPasswordInput.text,
       );
 
-      return valid;
+      return valid != null;
     }
     catch(_){
       return null;
@@ -95,7 +95,7 @@ class ResetPasswordController extends GetxController {
             var valid = await _validPasswordReset();
 
             if(valid ?? false){
-              if(await _userService.updatePassword(newPasswordInput.text)){
+              if(await _userService.forgetPasswordInternal(newPasswordInput.text)){
                 await loadingWithSuccessOrErrorWidget.stopAnimation();
                 await showDialog(
                   context: Get.context!,
