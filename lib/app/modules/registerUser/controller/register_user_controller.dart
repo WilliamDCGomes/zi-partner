@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:zi_partner/app/enums/enums.dart';
+import 'package:zi_partner/base/models/user/user.dart';
+import 'package:zi_partner/base/services/gym_service.dart';
+import 'package:zi_partner/base/services/user_service.dart';
+import '../../../../base/services/interfaces/igym_service.dart';
+import '../../../../base/services/interfaces/iuser_service.dart';
+import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/helpers/internet_connection.dart';
 import '../../../utils/helpers/loading.dart';
 import '../../../utils/helpers/masks_for_text_fields.dart';
@@ -74,6 +81,9 @@ class RegisterUserController extends GetxController {
   late List<BodyRegisterStepperWidget> bodyRegisterStepperList;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
   late ScrollController imagesListController;
+  late User newUser;
+  late IUserService _userService;
+  late IGymService _gymService;
 
   RegisterUserController(){
     _initializeVariables();
@@ -196,6 +206,9 @@ class RegisterUserController extends GetxController {
         controller: this,
       ),
     ];
+    _userService = UserService();
+    _gymService = GymService();
+    newUser = User.empty();
   }
 
   _validPersonalInformationAndAdvanceNextStep() async {
@@ -210,29 +223,39 @@ class RegisterUserController extends GetxController {
         },
       );
     }
-    /*else if(await studentService.verificationStudentExists(cpfTextController.text)){
+    else if(await _userService.checkUserNameAlreadyRegistered(userNameTextController.text)){
       showDialog(
         context: Get.context!,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "O CPF já está cadastrado no sistema.",
+          return InformationPopup(
+            warningMessage: "O login \"${userNameTextController.text.toUpperCase()}\" já está cadastrado no sistema. Informe um diferente!",
           );
         },
       );
-    }*/
+    }
     else{
-      /*newUser.name = nameTextController.text;
-      newUser.birthdate = birthDateTextController.text;
-      newUser.cpf = cpfTextController.text;
-      newStudent.cpf = cpfTextController.text;
-      newUser.gender = genderSelected.value;*/
+      newUser.name = nameTextController.text;
+      newUser.userName = userNameTextController.text;
+      newUser.birthdayDate = DateFormatToBrazil.formatDateFromTextField(birthDateTextController.text);
+      newUser.gender = genderSelected.value == "Masculino" ? TypeGender.masculine : TypeGender.feminine;
       _nextPage();
     }
   }
 
   _validEmailAndAdvanceNextStep() async {
-    if(false){//await studentService.verificationEmailExists(emailTextController.text)){
+    if(await _userService.checkCellphoneAlreadyRegistered(cellPhoneTextController.text)){
+      showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const InformationPopup(
+            warningMessage: "O número do celular já está cadastrado no sistema.",
+          );
+        },
+      );
+    }
+    else if(await _userService.checkEmailAlreadyRegistered(emailTextController.text)){
       showDialog(
         context: Get.context!,
         barrierDismissible: false,
@@ -312,7 +335,7 @@ class RegisterUserController extends GetxController {
         break;
       case 1:
         if(formKeyPasswordInformation.currentState!.validate()){
-          //newStudent.password = passwordTextController.text;
+          newUser.password = passwordTextController.text;
           _nextPage();
         }
         break;
@@ -378,6 +401,20 @@ class RegisterUserController extends GetxController {
           _nextPage();
         }
         break;
+    }
+  }
+
+  searchGymsByName() async {
+    try {
+      var teste = await _gymService.getGymsByName(gymNameTextController.text);
+      if(teste != null) {
+        for(var te in teste){
+          print(te.name);
+        }
+      }
+    }
+    catch(_) {
+
     }
   }
 

@@ -8,6 +8,12 @@ abstract class IUserService {
 
   Future<bool> updateUser(User user);
 
+  Future<bool> checkUserNameAlreadyRegistered(String userName);
+
+  Future<bool> checkCellphoneAlreadyRegistered(String cellphone);
+
+  Future<bool> checkEmailAlreadyRegistered(String email);
+
   Future<User?> getUserInformation(String userName);
 
   Future<bool> forgetPassword(String userName, String password);

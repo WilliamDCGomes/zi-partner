@@ -335,6 +335,7 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
                           height: PlatformType.isTablet(context) ? 7.h : 9.h,
                           keyboardType: TextInputType.name,
                           textCapitalization: TextCapitalization.words,
+                          onChanged: (_) => widget.controller.searchGymsByName(),
                         ),
                       ),
                       SizedBox(

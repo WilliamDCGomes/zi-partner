@@ -57,7 +57,7 @@ class TextFieldValidators {
     if (value == null || value.trim().isEmpty) {
       return "Informe a Senha";
     }
-    if (value.trim().length < 6) {
+    if (value.trim().length < 8) {
       return "A senha deve conter no mínimo 6 dígitos";
     }
     return null;

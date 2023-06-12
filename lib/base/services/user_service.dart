@@ -59,6 +59,42 @@ class UserService extends BaseService implements IUserService {
   }
 
   @override
+  Future<bool> checkUserNameAlreadyRegistered(String userName) async {
+    try {
+      final url = '${baseUrlApi}User/CheckUserNameAlreadyRegistered';
+      final response = await super.get(url, query: {"UserName": userName});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> checkCellphoneAlreadyRegistered(String cellphone) async {
+    try {
+      final url = '${baseUrlApi}User/CheckCellphoneAlreadyRegistered';
+      final response = await super.get(url, query: {"Cellphone": cellphone});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> checkEmailAlreadyRegistered(String email) async {
+    try {
+      final url = '${baseUrlApi}User/CheckEmailAlreadyRegistered';
+      final response = await super.get(url, query: {"Email": email});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
   Future<User?> getUserInformation(String userName) async {
     try {
       final token = await getToken();

@@ -29,13 +29,12 @@ class GymService extends BaseService implements IGymService {
   }
 
   @override
-  Future<Gym?> getGym(String gymName) async {
+  Future<List<Gym>?> getGymsByName(String gymName) async {
     try {
-      final token = await getToken();
-      final url = '${baseUrlApi}Gym/GetGym';
-      final response = await super.get(url, query: {"GymName": gymName}, headers: {"Authorization": 'Bearer $token'});
+      final url = '${baseUrlApi}Gym/GetGymsByName';
+      final response = await super.get(url, query: {"GymName": gymName});
       if (hasErrorResponse(response)) throw Exception();
-      return Gym.fromJson(response.body);
+      return (response.body as List).map((e) => Gym.fromJson(e)).toList();
     } catch (_) {
       return null;
     }

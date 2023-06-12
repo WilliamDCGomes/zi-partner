@@ -5,5 +5,5 @@ abstract class IGymService {
 
   Future<bool> updateGym(Gym gym);
 
-  Future<Gym?> getGym(String gymName);
+  Future<List<Gym>?> getGymsByName(String gymName);
 }
