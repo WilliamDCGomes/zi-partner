@@ -36,6 +36,7 @@ dependencies:
   flutter_flavorizr: ^2.1.5
   lazy_loading_list: ^1.0.1
   package_info_plus: ^3.0.3
+  dropdown_textfield: ^1.0.8
   shared_preferences: ^2.0.20
   flutter_localization: ^0.1.10
   flutter_image_compress: ^1.1.3

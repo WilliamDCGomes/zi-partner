@@ -129,7 +129,6 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.symmetric(horizontal: 10.w),
                         child: Column(
                           children: [
-
                             Expanded(
                               child: Form(
                                 key: controller.formKey,
@@ -233,6 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                                                     onChanged: (){
                                                       controller.keepConected.value = !controller.keepConected.value;
                                                     },
+                                                    withExpanded: false,
                                                   ),
                                                 ),
                                                 TextButtonWidget(

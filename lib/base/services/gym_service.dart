@@ -39,4 +39,16 @@ class GymService extends BaseService implements IGymService {
       return null;
     }
   }
+
+  @override
+  Future<List<Gym>?> getAllGyms() async {
+    try {
+      final url = '${baseUrlApi}Gym/GetAllGyms';
+      final response = await super.get(url);
+      if (hasErrorResponse(response)) throw Exception();
+      return (response.body as List).map((e) => Gym.fromJson(e)).toList();
+    } catch (_) {
+      return null;
+    }
+  }
 }

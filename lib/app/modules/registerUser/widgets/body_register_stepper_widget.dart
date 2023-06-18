@@ -324,30 +324,16 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: TextFieldWidget(
-                          controller: widget.controller.gymNameTextController,
-                          hintText: "Nome da Academia",
-                          textInputAction: TextInputAction.done,
-                          height: PlatformType.isTablet(context) ? 7.h : 9.h,
-                          keyboardType: TextInputType.name,
-                          textCapitalization: TextCapitalization.words,
-                          onChanged: (_) => widget.controller.searchGymsByName(),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      ButtonWidget(
-                        hintText: "OK",
-                        widthButton: 20.w,
-                        fontWeight: FontWeight.bold,
-                        onPressed: () => widget.controller.addGyms(),
-                      ),
-                    ],
+                  Center(
+                    child: ButtonWidget(
+                      hintText: "Selecionar Academias",
+                      fontWeight: FontWeight.bold,
+                      widthButton: 75.w,
+                      onPressed: () => widget.controller.addGyms(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2.h,
                   ),
                   TextWidget(
                     "Academias",
@@ -361,8 +347,8 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
                   ),
                   Expanded(
                     child: Obx(
-                          () => Visibility(
-                        visible: widget.controller.gymsList.isNotEmpty,
+                      () => Visibility(
+                        visible: widget.controller.gyms.isNotEmpty,
                         replacement: Center(
                           child: TextWidget(
                             "Nenhuma academia adicionada",
@@ -373,9 +359,9 @@ class _BodyRegisterStepperWidgetState extends State<BodyRegisterStepperWidget> {
                         ),
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: widget.controller.gymsList.length,
+                          itemCount: widget.controller.gyms.length,
                           itemBuilder: (context, index) => GymItemList(
-                            gymName: widget.controller.gymsList[index],
+                            gymName: widget.controller.gyms[index].name,
                             onDelete: () => widget.controller.deleteGyms(index)
                           ),
                         ),

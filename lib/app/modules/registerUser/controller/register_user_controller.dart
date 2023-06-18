@@ -1,13 +1,14 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:zi_partner/app/enums/enums.dart';
+import 'package:zi_partner/base/models/gym/gym.dart';
 import 'package:zi_partner/base/models/user/user.dart';
-import 'package:zi_partner/base/services/gym_service.dart';
 import 'package:zi_partner/base/services/user_service.dart';
-import '../../../../base/services/interfaces/igym_service.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
+import '../../../selectGyms/page/select_gyms_page.dart';
 import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/helpers/internet_connection.dart';
 import '../../../utils/helpers/loading.dart';
@@ -44,46 +45,47 @@ class RegisterUserController extends GetxController {
   late RxString ufSelected;
   late RxString genderSelected;
   late List<String> genderList;
-  late RxList<String> gymsList;
+  late List<Gym> internGyms;
+  late RxList<Gym> gyms;
   late RxList<String> images;
+  late RxList<DropDownValueModel> gymsList;
   late final GlobalKey<FormState> formKeyPersonalInformation;
   late final GlobalKey<FormState> formKeyContactInformation;
   late final GlobalKey<FormState> formKeyAddressInformation;
   late final GlobalKey<FormState> formKeyPasswordInformation;
+  late final TextEditingController nameTextController;
+  late final TextEditingController userNameTextController;
+  late final TextEditingController birthDateTextController;
+  late final TextEditingController cepTextController;
+  late final TextEditingController cityTextController;
+  late final TextEditingController streetTextController;
+  late final TextEditingController houseNumberTextController;
+  late final TextEditingController neighborhoodTextController;
+  late final TextEditingController complementTextController;
+  late final TextEditingController cellPhoneTextController;
+  late final TextEditingController emailTextController;
+  late final TextEditingController confirmEmailTextController;
+  late final TextEditingController passwordTextController;
+  late final TextEditingController confirmPasswordTextController;
+  late final TextEditingController aboutMeTextController;
+  late final SingleValueDropDownController gymNameTextController;
+  late final FocusNode loginFocusNode;
+  late final FocusNode birthDateFocusNode;
+  late final FocusNode streetFocusNode;
+  late final FocusNode houseNumberFocusNode;
+  late final FocusNode neighborhoodFocusNode;
+  late final FocusNode complementFocusNode;
+  late final FocusNode cellPhoneFocusNode;
+  late final FocusNode emailFocusNode;
+  late final FocusNode confirmEmailFocusNode;
+  late final FocusNode confirmPasswordFocusNode;
   late MaskTextInputFormatter maskCellPhoneFormatter;
-  late TextEditingController nameTextController;
-  late TextEditingController userNameTextController;
-  late TextEditingController birthDateTextController;
-  late TextEditingController cepTextController;
-  late TextEditingController cityTextController;
-  late TextEditingController streetTextController;
-  late TextEditingController houseNumberTextController;
-  late TextEditingController neighborhoodTextController;
-  late TextEditingController complementTextController;
-  late TextEditingController cellPhoneTextController;
-  late TextEditingController emailTextController;
-  late TextEditingController confirmEmailTextController;
-  late TextEditingController passwordTextController;
-  late TextEditingController confirmPasswordTextController;
-  late TextEditingController gymNameTextController;
-  late TextEditingController aboutMeTextController;
-  late FocusNode loginFocusNode;
-  late FocusNode birthDateFocusNode;
-  late FocusNode streetFocusNode;
-  late FocusNode houseNumberFocusNode;
-  late FocusNode neighborhoodFocusNode;
-  late FocusNode complementFocusNode;
-  late FocusNode cellPhoneFocusNode;
-  late FocusNode emailFocusNode;
-  late FocusNode confirmEmailFocusNode;
-  late FocusNode confirmPasswordFocusNode;
   late List<HeaderRegisterStepperWidget> headerRegisterStepperList;
   late List<BodyRegisterStepperWidget> bodyRegisterStepperList;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
   late ScrollController imagesListController;
   late User newUser;
   late IUserService _userService;
-  late IGymService _gymService;
 
   RegisterUserController(){
     _initializeVariables();
@@ -109,8 +111,10 @@ class RegisterUserController extends GetxController {
     confirmEmailInputHasError = false.obs;
     passwordInputHasError = false.obs;
     confirmPasswordInputHasError = false.obs;
-    gymsList = <String>[].obs;
+    gymsList = <DropDownValueModel>[].obs;
     images = <String>[].obs;
+    gyms = <Gym>[].obs;
+    internGyms = <Gym>[];
     genderList = [
       "Masculino",
       "Feminino",
@@ -134,8 +138,8 @@ class RegisterUserController extends GetxController {
     confirmEmailTextController = TextEditingController();
     passwordTextController = TextEditingController();
     confirmPasswordTextController = TextEditingController();
-    gymNameTextController = TextEditingController();
     aboutMeTextController = TextEditingController();
+    gymNameTextController = SingleValueDropDownController();
     loginFocusNode = FocusNode();
     birthDateFocusNode = FocusNode();
     streetFocusNode = FocusNode();
@@ -207,7 +211,6 @@ class RegisterUserController extends GetxController {
       ),
     ];
     _userService = UserService();
-    _gymService = GymService();
     newUser = User.empty();
   }
 
@@ -267,9 +270,8 @@ class RegisterUserController extends GetxController {
       );
     }
     else{
-      /*newUser.phone = phoneTextController.text;
-      newUser.cellPhone = cellPhoneTextController.text;
-      newUser.email = emailTextController.text;*/
+      newUser.cellphone = cellPhoneTextController.text;
+      newUser.email = emailTextController.text;
       _nextPage();
     }
   }
@@ -404,20 +406,6 @@ class RegisterUserController extends GetxController {
     }
   }
 
-  searchGymsByName() async {
-    try {
-      var teste = await _gymService.getGymsByName(gymNameTextController.text);
-      if(teste != null) {
-        for(var te in teste){
-          print(te.name);
-        }
-      }
-    }
-    catch(_) {
-
-    }
-  }
-
   backButtonPressed() async {
     int currentIndex = activeStep.value;
     if (activeStep.value > 0) {
@@ -450,24 +438,9 @@ class RegisterUserController extends GetxController {
     );
   }
 
-  addGyms() {
-    if(gymNameTextController.text.isNotEmpty){
-      FocusScope.of(Get.context!).requestFocus(FocusNode());
-      gymsList.add(gymNameTextController.text);
-      gymNameTextController.clear();
-      gymsList.sort((a, b) => a.compareTo(b));
-    }
-    else{
-      showDialog(
-        context: Get.context!,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "Informe o nome da academia para adicionar ela á lista!",
-          );
-        },
-      );
-    }
+  addGyms() async {
+    Get.to(() => const SelectGymsPage());
+    return;
   }
 
   deleteGyms(int index) async {
@@ -486,8 +459,8 @@ class RegisterUserController extends GetxController {
     );
 
     if(validation) {
-      gymsList.removeAt(index);
-      gymsList.sort((a, b) => a.compareTo(b));
+      gyms.removeAt(index);
+      gyms.sort((a, b) => a.name.compareTo(b.name));
       SnackbarWidget(
         warningText: "Aviso",
         informationText: "Academia removido da lista com sucesso",

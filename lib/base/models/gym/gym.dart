@@ -6,9 +6,12 @@ part 'gym.g.dart';
 @JsonSerializable()
 class Gym extends ZiPartnerCore {
   late String name;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  late bool selected;
 
   Gym({
     required this.name,
+    this.selected = false,
   });
 
   factory Gym.fromJson(Map<String, dynamic> json) => _$GymFromJson(json);
