@@ -89,14 +89,37 @@ class _SelectGymsPageState extends State<SelectGymsPage> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 4.w, top: 2.h, right: 4.w),
-                                  child: TextFieldWidget(
-                                    controller: controller.gymsName,
-                                    hintText: "Digite o nome da academia",
-                                    height: PlatformType.isTablet(context) ? 7.h : 9.h,
-                                    width: double.infinity,
-                                    keyboardType: TextInputType.name,
-                                    enableSuggestions: true,
-                                    onChanged: (_) => controller.filterGymsByName(),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: TextFieldWidget(
+                                          controller: controller.gymsName,
+                                          hintText: "Digite o nome da academia",
+                                          height: PlatformType.isTablet(context) ? 7.h : 9.h,
+                                          keyboardType: TextInputType.name,
+                                          enableSuggestions: true,
+                                          onChanged: (_) => controller.filterGymsByName(),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 1.h,),
+                                        child: GetBuilder(
+                                          init: controller,
+                                          id: "button-add-new-gym",
+                                          builder: (_) => ButtonWidget(
+                                            hintText: "OK",
+                                            fontWeight: FontWeight.bold,
+                                            widthButton: 15.w,
+                                            borderColor: controller.gymsName.text.isNotEmpty ? null : AppColors.grayStepColor,
+                                            onPressed: controller.gymsName.text.isNotEmpty ? () {
+                                              FocusScope.of(context).requestFocus(FocusNode());
+                                              controller.addGymToList();
+                                            } : null,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 ListView.builder(

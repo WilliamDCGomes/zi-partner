@@ -4,6 +4,7 @@ import 'package:zi_partner/base/models/gym/gym.dart';
 import '../../../base/services/gym_service.dart';
 import '../../../base/services/interfaces/igym_service.dart';
 import '../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
+import '../../utils/sharedWidgets/popups/information_popup.dart';
 
 class SelectGymsController extends GetxController {
   late RxList<Gym> gyms;
@@ -36,7 +37,7 @@ class SelectGymsController extends GetxController {
       gyms.clear();
       gyms.value = (await _gymService.get10FirstGyms() ?? <Gym>[]);
       gyms.sort((a, b) => a.name.compareTo(b.name));
-      _selectGymsAlreadySelected();
+      await _selectGymsAlreadySelected();
       update(["gyms-list"]);
       await loadingWithSuccessOrErrorWidget.stopAnimation(justLoading: true);
     }
@@ -47,11 +48,12 @@ class SelectGymsController extends GetxController {
 
   filterGymsByName() async {
     try {
+      update(["button-add-new-gym"]);
       if(gymsName.text.isNotEmpty) {
         gyms.clear();
         gyms.value = (await _gymService.getGymsByName(gymsName.text) ?? <Gym>[]);
         gyms.sort((a, b) => a.name.compareTo(b.name));
-        _selectGymsAlreadySelected();
+        await _selectGymsAlreadySelected(filterPerName: true);
         update(["gyms-list"]);
       }
     }
@@ -60,11 +62,22 @@ class SelectGymsController extends GetxController {
     }
   }
 
-  _selectGymsAlreadySelected() {
+  _selectGymsAlreadySelected({bool filterPerName = false}) async {
     for(var gym in selectedGyms) {
-      for(var secondGym in gyms) {
-        if(secondGym.id == gym.id) {
-          secondGym.selected = true;
+      if(gym.id != null && gym.id!.isNotEmpty && !gyms.any((element) => element.id == gym.id) && !await _gymService.checkIfGymExist(gym.id!)) {
+        if(filterPerName && gym.name.trim().toLowerCase().contains(gymsName.text.trim().toLowerCase())) {
+          gyms.add(gym);
+        }
+        else if(!filterPerName){
+          gyms.add(gym);
+        }
+      }
+      else{
+        for(var secondGym in gyms) {
+          if(secondGym.id == gym.id) {
+            secondGym.selected = true;
+            break;
+          }
         }
       }
     }
@@ -85,17 +98,30 @@ class SelectGymsController extends GetxController {
     }
   }
 
-  addGymToList(String gymName) async {
-    final newGym = Gym(
-      name: gymName,
-      selected: true,
-    );
-    if (gymName.isNotEmpty && await _gymService.createGym(newGym)) {
-      gyms.add(newGym);
-      gyms.sort((a, b) => a.name.compareTo(b.name));
-      update(["gyms-list"]);
+  addGymToList() async {
+    if (gymsName.text.isNotEmpty) {
+      if(selectedGyms.any((gym) => gym.name.trim().toLowerCase() == gymsName.text.trim().toLowerCase()) || await _gymService.checkIfGymExistByName(gymsName.text)) {
+        showDialog(
+          context: Get.context!,
+          builder: (BuildContext context) {
+            return const InformationPopup(
+              warningMessage: "Essa academia já está cadastrada no sistema!\nPor favor, selecione ela ao invés de adicionar novamente.",
+            );
+          },
+        );
+      }
+      else {
+        final newGym = Gym(
+          name: gymsName.text,
+          selected: true,
+        );
+        await _get10FirstGyms();
+        gyms.add(newGym);
+        selectedGyms.add(newGym);
+        gyms.sort((a, b) => a.name.compareTo(b.name));
+        gymsName.clear();
+        update(["gyms-list"]);
+      }
     }
-    gyms.refresh();
-    Get.back();
   }
 }

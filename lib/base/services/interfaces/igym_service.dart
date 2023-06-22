@@ -5,6 +5,10 @@ abstract class IGymService {
 
   Future<bool> updateGym(Gym gym);
 
+  Future<bool> checkIfGymExist(String gymId);
+
+  Future<bool> checkIfGymExistByName(String gymName);
+
   Future<List<Gym>?> getGymsByName(String gymName);
 
   Future<List<Gym>?> get10FirstGyms();

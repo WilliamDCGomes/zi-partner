@@ -29,6 +29,30 @@ class GymService extends BaseService implements IGymService {
   }
 
   @override
+  Future<bool> checkIfGymExist(String gymId) async {
+    try {
+      final url = '${baseUrlApi}Gym/CheckIfGymExist';
+      final response = await super.get(url, query: {"GymId": gymId});
+      if (hasErrorResponse(response)) throw Exception();
+      return response.body as bool;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> checkIfGymExistByName(String gymName) async {
+    try {
+      final url = '${baseUrlApi}Gym/CheckIfGymExistByName';
+      final response = await super.get(url, query: {"GymName": gymName});
+      if (hasErrorResponse(response)) throw Exception();
+      return response.body as bool;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
   Future<List<Gym>?> getGymsByName(String gymName) async {
     try {
       final url = '${baseUrlApi}Gym/GetGymsByName';
