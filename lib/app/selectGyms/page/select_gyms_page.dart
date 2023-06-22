@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../base/models/gym/gym.dart';
 import '../../modules/registerUser/widgets/header_register_stepper_widget.dart';
+import '../../utils/helpers/platform_type.dart';
 import '../../utils/sharedWidgets/button_widget.dart';
-import '../../utils/sharedWidgets/checkbox_list_tile_widget.dart';
-import '../../utils/sharedWidgets/text_button_widget.dart';
+import '../../utils/sharedWidgets/text_field_widget.dart';
 import '../../utils/sharedWidgets/title_with_back_button_widget.dart';
 import '../../utils/stylePages/app_colors.dart';
 import '../controller/select_gyms_controller.dart';
 import '../widget/gym_widget.dart';
 
 class SelectGymsPage extends StatefulWidget {
-  const SelectGymsPage({Key? key}) : super(key: key);
+  final List<Gym> selectedGyms;
+
+  const SelectGymsPage({
+    Key? key,
+    required this.selectedGyms,
+  }) : super(key: key);
 
   @override
   State<SelectGymsPage> createState() => _SelectGymsPageState();
@@ -22,7 +28,10 @@ class _SelectGymsPageState extends State<SelectGymsPage> {
 
   @override
   void initState() {
-    controller = Get.put(SelectGymsController(), tag: "gym-controller");
+    controller = Get.put(
+      SelectGymsController(widget.selectedGyms),
+      tag: "gym-controller",
+    );
     super.initState();
   }
 
@@ -49,6 +58,7 @@ class _SelectGymsPageState extends State<SelectGymsPage> {
                   child: Scaffold(
                     backgroundColor: AppColors.transparentColor,
                     body: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 2.h,),
@@ -63,57 +73,44 @@ class _SelectGymsPageState extends State<SelectGymsPage> {
                           ),
                         ),
                         Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 1.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          child: GetBuilder(
+                            init: controller,
+                            id: "gyms-list",
+                            builder: (_) => ListView(
+                              shrinkWrap: true,
                               children: [
-                                const HeaderRegisterStepperWidget(
-                                  firstText: "PASSO 4 DE 6",
-                                  secondText: "Academias Frequentadas",
-                                  thirdText: "Selecione uma academia ou adicione uma nova.",
-                                ),
-                                Obx(
-                                  () => TextButtonWidget(
-                                    onTap: () => controller.selectAllCategories(),
-                                    width: 45.w,
-                                    componentPadding: EdgeInsets.only(left: 4.w),
-                                    widgetCustom: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: CheckboxListTileWidget(
-                                        radioText: "Selecionar Todos",
-                                        size: 2.h,
-                                        checked: controller.allGymsSelected.value,
-                                        justRead: true,
-                                        onChanged: (){},
-                                      ),
-                                    ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.h),
+                                  child: const HeaderRegisterStepperWidget(
+                                    firstText: "PASSO 4 DE 6",
+                                    secondText: "Academias Frequentadas",
+                                    thirdText: "Selecione uma academia ou adicione uma nova.",
                                   ),
                                 ),
-                                Expanded(
-                                  child: GetBuilder(
-                                    init: controller,
-                                    id: "gyms-list",
-                                    builder: (_) => ListView.builder(
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.only(left: 4.w, bottom: 5.h, right: 4.w),
-                                      itemCount: controller.gyms.length,
-                                      itemBuilder: (context, index) => GymWidget(
-                                        gym: controller.gyms[index],
-                                        onTap: () async {
-                                          setState(() {
-                                            controller.gyms[index].selected = !controller.gyms[index].selected;
-                                            if(controller.allGymsSelected.value && !controller.gyms[index].selected){
-                                              controller.allGymsSelected.value = controller.gyms[index].selected;
-                                            }
-                                            else {
-                                              controller.allGymsSelected.value = (!controller.allGymsSelected.value && controller.gyms[index].selected && controller.gyms.length == 1) ||
-                                                  (!controller.allGymsSelected.value && controller.gyms.where((category) => category.selected).length == controller.gyms.length);
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 4.w, top: 2.h, right: 4.w),
+                                  child: TextFieldWidget(
+                                    controller: controller.gymsName,
+                                    hintText: "Digite o nome da academia",
+                                    height: PlatformType.isTablet(context) ? 7.h : 9.h,
+                                    width: double.infinity,
+                                    keyboardType: TextInputType.name,
+                                    enableSuggestions: true,
+                                    onChanged: (_) => controller.filterGymsByName(),
+                                  ),
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.only(left: 4.w, bottom: 5.h, right: 4.w),
+                                  itemCount: controller.gyms.length,
+                                  itemBuilder: (context, index) => GymWidget(
+                                    gym: controller.gyms[index],
+                                    onTap: () async {
+                                      setState(() {
+                                        controller.selectGym(index);
+                                      });
+                                    },
                                   ),
                                 ),
                               ],

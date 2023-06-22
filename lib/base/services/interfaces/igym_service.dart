@@ -7,5 +7,5 @@ abstract class IGymService {
 
   Future<List<Gym>?> getGymsByName(String gymName);
 
-  Future<List<Gym>?> getAllGyms();
+  Future<List<Gym>?> get10FirstGyms();
 }

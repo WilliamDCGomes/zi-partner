@@ -439,8 +439,11 @@ class RegisterUserController extends GetxController {
   }
 
   addGyms() async {
-    Get.to(() => const SelectGymsPage());
-    return;
+    var newGyms = await Get.to(() => SelectGymsPage(selectedGyms: gyms,));
+
+    if(newGyms != null && newGyms.runtimeType == List<Gym>) {
+      gyms.value = newGyms;
+    }
   }
 
   deleteGyms(int index) async {
