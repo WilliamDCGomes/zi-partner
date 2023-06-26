@@ -6,7 +6,15 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:zi_partner/app/enums/enums.dart';
 import 'package:zi_partner/base/models/gym/gym.dart';
 import 'package:zi_partner/base/models/user/user.dart';
+import 'package:zi_partner/base/models/userGym/user_gym.dart';
+import 'package:zi_partner/base/services/gym_service.dart';
+import 'package:zi_partner/base/services/interfaces/igym_service.dart';
+import 'package:zi_partner/base/services/picture_service.dart';
+import 'package:zi_partner/base/services/user_gym_service.dart';
 import 'package:zi_partner/base/services/user_service.dart';
+import '../../../../base/models/userPictures/user_pictures.dart';
+import '../../../../base/services/interfaces/ipicture_service.dart';
+import '../../../../base/services/interfaces/iuser_gym_service.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../selectGyms/page/select_gyms_page.dart';
 import '../../../utils/helpers/date_format_to_brazil.dart';
@@ -28,27 +36,19 @@ class RegisterUserController extends GetxController {
   late String lgpdPhrase;
   late RxInt activeStep;
   late RxBool passwordFieldEnabled;
-  late RxBool loadingAnimation;
   late RxBool confirmPasswordFieldEnabled;
   late RxBool nameInputHasError;
   late RxBool loginInputHasError;
   late RxBool birthdayInputHasError;
-  late RxBool cepInputHasError;
-  late RxBool cityInputHasError;
-  late RxBool streetInputHasError;
-  late RxBool neighborhoodInputHasError;
   late RxBool cellPhoneInputHasError;
   late RxBool emailInputHasError;
   late RxBool confirmEmailInputHasError;
   late RxBool passwordInputHasError;
   late RxBool confirmPasswordInputHasError;
-  late RxString ufSelected;
   late RxString genderSelected;
   late List<String> genderList;
-  late List<Gym> internGyms;
   late RxList<Gym> gyms;
   late RxList<String> images;
-  late RxList<DropDownValueModel> gymsList;
   late final GlobalKey<FormState> formKeyPersonalInformation;
   late final GlobalKey<FormState> formKeyContactInformation;
   late final GlobalKey<FormState> formKeyAddressInformation;
@@ -56,12 +56,6 @@ class RegisterUserController extends GetxController {
   late final TextEditingController nameTextController;
   late final TextEditingController userNameTextController;
   late final TextEditingController birthDateTextController;
-  late final TextEditingController cepTextController;
-  late final TextEditingController cityTextController;
-  late final TextEditingController streetTextController;
-  late final TextEditingController houseNumberTextController;
-  late final TextEditingController neighborhoodTextController;
-  late final TextEditingController complementTextController;
   late final TextEditingController cellPhoneTextController;
   late final TextEditingController emailTextController;
   late final TextEditingController confirmEmailTextController;
@@ -71,10 +65,6 @@ class RegisterUserController extends GetxController {
   late final SingleValueDropDownController gymNameTextController;
   late final FocusNode loginFocusNode;
   late final FocusNode birthDateFocusNode;
-  late final FocusNode streetFocusNode;
-  late final FocusNode houseNumberFocusNode;
-  late final FocusNode neighborhoodFocusNode;
-  late final FocusNode complementFocusNode;
   late final FocusNode cellPhoneFocusNode;
   late final FocusNode emailFocusNode;
   late final FocusNode confirmEmailFocusNode;
@@ -86,6 +76,9 @@ class RegisterUserController extends GetxController {
   late ScrollController imagesListController;
   late User newUser;
   late IUserService _userService;
+  late IGymService _gymService;
+  late IUserGymService _userGymService;
+  late IPictureService _pictureService;
 
   RegisterUserController(){
     _initializeVariables();
@@ -94,27 +87,19 @@ class RegisterUserController extends GetxController {
   _initializeVariables(){
     lgpdPhrase = "Ao avançar, você esta de acordo e concorda com as Políticas de Privacidade e com os Termos de Serviço.";
     activeStep = 0.obs;
-    ufSelected = "".obs;
     genderSelected = "".obs;
-    loadingAnimation = false.obs;
     passwordFieldEnabled = true.obs;
     confirmPasswordFieldEnabled = true.obs;
     nameInputHasError = false.obs;
     loginInputHasError = false.obs;
     birthdayInputHasError = false.obs;
-    cepInputHasError = false.obs;
-    cityInputHasError = false.obs;
-    streetInputHasError = false.obs;
-    neighborhoodInputHasError = false.obs;
     cellPhoneInputHasError = false.obs;
     emailInputHasError = false.obs;
     confirmEmailInputHasError = false.obs;
     passwordInputHasError = false.obs;
     confirmPasswordInputHasError = false.obs;
-    gymsList = <DropDownValueModel>[].obs;
     images = <String>[].obs;
     gyms = <Gym>[].obs;
-    internGyms = <Gym>[];
     genderList = [
       "Masculino",
       "Feminino",
@@ -127,12 +112,6 @@ class RegisterUserController extends GetxController {
     nameTextController = TextEditingController();
     userNameTextController = TextEditingController();
     birthDateTextController = TextEditingController();
-    cepTextController = TextEditingController();
-    cityTextController = TextEditingController();
-    streetTextController = TextEditingController();
-    houseNumberTextController = TextEditingController();
-    neighborhoodTextController = TextEditingController();
-    complementTextController = TextEditingController();
     cellPhoneTextController = TextEditingController();
     emailTextController = TextEditingController();
     confirmEmailTextController = TextEditingController();
@@ -142,10 +121,6 @@ class RegisterUserController extends GetxController {
     gymNameTextController = SingleValueDropDownController();
     loginFocusNode = FocusNode();
     birthDateFocusNode = FocusNode();
-    streetFocusNode = FocusNode();
-    houseNumberFocusNode = FocusNode();
-    neighborhoodFocusNode = FocusNode();
-    complementFocusNode = FocusNode();
     cellPhoneFocusNode = FocusNode();
     emailFocusNode = FocusNode();
     confirmEmailFocusNode = FocusNode();
@@ -211,6 +186,9 @@ class RegisterUserController extends GetxController {
       ),
     ];
     _userService = UserService();
+    _gymService = GymService();
+    _userGymService = UserGymService();
+    _pictureService = PictureService();
     newUser = User.empty();
   }
 
@@ -284,41 +262,6 @@ class RegisterUserController extends GetxController {
     }
   }
 
-  _saveUser() async {
-    FocusScope.of(Get.context!).requestFocus(FocusNode());
-    loadingAnimation.value = true;
-    await loadingWithSuccessOrErrorWidget.startAnimation();
-
-    await Future.delayed(const Duration(seconds: 1));
-
-    try {
-      await loadingWithSuccessOrErrorWidget.stopAnimation();
-      await showDialog(
-        context: Get.context!,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "Cadastro realizado com sucesso!",
-            success: true,
-          );
-        },
-      );
-      Get.offAll(() => const LoginPage());
-    }
-    catch(_){
-      await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
-      await showDialog(
-        context: Get.context!,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "Erro ao cadastrar usuário.\n Tente novamente mais tarde",
-          );
-        },
-      );
-    }
-  }
-
   nextButtonPressed() async {
     if(!await InternetConnection.validInternet(
       "É necessário uma conexão com a internet para fazer o cadastro",
@@ -350,7 +293,7 @@ class RegisterUserController extends GetxController {
         }
         break;
       case 3:
-        if(gymsList.isEmpty){
+        if(gyms.isEmpty){
           await showDialog(
             context: Get.context!,
             builder: (BuildContext context) {
@@ -400,6 +343,7 @@ class RegisterUserController extends GetxController {
           );
         }
         else {
+          newUser.aboutMe = aboutMeTextController.text;
           _nextPage();
         }
         break;
@@ -414,7 +358,7 @@ class RegisterUserController extends GetxController {
 
     return await Future.delayed(
       const Duration(
-          milliseconds: 100
+        milliseconds: 100
       ),
       () {
         return currentIndex <= 0;
@@ -439,11 +383,8 @@ class RegisterUserController extends GetxController {
   }
 
   addGyms() async {
-    var newGyms = await Get.to(() => SelectGymsPage(selectedGyms: gyms,));
-
-    if(newGyms != null && newGyms.runtimeType == List<Gym>) {
-      gyms.value = newGyms;
-    }
+    await Get.to(() => SelectGymsPage(selectedGyms: gyms,));
+    gyms.sort((a, b) => a.name.compareTo(b.name));
   }
 
   deleteGyms(int index) async {
@@ -547,5 +488,57 @@ class RegisterUserController extends GetxController {
         );
       },
     );
+  }
+
+  _saveUser() async {
+    try {
+      FocusScope.of(Get.context!).requestFocus(FocusNode());
+      await loadingWithSuccessOrErrorWidget.startAnimation();
+
+      if(!await _userService.createUser(newUser)) throw Exception();
+
+      for(var gym in gyms) {
+        if(gym.id != null && !await _gymService.checkIfGymExist(gym.id!)){
+          if(!await _gymService.createGym(gym)) throw Exception();
+        }
+        if(!await _userGymService.createUserGym(UserGym(userId: newUser.id!, gymId: gym.id!))) throw Exception();
+      }
+
+      for(var image in images) {
+        var result = await _pictureService.createPicture(
+          UserPictures(
+            base64: image,
+            mainPicture: images.indexOf(image) == 0,
+            userId: newUser.id!,
+          ),
+        );
+        if(!result) throw Exception();
+      }
+
+      await loadingWithSuccessOrErrorWidget.stopAnimation();
+      await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const InformationPopup(
+            warningMessage: "Cadastro realizado com sucesso!",
+            success: true,
+          );
+        },
+      );
+      Get.offAll(() => const LoginPage());
+    }
+    catch(_){
+      await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
+      await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const InformationPopup(
+            warningMessage: "Erro ao cadastrar usuário.\n Tente novamente mais tarde",
+          );
+        },
+      );
+    }
   }
 }
