@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/utils/sharedWidgets/text_widget.dart';
@@ -28,8 +29,8 @@ class UserPictureWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(4.5.h),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage(
-              person.picture!.first,
+            image: MemoryImage(
+              base64Decode(person.picture!.first.base64),
             ),
           ),
         ),

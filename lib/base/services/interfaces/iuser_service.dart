@@ -1,3 +1,4 @@
+import '../../models/person/person.dart';
 import '../../models/user/user.dart';
 import '../../viewControllers/authenticateResponse/authenticate_response.dart';
 
@@ -15,6 +16,8 @@ abstract class IUserService {
   Future<bool> checkEmailAlreadyRegistered(String email);
 
   Future<User?> getUserInformation(String userName);
+
+  Future<List<Person>?> getNextFiveUsers(int skip);
 
   Future<bool> forgetPassword(String userName, String password);
 

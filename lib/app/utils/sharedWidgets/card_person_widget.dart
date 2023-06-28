@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -70,8 +72,7 @@ class _CardPersonWidgetState extends State<CardPersonWidget> {
               else{
                 /// TODO - Fazer ele trazer as imagens do banco (Remover fromAsset)
                 ViewPicture.openPicture(
-                  widget.person.picture![index],
-                  fromAsset: true,
+                  widget.person.picture![index].base64,
                 );
               }
             },
@@ -81,8 +82,8 @@ class _CardPersonWidgetState extends State<CardPersonWidget> {
                 borderRadius: BorderRadius.circular(2.h),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
-                    widget.person.picture![index],
+                  image: MemoryImage(
+                    base64Decode(widget.person.picture![index].base64),
                   ),
                 ),
               ),
@@ -190,12 +191,12 @@ class _CardPersonWidgetState extends State<CardPersonWidget> {
                                   textColor: AppColors.whiteColor,
                                 ),
 
-                                if (widget.person.gyms.isNotEmpty)
+                                if (widget.person.gyms != null && widget.person.gyms!.isNotEmpty)
                                   Row(
                                     children: [
                                       Flexible(
                                         child: TextWidget(
-                                          widget.person.gyms.first,
+                                          widget.person.gyms!.first.name,
                                           fontSize: 18.sp,
                                           fontWeight: FontWeight.w500,
                                           textAlign: TextAlign.start,
@@ -219,7 +220,7 @@ class _CardPersonWidgetState extends State<CardPersonWidget> {
                                       ),
                                     ],
                                   ),
-                                if (widget.person.gyms.isEmpty)
+                                if (widget.person.gyms != null && widget.person.gyms!.isEmpty)
                                   TextWidget(
                                     "${FormatNumbers.numbersToStringOneDigit(widget.person.distance)} km",
                                     fontSize: 18.sp,

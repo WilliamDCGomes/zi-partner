@@ -160,34 +160,30 @@ class PersonDetailPage extends StatelessWidget {
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: .5.h, bottom: 1.h),
-                              child: Visibility(
-                                visible: controller.person.gyms.isNotEmpty,
-                                replacement: Container(
-                                  height: 20.h,
-                                  padding: EdgeInsets.all(1.h),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(1.h),
-                                    border: Border.all(
-                                      color: AppColors.blackColor,
-                                      width: .1.h,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: TextWidget(
-                                      "Nenhuma academia adicionada",
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600,
-                                      textColor: AppColors.grayTextColor,
-                                      textAlign: TextAlign.start,
-                                    ),
+                              child: controller.person.gyms != null && controller.person.gyms!.isNotEmpty ? ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: controller.person.gyms!.length,
+                                itemBuilder: (context, index) => GymItemList(
+                                  gymName: controller.person.gyms![index].name,
+                                ),
+                              ) : Container(
+                                height: 20.h,
+                                padding: EdgeInsets.all(1.h),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(1.h),
+                                  border: Border.all(
+                                    color: AppColors.blackColor,
+                                    width: .1.h,
                                   ),
                                 ),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: controller.person.gyms.length,
-                                  itemBuilder: (context, index) => GymItemList(
-                                    gymName: controller.person.gyms[index],
+                                child: Center(
+                                  child: TextWidget(
+                                    "Nenhuma academia adicionada",
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w600,
+                                    textColor: AppColors.grayTextColor,
+                                    textAlign: TextAlign.start,
                                   ),
                                 ),
                               ),

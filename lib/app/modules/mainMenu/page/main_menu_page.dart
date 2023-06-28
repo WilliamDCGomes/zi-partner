@@ -41,70 +41,75 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
             onTap: () {
               FocusScope.of(context).requestFocus(FocusNode());
             },
-            child: Scaffold(
-              body: Container(
-                height: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: AppColors.backgroundFirstScreenColor,
+            child: Stack(
+              children: [
+                Scaffold(
+                  body: Container(
+                    height: double.infinity,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: AppColors.backgroundFirstScreenColor,
+                      ),
+                    ),
+                    child: TabBarView(
+                      controller: controller.tabController,
+                      children: controller.tabMainMenuList,
+                    ),
+                  ),
+                  bottomNavigationBar: Container(
+                    height: 9.h,
+                    padding: EdgeInsets.fromLTRB(.5.h, 0, .5.h, .5.h),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(4.5.h),
+                        topLeft: Radius.circular(4.5.h),
+                      ),
+                      color: AppColors.backgroundColor,
+                    ),
+                    child: TabBar(
+                      controller: controller.tabController,
+                      indicatorColor: AppColors.defaultColor,
+                      indicatorWeight: .3.h,
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.sp,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      labelColor: AppColors.defaultColor,
+                      unselectedLabelColor: AppColors.grayTextColor,
+                      tabs: [
+                        Tab(
+                          icon: ImageIcon(
+                            const AssetImage(Paths.tabHomeIcon),
+                            size: 3.5.h,
+                          ),
+                          text: "Encontrar",
+                          height: 9.h,
+                        ),
+                        Tab(
+                          icon: ImageIcon(
+                            const AssetImage(Paths.matchesTabIcon),
+                            size: 3.5.h,
+                          ),
+                          text: "Matchs",
+                          height: 9.h,
+                        ),
+                        Tab(
+                          icon: ImageIcon(
+                            AssetImage(LoggedUser.gender == TypeGender.feminine ? Paths.profileWomanIcon : Paths.profileManIcon),
+                            size: 3.5.h,
+                          ),
+                          text: "Perfil",
+                          height: 9.h,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                child: TabBarView(
-                  controller: controller.tabController,
-                  children: controller.tabMainMenuList,
-                ),
-              ),
-              bottomNavigationBar: Container(
-                height: 9.h,
-                padding: EdgeInsets.fromLTRB(.5.h, 0, .5.h, .5.h),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(4.5.h),
-                    topLeft: Radius.circular(4.5.h),
-                  ),
-                  color: AppColors.backgroundColor,
-                ),
-                child: TabBar(
-                  controller: controller.tabController,
-                  indicatorColor: AppColors.defaultColor,
-                  indicatorWeight: .3.h,
-                  labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  labelColor: AppColors.defaultColor,
-                  unselectedLabelColor: AppColors.grayTextColor,
-                  tabs: [
-                    Tab(
-                      icon: ImageIcon(
-                        const AssetImage(Paths.tabHomeIcon),
-                        size: 3.5.h,
-                      ),
-                      text: "Encontrar",
-                      height: 9.h,
-                    ),
-                    Tab(
-                      icon: ImageIcon(
-                        const AssetImage(Paths.matchesTabIcon),
-                        size: 3.5.h,
-                      ),
-                      text: "Matchs",
-                      height: 9.h,
-                    ),
-                    Tab(
-                      icon: ImageIcon(
-                        AssetImage(LoggedUser.gender == TypeGender.feminine ? Paths.profileWomanIcon : Paths.profileManIcon),
-                        size: 3.5.h,
-                      ),
-                      text: "Perfil",
-                      height: 9.h,
-                    ),
-                  ],
-                ),
-              ),
+                controller.loadingWithSuccessOrErrorWidget,
+              ],
             ),
           ),
         ),

@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:zi_partner/base/models/gym/gym.dart';
+import 'package:zi_partner/base/models/message/message.dart';
 import '../../../app/enums/enums.dart';
+import '../userPictures/user_pictures.dart';
 
 part 'person.g.dart';
 
@@ -11,12 +14,12 @@ class Person {
   @JsonKey(includeFromJson: false)
   late String initialsName;
   late String aboutMe;
-  late String longitude;
-  late String latitude;
-  late String lastMessage;
+  late Messages? lastMessage;
+  late String? longitude;
+  late String? latitude;
   late double distance;
-  late List<String> gyms;
-  late List<String>? picture;
+  late List<Gym>? gyms;
+  late List<UserPictures>? picture;
   late TypeGender gender;
 
   @JsonKey(includeFromJson: false)
@@ -32,7 +35,7 @@ class Person {
     required this.gyms,
     required this.picture,
     required this.gender,
-    this.lastMessage = "",
+    this.lastMessage,
   }){
     carouselController = CarouselController();
 

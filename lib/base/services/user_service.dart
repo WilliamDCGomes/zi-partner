@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/person/person.dart';
 import '../models/user/user.dart';
 import '../viewControllers/authenticateResponse/authenticate_response.dart';
 import 'base/base_service.dart';
@@ -102,6 +103,19 @@ class UserService extends BaseService implements IUserService {
       final response = await super.get(url, query: {"UserName": userName}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return User.fromJson(response.body);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<Person>?> getNextFiveUsers(int skip) async {
+    try {
+      final token = await getToken();
+      final url = '${baseUrlApi}User/GetNextFiveUsers';
+      final response = await super.get(url, query: {"Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response)) throw Exception();
+      return (response.body as List).map((e) => Person.fromJson(e)).toList();
     } catch (_) {
       return null;
     }
