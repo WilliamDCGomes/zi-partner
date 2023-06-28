@@ -81,6 +81,7 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
                         ),
                       ),
                       child: ListView.builder(
+                        controller: controller.scrollController,
                         shrinkWrap: true,
                         itemCount: controller.peopleList.length,
                         itemBuilder: (context, index) => CardPersonWidget(
