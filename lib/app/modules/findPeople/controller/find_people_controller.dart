@@ -37,7 +37,6 @@ class FindPeopleController extends GetxController {
     });
     _userService = UserService();
     peopleList = <Person>[].obs;
-    peopleList.sort((a, b) => a.distance.compareTo(b.distance));
   }
 
   _getNextFivePeople() async {

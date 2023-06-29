@@ -12,7 +12,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       aboutMe: json['aboutMe'] as String,
       longitude: json['longitude'] as String?,
       latitude: json['latitude'] as String?,
-      distance: (json['distance'] as num).toDouble(),
+      distance: (json['distance'] as num?)?.toDouble(),
       gyms: (json['gyms'] as List<dynamic>?)
           ?.map((e) => Gym.fromJson(e as Map<String, dynamic>))
           .toList(),

@@ -5,6 +5,7 @@ import 'package:zi_partner/app/modules/findPeople/page/find_people_page.dart';
 import 'package:zi_partner/app/utils/sharedWidgets/loading_with_success_or_error_widget.dart';
 import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
 import '../../../enums/enums.dart';
+import '../../../utils/helpers/send_location.dart';
 import '../../matchs/page/matchs_page.dart';
 import '../../profile/page/profile_page.dart';
 
@@ -21,8 +22,7 @@ class MainMenuController extends GetxController {
   @override
   void onInit() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.setString("user_logged", "Rafes");
-    await sharedPreferences.setString("password", "123456");
+    _sendLocation();
     super.onInit();
   }
 
@@ -40,5 +40,11 @@ class MainMenuController extends GetxController {
       const MatchsPage(),
       const ProfilePage(),
     ];
+  }
+
+  _sendLocation() async {
+    if(LoggedUser.id.isNotEmpty) {
+      await SendLocation.sendUserLocation(LoggedUser.id);
+    }
   }
 }

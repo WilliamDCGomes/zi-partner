@@ -17,7 +17,7 @@ class Person {
   late Messages? lastMessage;
   late String? longitude;
   late String? latitude;
-  late double distance;
+  late double? distance;
   late List<Gym>? gyms;
   late List<UserPictures>? picture;
   late TypeGender gender;

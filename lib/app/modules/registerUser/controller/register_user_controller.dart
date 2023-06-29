@@ -21,6 +21,7 @@ import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/helpers/internet_connection.dart';
 import '../../../utils/helpers/loading.dart';
 import '../../../utils/helpers/masks_for_text_fields.dart';
+import '../../../utils/helpers/send_location.dart';
 import '../../../utils/helpers/valid_cellphone_mask.dart';
 import '../../../utils/helpers/view_picture.dart';
 import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
@@ -503,6 +504,8 @@ class RegisterUserController extends GetxController {
         }
         if(!await _userGymService.createUserGym(UserGym(userId: newUser.id!, gymId: gym.id!))) throw Exception();
       }
+
+      await SendLocation.sendUserLocation(newUser.id!);
 
       for(var image in images) {
         var result = await _pictureService.createPicture(

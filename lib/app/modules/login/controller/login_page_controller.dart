@@ -5,11 +5,11 @@ import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/app/modules/mainMenu/page/main_menu_page.dart';
+import '../../../../base/models/loggedUser/logged_user.dart';
 import '../../../../base/models/user/user.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/services/user_service.dart';
 import '../../../../base/viewControllers/authenticateResponse/authenticate_response.dart';
-import '../../../../base/viewControllers/loggedUser/logged_user_viewcontroller.dart';
 import '../../../enums/enums.dart';
 import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/helpers/format_numbers.dart';
@@ -173,32 +173,30 @@ class LoginController extends GetxController {
     if (_user != null) {
       await sharedPreferences.setString("name", _user!.name);
       await sharedPreferences.setString("birthdate", DateFormatToBrazil.formatDate(_user!.birthdayDate));
+      LoggedUser.gender = _user!.gender;
       switch (_user!.gender) {
         case TypeGender.masculine:
           await sharedPreferences.setString("gender", "Masculino");
-          LoggedUserViewController.gender = "Masculino";
           break;
         case TypeGender.feminine:
           await sharedPreferences.setString("gender", "Feminino");
-          LoggedUserViewController.gender = "Feminino";
           break;
         case TypeGender.none:
           await sharedPreferences.setString("gender", "Não Informado");
-          LoggedUserViewController.gender = "Não Informado";
           break;
       }
       await sharedPreferences.setString("cellPhone", _user!.cellphone);
       await sharedPreferences.setString("email", _user!.email);
-      LoggedUserViewController.birthdate = DateFormatToBrazil.formatDate(_user!.birthdayDate);
-      LoggedUserViewController.cellPhone = _user!.cellphone ;
-      LoggedUserViewController.email = _user!.email;
+      LoggedUser.birthdayDate = DateFormatToBrazil.formatDate(_user!.birthdayDate);
+      LoggedUser.cellPhone = _user!.cellphone ;
+      LoggedUser.email = _user!.email;
     }
 
     if (userLogged != null) {
-      LoggedUserViewController.nameAndLastName = userLogged!.name!;
-      LoggedUserViewController.name = userLogged!.name!.split(' ').first;
-      LoggedUserViewController.id = userLogged!.id!;
-      LoggedUserViewController.password = passwordInputController.text;
+      LoggedUser.nameAndLastName = userLogged!.name!;
+      LoggedUser.name = userLogged!.name!.split(' ').first;
+      LoggedUser.id = userLogged!.id!;
+      LoggedUser.password = passwordInputController.text;
 
       await sharedPreferences.setString("user_name_and_last_name", userLogged!.name!);
       await sharedPreferences.setString("user_name", userLogged!.name!.split(' ').first);

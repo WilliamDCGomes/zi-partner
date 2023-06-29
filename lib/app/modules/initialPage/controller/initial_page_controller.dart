@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/app/utils/helpers/static_informations.dart';
-import 'package:zi_partner/base/viewControllers/loggedUser/logged_user_viewcontroller.dart';
 import '../../../../../../base/services/interfaces/iuser_service.dart';
+import '../../../../base/models/loggedUser/logged_user.dart';
 import '../../../../base/services/user_service.dart';
 import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
@@ -72,11 +72,11 @@ class InitialPageController extends GetxController {
 
   Future<bool> _doLoginServerKeepConnected() async {
     try {
-      LoggedUserViewController.nameAndLastName = sharedPreferences.getString("user_name_and_last_name") ?? "";
-      LoggedUserViewController.name = sharedPreferences.getString(
+      LoggedUser.nameAndLastName = sharedPreferences.getString("user_name_and_last_name") ?? "";
+      LoggedUser.name = sharedPreferences.getString(
         "user_name",
       ) ?? "";
-      LoggedUserViewController.id = sharedPreferences.getString("user_id") ?? "";
+      LoggedUser.id = sharedPreferences.getString("user_id") ?? "";
       return await _doLoginServer();
     } catch (_) {
       return false;
