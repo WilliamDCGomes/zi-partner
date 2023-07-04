@@ -111,6 +111,7 @@ class UserService extends BaseService implements IUserService {
   @override
   Future<List<Person>?> getNextFiveUsers(int skip) async {
     try {
+      httpClient.timeout = const Duration(seconds: 45);
       final token = await getToken();
       final url = '${baseUrlApi}User/GetNextFiveUsers';
       final response = await super.get(url, query: {"Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});

@@ -107,6 +107,29 @@ class _CardPersonWidgetState extends State<CardPersonWidget> {
     );
   }
 
+  Widget getDistanceLayout() {
+    return Padding(
+      padding: EdgeInsets.only(top: 1.h),
+      child: Visibility(
+        visible: widget.person.distance != null,
+        replacement: TextWidget(
+          "Distância: Desconhecida",
+          fontSize: 17.sp,
+          fontWeight: FontWeight.w400,
+          textAlign: TextAlign.start,
+          textColor: AppColors.whiteColor,
+        ),
+        child: TextWidget(
+          "Distância: ${FormatNumbers.numbersToStringOneDigit(widget.person.distance)} km",
+          fontSize: 17.sp,
+          fontWeight: FontWeight.w400,
+          textAlign: TextAlign.start,
+          textColor: AppColors.whiteColor,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -185,49 +208,23 @@ class _CardPersonWidgetState extends State<CardPersonWidget> {
                               children: [
                                 TextWidget(
                                   widget.person.name,
-                                  fontSize: 22.sp,
+                                  fontSize: 21.sp,
                                   fontWeight: FontWeight.w600,
                                   textAlign: TextAlign.start,
                                   textColor: AppColors.whiteColor,
                                 ),
-
                                 if (widget.person.gyms != null && widget.person.gyms!.isNotEmpty)
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: TextWidget(
-                                          widget.person.gyms!.first.name,
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w500,
-                                          textAlign: TextAlign.start,
-                                          textColor: AppColors.whiteColor,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 2.w),
-                                        child: Icon(
-                                          Icons.star,
-                                          color: AppColors.whiteColor,
-                                          size: 2.h,
-                                        ),
-                                      ),
-                                      TextWidget(
-                                        "${FormatNumbers.numbersToStringOneDigit(widget.person.distance)} km",
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w400,
-                                        textAlign: TextAlign.start,
-                                        textColor: AppColors.whiteColor,
-                                      ),
-                                    ],
+                                  Padding(
+                                    padding: EdgeInsets.only(top: .5.h),
+                                    child: TextWidget(
+                                      widget.person.gyms!.first.name,
+                                      fontSize: 17.sp,
+                                      fontWeight: FontWeight.w500,
+                                      textAlign: TextAlign.start,
+                                      textColor: AppColors.whiteColor,
+                                    ),
                                   ),
-                                if (widget.person.gyms != null && widget.person.gyms!.isEmpty)
-                                  TextWidget(
-                                    "${FormatNumbers.numbersToStringOneDigit(widget.person.distance)} km",
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w400,
-                                    textAlign: TextAlign.start,
-                                    textColor: AppColors.whiteColor,
-                                  ),
+                                getDistanceLayout(),
                               ],
                             ),
                           ),

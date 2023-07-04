@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zi_partner/base/services/user_service.dart';
+import '../../../../base/models/loggedUser/logged_user.dart';
 import '../../../../base/models/person/person.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
+import '../../../utils/helpers/send_location.dart';
 import '../../mainMenu/controller/main_menu_controller.dart';
 
 class FindPeopleController extends GetxController {
@@ -21,6 +23,9 @@ class FindPeopleController extends GetxController {
   void onInit() async {
     _mainMenuController = Get.find(tag: 'main-menu-controller');
     await Future.delayed(const Duration(milliseconds: 200));
+    await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
+    _animationInitialized = true;
+    await _sendLocation();
     await _getNextFivePeople();
     super.onInit();
   }
@@ -39,11 +44,19 @@ class FindPeopleController extends GetxController {
     peopleList = <Person>[].obs;
   }
 
+  _sendLocation() async {
+    if(LoggedUser.id.isNotEmpty) {
+      await SendLocation.sendUserLocation(LoggedUser.id);
+    }
+  }
+
   _getNextFivePeople() async {
     try {
       if(!_allUsersGet) {
-        await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
-        _animationInitialized = true;
+        if(!_animationInitialized) {
+          await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
+          _animationInitialized = true;
+        }
         var people = await _userService.getNextFiveUsers(peopleList.length);
 
         if(people != null && people.isNotEmpty) {

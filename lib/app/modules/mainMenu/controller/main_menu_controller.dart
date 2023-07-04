@@ -3,9 +3,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/app/modules/findPeople/page/find_people_page.dart';
 import 'package:zi_partner/app/utils/sharedWidgets/loading_with_success_or_error_widget.dart';
-import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
-import '../../../enums/enums.dart';
-import '../../../utils/helpers/send_location.dart';
 import '../../matchs/page/matchs_page.dart';
 import '../../profile/page/profile_page.dart';
 
@@ -22,17 +19,10 @@ class MainMenuController extends GetxController {
   @override
   void onInit() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    _sendLocation();
     super.onInit();
   }
 
   _initializeVariables(){
-    LoggedUser.name = "Rafael Torres Alváres";
-    LoggedUser.birthdayDate = "20/04/1996";
-    LoggedUser.gender = TypeGender.masculine;
-    LoggedUser.cellPhone = "99999-9999";
-    LoggedUser.email = "teste@teste.com";
-
     loadingWithSuccessOrErrorWidget = LoadingWithSuccessOrErrorWidget();
 
     tabMainMenuList = [
@@ -40,11 +30,5 @@ class MainMenuController extends GetxController {
       const MatchsPage(),
       const ProfilePage(),
     ];
-  }
-
-  _sendLocation() async {
-    if(LoggedUser.id.isNotEmpty) {
-      await SendLocation.sendUserLocation(LoggedUser.id);
-    }
   }
 }
