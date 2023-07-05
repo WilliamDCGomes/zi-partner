@@ -23,9 +23,10 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       lastMessage: json['lastMessage'] == null
           ? null
           : Messages.fromJson(json['lastMessage'] as Map<String, dynamic>),
-    );
+    )..id = json['id'] as String;
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'userName': instance.userName,
       'aboutMe': instance.aboutMe,

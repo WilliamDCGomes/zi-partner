@@ -9,6 +9,7 @@ part 'person.g.dart';
 
 @JsonSerializable()
 class Person {
+  late String id;
   late String name;
   late String userName;
   @JsonKey(includeFromJson: false)
@@ -50,6 +51,20 @@ class Person {
     else{
       initialsName = "NI";
     }
+  }
+
+  Person.empty() {
+    name = "";
+    userName = "";
+    aboutMe = "";
+    longitude = "";
+    latitude = "";
+    distance = null;
+    gyms = null;
+    picture = null;
+    gender = TypeGender.none;
+    initialsName = "NI";
+    carouselController = CarouselController();
   }
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);

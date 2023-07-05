@@ -19,7 +19,7 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
 
   @override
   void initState() {
-    controller = Get.put(FindPeopleController());
+    controller = Get.put(FindPeopleController(), tag: "find-people-controller");
     super.initState();
   }
 
@@ -86,6 +86,8 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
                         itemCount: controller.peopleList.length,
                         itemBuilder: (context, index) => CardPersonWidget(
                           person: controller.peopleList[index],
+                          action: (reaction, userName) => controller.reactPerson(reaction, userName),
+                          lastPerson: controller.peopleList[index].userName.isEmpty,
                         ),
                       ),
                     ),

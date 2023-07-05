@@ -4,6 +4,7 @@ import '../../../../base/models/person/person.dart';
 import '../../../utils/helpers/paths.dart';
 import '../../../utils/sharedWidgets/card_person_widget.dart';
 import '../../../utils/sharedWidgets/gym_item_widget.dart';
+import '../../../utils/sharedWidgets/text_button_widget.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
 import '../../../utils/sharedWidgets/title_with_back_button_widget.dart';
 import '../../../utils/stylePages/app_colors.dart';
@@ -220,40 +221,49 @@ class PersonDetailPage extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             children: [
-                              Container(
-                                width: 6.h,
-                                padding: EdgeInsets.all(1.h),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3.h),
-                                  border: Border.all(
-                                    color: AppColors.redColor,
-                                    width: 2,
+                              TextButtonWidget(
+                                onTap: () => controller.reactPerson(false, controller.person.userName),
+                                componentPadding: EdgeInsets.zero,
+                                widgetCustom: Container(
+                                  height: 6.h,
+                                  width: 6.h,
+                                  padding: EdgeInsets.all(1.h),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3.h),
+                                    border: Border.all(
+                                      color: AppColors.redColor,
+                                      width: 2,
+                                    ),
                                   ),
-                                ),
-                                child: Image.asset(
-                                  Paths.denyPerson,
-                                  color: AppColors.redColor,
-                                  height: 2.h,
+                                  child: Image.asset(
+                                    Paths.denyPerson,
+                                    color: AppColors.redColor,
+                                    height: 2.h,
+                                  ),
                                 ),
                               ),
                               SizedBox(
                                 width: 5.w,
                               ),
-                              Container(
-                                height: 6.h,
-                                width: 6.h,
-                                padding: EdgeInsets.all(1.h),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3.h),
-                                  border: Border.all(
-                                    color: AppColors.greenColor,
-                                    width: 2,
+                              TextButtonWidget(
+                                onTap: () => controller.reactPerson(true, controller.person.userName),
+                                componentPadding: EdgeInsets.zero,
+                                widgetCustom: Container(
+                                  height: 6.h,
+                                  width: 6.h,
+                                  padding: EdgeInsets.all(1.h),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3.h),
+                                    border: Border.all(
+                                      color: AppColors.greenColor,
+                                      width: 2,
+                                    ),
                                   ),
-                                ),
-                                child: Image.asset(
-                                  Paths.matchIcon,
-                                  color: AppColors.greenColor,
-                                  height: 2.h,
+                                  child: Image.asset(
+                                    Paths.matchIcon,
+                                    color: AppColors.greenColor,
+                                    height: 2.h,
+                                  ),
                                 ),
                               ),
                             ],
@@ -264,6 +274,7 @@ class PersonDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
+              controller.loadingWithSuccessOrErrorWidget,
             ],
           ),
         ),
