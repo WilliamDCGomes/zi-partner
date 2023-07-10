@@ -89,6 +89,7 @@ class _MatchsPageState extends State<MatchsPage> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: controller.matchsList.length,
+                        controller: controller.scrollController,
                         itemBuilder: (context, index) => MatchCardIconWidget(
                           person: controller.matchsList[index],
                         ),

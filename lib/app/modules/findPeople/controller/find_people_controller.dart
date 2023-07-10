@@ -8,6 +8,7 @@ import '../../../../base/services/interfaces/imatch_or_dislike_service.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/services/match_or_dislike_service.dart';
 import '../../../utils/helpers/send_location.dart';
+import '../../../utils/sharedWidgets/popups/information_popup.dart';
 import '../../mainMenu/controller/main_menu_controller.dart';
 import '../../personDetail/page/person_detail_page.dart';
 
@@ -117,6 +118,18 @@ class FindPeopleController extends GetxController {
       if(_animationInitialized && !disableLoad) {
         _animationInitialized = false;
         await _mainMenuController.loadingWithSuccessOrErrorWidget.stopAnimation(justLoading: true);
+      }
+      if(approved && await _matchOrDislikeService.checkIfItsAMatch(LoggedUser.id, person.id)){
+        showDialog(
+          context: Get.context!,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return const InformationPopup(
+              success: true,
+              warningMessage: "Opaa, é um MATCH!!\nComece agora mesmo a treinar.",
+            );
+          },
+        );
       }
     }
     catch(_) {

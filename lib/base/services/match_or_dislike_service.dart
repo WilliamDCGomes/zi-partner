@@ -1,4 +1,5 @@
 import '../models/matchOrDislike/match_or_dislike.dart';
+import '../models/person/person.dart';
 import 'base/base_service.dart';
 import 'interfaces/imatch_or_dislike_service.dart';
 
@@ -29,6 +30,19 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
   }
 
   @override
+  Future<bool> checkIfItsAMatch(String userId, String otherUserId) async {
+    try {
+      final token = await getToken();
+      final url = '${baseUrlApi}MatchOrDislike/CheckIfItsAMatch';
+      final response = await super.get(url, query: {"UserId": userId, "OtherUserId": otherUserId}, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response)) throw Exception();
+      return response.body;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
   Future<List<MatchOrDislike>?> getAllMatchsOrDislikes(String userId) async {
     try {
       final token = await getToken();
@@ -36,6 +50,20 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
       final response = await super.get(url, query: {"UserId": userId}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return (response.body as List).map((e) => MatchOrDislike.fromJson(e)).toList();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<Person>?> getNext6PeopleFromMatchs(String userId, int skip) async {
+    try {
+      final token = await getToken();
+      httpClient.timeout = const Duration(seconds: 45);
+      final url = '${baseUrlApi}MatchOrDislike/GetNext6PeopleFromMatchs';
+      final response = await super.get(url, query: {"UserId": userId, "Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response)) throw Exception();
+      return (response.body as List).map((e) => Person.fromJson(e)).toList();
     } catch (_) {
       return null;
     }

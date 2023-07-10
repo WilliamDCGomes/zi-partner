@@ -35,28 +35,30 @@ class MatchCardIconWidget extends StatelessWidget {
               UserPictureWidget(
                 person: person,
               ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextWidget(
-                    person.name,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w700,
-                    textColor: AppColors.blackColor,
-                    textAlign: TextAlign.start,
-                  ),
-                  SizedBox(
-                    height: 1.h,
-                  ),
-                  TextWidget(
-                    person.lastMessage != null ? person.lastMessage!.message : "",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    textColor: AppColors.blackTransparentColor,
-                    textAlign: TextAlign.start,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextWidget(
+                      person.name,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      textColor: AppColors.blackColor,
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    TextWidget(
+                      person.lastMessage != null ? person.lastMessage!.message : "",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      textColor: AppColors.blackTransparentColor,
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
