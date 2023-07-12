@@ -23,6 +23,7 @@ dependencies:
   local_auth: ^2.1.6
   file_picker: ^5.2.6
   flutter_svg: ^2.0.5
+  grouped_list: ^5.1.2
   image_picker: ^0.8.7
   im_stepper: ^1.0.1+1
   age_calculator: ^1.0.0

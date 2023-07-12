@@ -42,6 +42,19 @@ class MessageService extends BaseService implements IMessageService {
   }
 
   @override
+  Future<List<Messages>?> getNext15Messages(String userId, String receiverId, int skip) async {
+    try {
+      final token = await getToken();
+      final url = '${baseUrlApi}Message/GetNext15Messages';
+      final response = await super.get(url, query: {"UserId": userId, "ReceiverId": receiverId, "Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response)) throw Exception();
+      return (response.body as List).map((e) => Messages.fromJson(e)).toList();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
   Future<bool> deleteMessage(String messageId) async {
     try {
       final url = '${baseUrlApi}Message/DeleteMessage';

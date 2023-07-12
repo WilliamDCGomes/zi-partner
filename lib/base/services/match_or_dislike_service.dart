@@ -59,7 +59,7 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
   Future<List<Person>?> getNext6PeopleFromMatchs(String userId, int skip) async {
     try {
       final token = await getToken();
-      httpClient.timeout = const Duration(seconds: 45);
+      httpClient.timeout = const Duration(seconds: 60);
       final url = '${baseUrlApi}MatchOrDislike/GetNext6PeopleFromMatchs';
       final response = await super.get(url, query: {"UserId": userId, "Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();

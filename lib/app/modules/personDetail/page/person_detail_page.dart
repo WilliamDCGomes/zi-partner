@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../base/models/person/person.dart';
+import '../../../utils/helpers/format_numbers.dart';
 import '../../../utils/helpers/paths.dart';
 import '../../../utils/sharedWidgets/card_person_widget.dart';
 import '../../../utils/sharedWidgets/gym_item_widget.dart';
@@ -79,7 +80,7 @@ class PersonDetailPage extends StatelessWidget {
                                     width: 2.w,
                                   ),
                                   TextWidget(
-                                    "${controller.person.distance} km",
+                                    "${FormatNumbers.numbersToStringOneDigit(controller.person.distance)} km",
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
                                     textColor: AppColors.blackColor,

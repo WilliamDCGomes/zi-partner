@@ -11,15 +11,35 @@ class Messages extends ZiPartnerCore {
   late String message;
   @JsonKey(includeFromJson: false)
   late bool itsMine;
+  @JsonKey(includeFromJson: false)
+  late String messageDate;
 
   Messages({
     required this.userId,
     required this.receiverId,
     required this.message,
-    DateTime? internInclusion,
   }){
     itsMine = userId == LoggedUser.id;
-    inclusion = internInclusion;
+    setMessageDate();
+  }
+
+  setMessageDate() {
+    String day = "";
+    String month = "";
+    if(inclusion != null) {
+      if(inclusion!.day < 10) {
+        day = "0${inclusion!.day}";
+      } else {
+        day = inclusion!.day.toString();
+      }
+      if(inclusion!.month < 10) {
+        month = "0${inclusion!.month}";
+      } else {
+        month = inclusion!.month.toString();
+      }
+    }
+
+    messageDate = "$day/$month/${inclusion?.year}";
   }
 
   factory Messages.fromJson(Map<String, dynamic> json) => _$MessagesFromJson(json);
