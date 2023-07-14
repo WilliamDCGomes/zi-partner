@@ -116,7 +116,14 @@ class UserService extends BaseService implements IUserService {
       final url = '${baseUrlApi}User/GetNextFiveUsers';
       final response = await super.get(url, query: {"Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
-      return (response.body as List).map((e) => Person.fromJson(e)).toList();
+      var peopleList = (response.body as List).map((e) => Person.fromJson(e)).toList();
+      peopleList.sort((a, b) {
+        if(a.distance != null &&  b.distance != null) {
+          return a.distance!.compareTo(b.distance!);
+        }
+        return peopleList.length - 1;
+      });
+      return peopleList;
     } catch (_) {
       return null;
     }
@@ -137,8 +144,9 @@ class UserService extends BaseService implements IUserService {
   @override
   Future<bool> forgetPasswordInternal(String password) async {
     try {
+      final token = await getToken();
       final url = '${baseUrlApi}User/ForgetPasswordInternal';
-      final response = await super.put(url, null, query: {"Password": password});
+      final response = await super.put(url, null, query: {"Password": password}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
       return response.body;
     } catch (_) {
@@ -149,8 +157,9 @@ class UserService extends BaseService implements IUserService {
   @override
   Future<bool> deleteUser(String userId) async {
     try {
+      final token = await getToken();
       final url = '${baseUrlApi}User/DeleteUser';
-      final response = await super.delete(url, query: {"UserId": userId});
+      final response = await super.delete(url, query: {"UserId": userId}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
       return response.body;
     } catch (_) {

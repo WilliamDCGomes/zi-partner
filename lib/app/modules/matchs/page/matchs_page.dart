@@ -65,12 +65,45 @@ class _MatchsPageState extends State<MatchsPage> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 3.h, bottom: 2.h),
-                  child: TextWidget(
-                    "Matchs",
-                    textColor: AppColors.blackColor,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+                  padding: EdgeInsets.only(top: .5.h, bottom: 2.h),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextWidget(
+                          "Matchs",
+                          textColor: AppColors.blackColor,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => controller.getNext7Match(ignoreLimitation: true),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: .5.h, top: .5.h, bottom: .5.h),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextWidget(
+                                "Atualizar lista",
+                                textColor: AppColors.blackColor,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                textAlign: TextAlign.end,
+                              ),
+                              SizedBox(
+                                width: 2.w,
+                              ),
+                              Icon(
+                                Icons.refresh,
+                                color: AppColors.defaultColor,
+                                size: 3.h,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(

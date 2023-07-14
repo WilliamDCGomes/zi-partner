@@ -47,7 +47,7 @@ class LoginController extends GetxController {
     userInputController.text = FormatNumbers.stringToCpf(sharedPreferences.getString("user_logged") ?? "");
     if (kDebugMode) {
       userInputController.text = "Wiuta";
-      passwordInputController.text = "12345678";
+      passwordInputController.text = "12121212";
     }
     await _getKeepConnected();
     if (!cancelFingerPrint) {
@@ -195,6 +195,7 @@ class LoginController extends GetxController {
     if (userLogged != null) {
       LoggedUser.nameAndLastName = userLogged!.name!;
       LoggedUser.name = userLogged!.name!.split(' ').first;
+      LoggedUser.userName = userInputController.text;
       LoggedUser.id = userLogged!.id!;
       LoggedUser.password = passwordInputController.text;
 

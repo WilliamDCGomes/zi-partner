@@ -70,6 +70,7 @@ class MessagesController extends GetxController {
         if(messages != null && messages.isNotEmpty) {
           _allMessagesGet = messages.length < 15;
           for(var message in messages) {
+            message.setMessageDate();
             if(!messagesList.any((x) => x.id == message.id)) messagesList.add(message);
           }
         }

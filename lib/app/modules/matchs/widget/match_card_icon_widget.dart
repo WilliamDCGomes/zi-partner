@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../base/models/person/person.dart';
+import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
 import '../../../utils/sharedWidgets/user_picture_widget.dart';
 import '../../../utils/stylePages/app_colors.dart';
@@ -40,12 +41,28 @@ class MatchCardIconWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextWidget(
-                      person.name,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w700,
-                      textColor: AppColors.blackColor,
-                      textAlign: TextAlign.start,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextWidget(
+                            person.name,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            textColor: AppColors.blackColor,
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 1.w),
+                          child: TextWidget(
+                            DateFormatToBrazil.getMessageDateOrHourFormated(person.lastMessage?.inclusion),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            textColor: AppColors.blackTransparentColor,
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 1.h,

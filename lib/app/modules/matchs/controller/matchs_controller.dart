@@ -24,7 +24,7 @@ class MatchsController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 200));
     await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
     _animationInitialized = true;
-    await _getNext6Matchs();
+    await getNext7Match();
     super.onInit();
   }
 
@@ -36,20 +36,20 @@ class MatchsController extends GetxController {
     scrollController.addListener(() async {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        _getNext6Matchs();
+        getNext7Match();
       }
     });
     _matchOrDislikeService = MatchOrDislikeService();
   }
 
-  _getNext6Matchs() async {
+  getNext7Match({bool ignoreLimitation = false}) async {
     try {
-      if(!_allUsersGet) {
+      if(!_allUsersGet || ignoreLimitation) {
         if(!_animationInitialized) {
           await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
           _animationInitialized = true;
         }
-        var people = await _matchOrDislikeService.getNext6PeopleFromMatchs(LoggedUser.id, matchsList.length);
+        var people = await _matchOrDislikeService.getNext7PeopleFromMatchs(LoggedUser.id, matchsList.length);
 
         if(people != null && people.isNotEmpty) {
           _allUsersGet = people.length < 6;

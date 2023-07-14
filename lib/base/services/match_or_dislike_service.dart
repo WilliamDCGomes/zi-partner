@@ -56,14 +56,22 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
   }
 
   @override
-  Future<List<Person>?> getNext6PeopleFromMatchs(String userId, int skip) async {
+  Future<List<Person>?> getNext7PeopleFromMatchs(String userId, int skip) async {
     try {
       final token = await getToken();
       httpClient.timeout = const Duration(seconds: 60);
-      final url = '${baseUrlApi}MatchOrDislike/GetNext6PeopleFromMatchs';
+      final url = '${baseUrlApi}MatchOrDislike/GetNext7PeopleFromMatchs';
       final response = await super.get(url, query: {"UserId": userId, "Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
-      return (response.body as List).map((e) => Person.fromJson(e)).toList();
+
+      var peopleList = (response.body as List).map((e) => Person.fromJson(e)).toList();
+      peopleList.sort((a, b) {
+        if(a.lastMessage != null && a.lastMessage!.inclusion != null && b.lastMessage != null && b.lastMessage!.inclusion != null) {
+          return b.lastMessage!.inclusion!.compareTo(a.lastMessage!.inclusion!);
+        }
+        return peopleList.length - 1;
+      });
+      return peopleList;
     } catch (_) {
       return null;
     }

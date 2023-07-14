@@ -66,27 +66,30 @@ class PersonDetailPage extends StatelessWidget {
                               textAlign: TextAlign.start,
                               maxLines: 3,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 1.h),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.pin_drop_rounded,
-                                    color: AppColors.blackColor,
-                                    size: 2.h,
-                                  ),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  TextWidget(
-                                    "${FormatNumbers.numbersToStringOneDigit(controller.person.distance)} km",
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
-                                    textColor: AppColors.blackColor,
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ],
+                            Visibility(
+                              visible: controller.person.distance != null && controller.person.distance!.toString().isNotEmpty,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 1.h),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.pin_drop_rounded,
+                                      color: AppColors.blackColor,
+                                      size: 2.h,
+                                    ),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
+                                    TextWidget(
+                                      "${FormatNumbers.numbersToStringOneDigit(controller.person.distance)} km",
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      textColor: AppColors.blackColor,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             Padding(

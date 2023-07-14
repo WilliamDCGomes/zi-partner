@@ -64,8 +64,37 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 1.h,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: .5.h, bottom: 2.h),
+                    child: InkWell(
+                      onTap: () => controller.getNextFivePeople(ignoreLimitation: true),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: .5.h, top: .5.h, bottom: .5.h),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextWidget(
+                              "Atualizar lista",
+                              textColor: AppColors.blackColor,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              textAlign: TextAlign.end,
+                            ),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            Icon(
+                              Icons.refresh,
+                              color: AppColors.defaultColor,
+                              size: 3.h,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 Expanded(
                   child: Obx(
@@ -80,14 +109,16 @@ class _FindPeoplePageState extends State<FindPeoplePage> {
                           maxLines: 2,
                         ),
                       ),
-                      child: ListView.builder(
-                        controller: controller.scrollController,
-                        shrinkWrap: true,
-                        itemCount: controller.peopleList.length,
-                        itemBuilder: (context, index) => CardPersonWidget(
-                          person: controller.peopleList[index],
-                          action: (reaction, userName) => controller.reactPerson(reaction, userName),
-                          lastPerson: controller.peopleList[index].userName.isEmpty,
+                      child: Center(
+                        child: ListView.builder(
+                          controller: controller.scrollController,
+                          shrinkWrap: true,
+                          itemCount: controller.peopleList.length,
+                          itemBuilder: (context, index) => CardPersonWidget(
+                            person: controller.peopleList[index],
+                            action: (reaction, userName) => controller.reactPerson(reaction, userName),
+                            lastPerson: controller.peopleList[index].userName.isEmpty,
+                          ),
                         ),
                       ),
                     ),

@@ -33,7 +33,7 @@ class FindPeopleController extends GetxController {
     await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
     _animationInitialized = true;
     await _sendLocation();
-    await _getNextFivePeople();
+    await getNextFivePeople();
     super.onInit();
   }
 
@@ -45,7 +45,7 @@ class FindPeopleController extends GetxController {
     scrollController.addListener(() async {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        _getNextFivePeople();
+        getNextFivePeople();
       }
     });
     _userService = UserService();
@@ -59,9 +59,9 @@ class FindPeopleController extends GetxController {
     }
   }
 
-  _getNextFivePeople() async {
+  getNextFivePeople({bool ignoreLimitation = false}) async {
     try {
-      if(!allUsersGet) {
+      if(!allUsersGet || ignoreLimitation) {
         if(!_animationInitialized) {
           await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
           _animationInitialized = true;
@@ -98,7 +98,7 @@ class FindPeopleController extends GetxController {
       PersonDetailPage(person: person),
       duration: const Duration(milliseconds: 700),
     );
-    if(peopleList.isEmpty) await _getNextFivePeople();
+    if(peopleList.isEmpty) await getNextFivePeople();
   }
 
   reactPerson(bool approved, String userName, {bool disableLoad = false}) async {
@@ -113,14 +113,14 @@ class FindPeopleController extends GetxController {
         MatchOrDislike(userId: LoggedUser.id, otherUserId: person.id, isMatch: approved),
       )) {
         peopleList.remove(person);
-        if(peopleList.isEmpty) await _getNextFivePeople();
+        if(peopleList.isEmpty) await getNextFivePeople();
       }
       if(_animationInitialized && !disableLoad) {
         _animationInitialized = false;
         await _mainMenuController.loadingWithSuccessOrErrorWidget.stopAnimation(justLoading: true);
       }
       if(approved && await _matchOrDislikeService.checkIfItsAMatch(LoggedUser.id, person.id)){
-        showDialog(
+        await showDialog(
           context: Get.context!,
           barrierDismissible: false,
           builder: (BuildContext context) {

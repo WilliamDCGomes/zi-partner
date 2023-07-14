@@ -88,7 +88,19 @@ class ResetPasswordController extends GetxController {
       if(formKey.currentState!.validate()){
         resetPasswordButtonFocusNode.requestFocus();
 
-        if(await _checkFingerPrint()){
+        if(oldPasswordInput.text == newPasswordInput.text) {
+          await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
+          showDialog(
+            context: Get.context!,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return const InformationPopup(
+                warningMessage: "A nova senha não pode ser igual a senha atual!",
+              );
+            },
+          );
+        }
+        else if(await _checkFingerPrint()){
           await loadingWithSuccessOrErrorWidget.startAnimation();
           await Future.delayed(const Duration(milliseconds: 500));
           if(await InternetConnection.checkConnection()){
