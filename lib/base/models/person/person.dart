@@ -18,6 +18,9 @@ class Person {
   late Messages? lastMessage;
   late String? longitude;
   late String? latitude;
+  late DateTime birthdayDate;
+  late String? cellphone;
+  late String? email;
   late double? distance;
   late List<Gym>? gyms;
   late List<UserPictures>? picture;
@@ -36,7 +39,10 @@ class Person {
     required this.gyms,
     required this.picture,
     required this.gender,
+    required this.birthdayDate,
     this.lastMessage,
+    this.cellphone,
+    this.email,
   }){
     carouselController = CarouselController();
 
@@ -59,9 +65,12 @@ class Person {
     aboutMe = "";
     longitude = "";
     latitude = "";
+    birthdayDate = DateTime.now();
     distance = null;
     gyms = null;
     picture = null;
+    cellphone = null;
+    email = null;
     gender = TypeGender.none;
     initialsName = "NI";
     carouselController = CarouselController();

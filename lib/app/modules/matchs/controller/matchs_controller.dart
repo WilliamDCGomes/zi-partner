@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
 import 'package:zi_partner/base/services/match_or_dislike_service.dart';
+import '../../../../base/models/message/message.dart';
 import '../../../../base/models/person/person.dart';
 import '../../../../base/services/interfaces/imatch_or_dislike_service.dart';
 import '../../mainMenu/controller/main_menu_controller.dart';
@@ -69,5 +70,10 @@ class MatchsController extends GetxController {
         await _mainMenuController.loadingWithSuccessOrErrorWidget.stopAnimation(justLoading: true);
       }
     }
+  }
+
+  refreshLastMessage(Messages message) {
+    matchsList.firstWhere((element) => element.id == message.receiverId).lastMessage = message;
+    matchsList.refresh();
   }
 }

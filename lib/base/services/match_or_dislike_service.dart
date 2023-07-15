@@ -30,6 +30,19 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
   }
 
   @override
+  Future<bool> removeMatchOrDislike(MatchOrDislike matchOrDislike) async {
+    try {
+      final token = await getToken();
+      final url = '${baseUrlApi}MatchOrDislike/RemoveMatchOrDislike';
+      final response = await super.put(url, matchOrDislike.toJson(), headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
   Future<bool> checkIfItsAMatch(String userId, String otherUserId) async {
     try {
       final token = await getToken();
@@ -74,18 +87,6 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
       return peopleList;
     } catch (_) {
       return null;
-    }
-  }
-
-  @override
-  Future<bool> deleteMatchOrDislike(MatchOrDislike matchOrDislike) async {
-    try {
-      final url = '${baseUrlApi}MatchOrDislike/DeleteMatchOrDislike';
-      final response = await super.delete(url, query: matchOrDislike.toJson());
-      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
-    } catch (_) {
-      return false;
     }
   }
 }

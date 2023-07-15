@@ -96,13 +96,13 @@ class UserService extends BaseService implements IUserService {
   }
 
   @override
-  Future<User?> getUserInformation(String userName) async {
+  Future<Person?> getUserInformation(String userName) async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}User/GetUserInformation';
       final response = await super.get(url, query: {"UserName": userName}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
-      return User.fromJson(response.body);
+      return Person.fromJson(response.body);
     } catch (_) {
       return null;
     }

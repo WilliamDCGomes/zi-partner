@@ -9,7 +9,11 @@ import '../../../utils/stylePages/app_colors.dart';
 import '../controller/main_menu_controller.dart';
 
 class MainMenuPage extends StatefulWidget {
-  const MainMenuPage({Key? key}) : super(key: key);
+  final bool goToSecondTab;
+  const MainMenuPage({
+    Key? key,
+    this.goToSecondTab = false,
+  }) : super(key: key);
 
   @override
   State<MainMenuPage> createState() => _MainMenuPageState();
@@ -20,7 +24,7 @@ class _MainMenuPageState extends State<MainMenuPage> with SingleTickerProviderSt
 
   @override
   void initState() {
-    controller = Get.put(MainMenuController(), tag: 'main-menu-controller');
+    controller = Get.put(MainMenuController(widget.goToSecondTab), tag: 'main-menu-controller');
     controller.tabController = TabController(
       length: 3,
       vsync: this,

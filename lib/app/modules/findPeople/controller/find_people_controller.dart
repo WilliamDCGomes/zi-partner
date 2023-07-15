@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/base/models/matchOrDislike/match_or_dislike.dart';
 import 'package:zi_partner/base/services/user_service.dart';
 import '../../../../base/models/loggedUser/logged_user.dart';
@@ -8,6 +10,7 @@ import '../../../../base/services/interfaces/imatch_or_dislike_service.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/services/match_or_dislike_service.dart';
 import '../../../utils/helpers/send_location.dart';
+import '../../../utils/sharedWidgets/popups/confirmation_popup.dart';
 import '../../../utils/sharedWidgets/popups/information_popup.dart';
 import '../../mainMenu/controller/main_menu_controller.dart';
 import '../../personDetail/page/person_detail_page.dart';
@@ -20,6 +23,7 @@ class FindPeopleController extends GetxController {
   late IUserService _userService;
   late MainMenuController _mainMenuController;
   late ScrollController scrollController;
+  late SharedPreferences sharedPreferences;
   late IMatchOrDislikeService _matchOrDislikeService;
 
   FindPeopleController() {
@@ -28,12 +32,14 @@ class FindPeopleController extends GetxController {
 
   @override
   void onInit() async {
+    sharedPreferences = await SharedPreferences.getInstance();
     _mainMenuController = Get.find(tag: 'main-menu-controller');
     await Future.delayed(const Duration(milliseconds: 200));
     await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
     _animationInitialized = true;
     await _sendLocation();
     await getNextFivePeople();
+    await _checkFingerPrintUser();
     super.onInit();
   }
 
@@ -137,6 +143,24 @@ class FindPeopleController extends GetxController {
         _animationInitialized = false;
         await _mainMenuController.loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
       }
+    }
+  }
+
+  _checkFingerPrintUser() async {
+    bool? useFingerPrint = sharedPreferences.getBool("user_finger_print");
+    if (useFingerPrint == null && await LocalAuthentication().canCheckBiometrics) {
+      showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return ConfirmationPopup(
+            title: "Aviso",
+            subTitle: "Deseja habilitar o login por digital?",
+            firstButton: () async => await sharedPreferences.setBool("user_finger_print", false),
+            secondButton: () async => await sharedPreferences.setBool("user_finger_print", true),
+          );
+        },
+      );
     }
   }
 }

@@ -112,7 +112,7 @@ class _ConfirmationPopupState extends State<ConfirmationPopup> {
           widget.subTitle ?? "",
           textColor: AppColors.blackColor,
           fontSize: 16.sp,
-          maxLines: 5,
+          maxLines: 10,
           fontWeight: FontWeight.bold,
         ),
         if (widget.child != null) Expanded(child: widget.child!),

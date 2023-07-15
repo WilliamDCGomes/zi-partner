@@ -57,8 +57,9 @@ class MessageService extends BaseService implements IMessageService {
   @override
   Future<bool> deleteMessage(String messageId) async {
     try {
+      final token = await getToken();
       final url = '${baseUrlApi}Message/DeleteMessage';
-      final response = await super.delete(url, query: {"MessageId": messageId});
+      final response = await super.delete(url, query: {"MessageId": messageId}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
       return response.body;
     } catch (_) {

@@ -5,16 +5,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/app/utils/helpers/static_informations.dart';
 import '../../../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/models/loggedUser/logged_user.dart';
+import '../../../../base/models/person/person.dart';
 import '../../../../base/services/user_service.dart';
+import '../../../../base/viewControllers/authenticateResponse/authenticate_response.dart';
 import '../../../utils/helpers/date_format_to_brazil.dart';
+import '../../../utils/helpers/save_user_informations.dart';
 import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
 import '../../../utils/sharedWidgets/popups/information_popup.dart';
 import '../../login/page/login_page.dart';
+import '../../mainMenu/page/main_menu_page.dart';
 
 class InitialPageController extends GetxController {
   late SharedPreferences sharedPreferences;
   late final LocalAuthentication fingerPrintAuth;
+  late AuthenticateResponse? userLogged;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
+  late Person? _user;
   late IUserService _userService;
 
   InitialPageController() {
@@ -32,6 +38,7 @@ class InitialPageController extends GetxController {
   _initializeVariables() {
     loadingWithSuccessOrErrorWidget = LoadingWithSuccessOrErrorWidget();
     fingerPrintAuth = LocalAuthentication();
+    _user = null;
     _userService = UserService();
   }
 
@@ -52,7 +59,7 @@ class InitialPageController extends GetxController {
             _goToNextPage();
           }
         } else {
-          Get.offAll(() => const LoginPage());
+          Get.offAll(() => const LoginPage(cancelFingerPrint: true,));
         }
       } else {
         if (!await _doLoginServerKeepConnected()) {
@@ -67,7 +74,7 @@ class InitialPageController extends GetxController {
   }
 
   _goToNextPage() {
-
+    Get.offAll(() => const MainMenuPage());
   }
 
   Future<bool> _doLoginServerKeepConnected() async {
@@ -77,7 +84,15 @@ class InitialPageController extends GetxController {
         "user_name",
       ) ?? "";
       LoggedUser.id = sharedPreferences.getString("user_id") ?? "";
-      return await _doLoginServer();
+      var result = await _doLoginServer();
+
+      if(result) {
+        if(!await SaveUserInformations.saveOptions(_user)){
+          throw Exception();
+        }
+      }
+
+      return result;
     } catch (_) {
       return false;
     }
@@ -93,7 +108,7 @@ class InitialPageController extends GetxController {
         return false;
       }
 
-      var userLogged = await _userService
+      userLogged = await _userService
           .authenticate(
             username: username,
             password: password,
@@ -106,7 +121,8 @@ class InitialPageController extends GetxController {
       }
 
       await sharedPreferences.setString('Token', userLogged!.token!);
-      await sharedPreferences.setString('ExpiracaoToken', DateFormatToBrazil.formatDateAmerican(userLogged.expirationDate));
+      await sharedPreferences.setString('ExpiracaoToken', DateFormatToBrazil.formatDateAmerican(userLogged!.expirationDate));
+      _user = await _userService.getUserInformation(username);
       return true;
     } catch (e) {
       await _resetLogin("Erro ao se conectar com o servidor.");

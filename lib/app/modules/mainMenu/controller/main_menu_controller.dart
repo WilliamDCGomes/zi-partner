@@ -7,18 +7,20 @@ import '../../matchs/page/matchs_page.dart';
 import '../../profile/page/profile_page.dart';
 
 class MainMenuController extends GetxController {
+  final bool goToSecondTab;
   late TabController tabController;
   late List<Widget> tabMainMenuList;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
   late SharedPreferences sharedPreferences;
 
-  MainMenuController() {
+  MainMenuController(this.goToSecondTab) {
     _initializeVariables();
   }
 
   @override
   void onInit() async {
     sharedPreferences = await SharedPreferences.getInstance();
+    if(goToSecondTab) tabController.animateTo(1, duration: const Duration(seconds: 0));
     super.onInit();
   }
 

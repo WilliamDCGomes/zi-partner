@@ -20,9 +20,12 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           ?.map((e) => UserPictures.fromJson(e as Map<String, dynamic>))
           .toList(),
       gender: $enumDecode(_$TypeGenderEnumMap, json['gender']),
+      birthdayDate: DateTime.parse(json['birthdayDate'] as String),
       lastMessage: json['lastMessage'] == null
           ? null
           : Messages.fromJson(json['lastMessage'] as Map<String, dynamic>),
+      cellphone: json['cellphone'] as String?,
+      email: json['email'] as String?,
     )..id = json['id'] as String;
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
@@ -33,6 +36,9 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'lastMessage': instance.lastMessage,
       'longitude': instance.longitude,
       'latitude': instance.latitude,
+      'birthdayDate': instance.birthdayDate.toIso8601String(),
+      'cellphone': instance.cellphone,
+      'email': instance.email,
       'distance': instance.distance,
       'gyms': instance.gyms,
       'picture': instance.picture,

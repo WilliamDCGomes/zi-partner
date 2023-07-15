@@ -19,7 +19,7 @@ class _MatchsPageState extends State<MatchsPage> {
 
   @override
   void initState() {
-    controller = Get.put(MatchsController());
+    controller = Get.put(MatchsController(), tag: "matchs-controller");
     super.initState();
   }
 

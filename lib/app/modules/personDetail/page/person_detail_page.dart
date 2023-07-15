@@ -3,6 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../base/models/person/person.dart';
 import '../../../utils/helpers/format_numbers.dart';
 import '../../../utils/helpers/paths.dart';
+import '../../../utils/sharedWidgets/button_widget.dart';
 import '../../../utils/sharedWidgets/card_person_widget.dart';
 import '../../../utils/sharedWidgets/gym_item_widget.dart';
 import '../../../utils/sharedWidgets/text_button_widget.dart';
@@ -197,8 +198,22 @@ class PersonDetailPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10.h,
+                    Visibility(
+                      visible: disableMatchController,
+                      replacement: SizedBox(
+                        height: 10.h,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 2.h),
+                        child: ButtonWidget(
+                          hintText: "DESFAZER MATCH",
+                          fontWeight: FontWeight.bold,
+                          backgroundColor: AppColors.whiteColor,
+                          textColor: AppColors.defaultColor,
+                          widthButton: 75.w,
+                          onPressed: () => controller.deleteMatch(),
+                        ),
+                      ),
                     ),
                   ],
                 ),

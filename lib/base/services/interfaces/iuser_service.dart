@@ -15,7 +15,7 @@ abstract class IUserService {
 
   Future<bool> checkEmailAlreadyRegistered(String email);
 
-  Future<User?> getUserInformation(String userName);
+  Future<Person?> getUserInformation(String userName);
 
   Future<List<Person>?> getNextFiveUsers(int skip);
 

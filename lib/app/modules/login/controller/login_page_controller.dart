@@ -5,15 +5,13 @@ import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/app/modules/mainMenu/page/main_menu_page.dart';
-import '../../../../base/models/loggedUser/logged_user.dart';
-import '../../../../base/models/user/user.dart';
+import '../../../../base/models/person/person.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/services/user_service.dart';
 import '../../../../base/viewControllers/authenticateResponse/authenticate_response.dart';
-import '../../../enums/enums.dart';
-import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/helpers/format_numbers.dart';
 import '../../../utils/helpers/internet_connection.dart';
+import '../../../utils/helpers/save_user_informations.dart';
 import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
 import '../../../utils/sharedWidgets/popups/information_popup.dart';
 
@@ -34,7 +32,7 @@ class LoginController extends GetxController {
   late AuthenticateResponse? userLogged;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
   late IUserService _userService;
-  late User? _user;
+  late Person? _user;
 
   LoginController(this.cancelFingerPrint) {
     _initializeVariables();
@@ -92,7 +90,9 @@ class LoginController extends GetxController {
           await _doLoginServer(true);
 
           if (userLogged != null) {
-            await _saveOptions();
+            if(!await SaveUserInformations.saveOptions(_user, password: passwordInputController.text, keepConected: keepConected.value)){
+              throw Exception();
+            }
 
             await loadingWithSuccessOrErrorWidget.stopAnimation();
             _goToNextPage();
@@ -125,11 +125,9 @@ class LoginController extends GetxController {
         loginButtonFocusNode.requestFocus();
 
         if (userLogged != null) {
-          await _saveOptions();
-          await sharedPreferences.setString("password", passwordInputController.text);
-
-          await sharedPreferences.setBool("keep-connected", keepConected.value);
-
+          if(!await SaveUserInformations.saveOptions(_user, password: passwordInputController.text, keepConected: keepConected.value)){
+            throw Exception();
+          }
           await loadingWithSuccessOrErrorWidget.stopAnimation();
           _goToNextPage();
         } else {
@@ -159,52 +157,6 @@ class LoginController extends GetxController {
     }
   }
 
-  _saveOptions() async {
-    String? oldUser = sharedPreferences.getString("user_logged");
-    if (oldUser == null) {
-      await sharedPreferences.setString("user_logged", userInputController.text);
-    } else if (oldUser != userInputController.text) {
-      await sharedPreferences.remove("user_finger_print");
-      await sharedPreferences.setString("user_logged", userInputController.text);
-    }
-
-    await sharedPreferences.setBool("keep-connected", keepConected.value);
-
-    if (_user != null) {
-      await sharedPreferences.setString("name", _user!.name);
-      await sharedPreferences.setString("birthdate", DateFormatToBrazil.formatDate(_user!.birthdayDate));
-      LoggedUser.gender = _user!.gender;
-      switch (_user!.gender) {
-        case TypeGender.masculine:
-          await sharedPreferences.setString("gender", "Masculino");
-          break;
-        case TypeGender.feminine:
-          await sharedPreferences.setString("gender", "Feminino");
-          break;
-        case TypeGender.none:
-          await sharedPreferences.setString("gender", "Não Informado");
-          break;
-      }
-      await sharedPreferences.setString("cellPhone", _user!.cellphone);
-      await sharedPreferences.setString("email", _user!.email);
-      LoggedUser.birthdayDate = DateFormatToBrazil.formatDate(_user!.birthdayDate);
-      LoggedUser.cellPhone = _user!.cellphone ;
-      LoggedUser.email = _user!.email;
-    }
-
-    if (userLogged != null) {
-      LoggedUser.nameAndLastName = userLogged!.name!;
-      LoggedUser.name = userLogged!.name!.split(' ').first;
-      LoggedUser.userName = userInputController.text;
-      LoggedUser.id = userLogged!.id!;
-      LoggedUser.password = passwordInputController.text;
-
-      await sharedPreferences.setString("user_name_and_last_name", userLogged!.name!);
-      await sharedPreferences.setString("user_name", userLogged!.name!.split(' ').first);
-      await sharedPreferences.setString("user_id", userLogged!.id!);
-    }
-  }
-
   Future<bool> _doLoginServer(bool fromBiometric) async {
     try {
       String? username = "";
@@ -221,21 +173,23 @@ class LoginController extends GetxController {
       }
       if (await InternetConnection.checkConnection()) {
         userLogged = await _userService
-            .authenticate(
-              username: fromBiometric
-                  ? username
-                  : userInputController.text.toLowerCase().trim(),
-              password: fromBiometric ? password : passwordInputController.text.trim(),
-            );
-        if (!fromBiometric) {
-          await sharedPreferences.setString("password", passwordInputController.text);
-        }
+          .authenticate(
+            username: fromBiometric
+                ? username
+                : userInputController.text.toLowerCase().trim(),
+            password: fromBiometric ? password : passwordInputController.text.trim(),
+          );
         if (userLogged?.success == false) {
           await _resetLogin("Usuário e/ou senha incorretos");
           return false;
         }
         await sharedPreferences.setString('Token', userLogged!.token!);
         await sharedPreferences.setString('ExpiracaoToken', userLogged!.expirationDate!.toIso8601String());
+        _user = await _userService.getUserInformation(
+          fromBiometric
+              ? username
+              : userInputController.text.toLowerCase().trim(),
+        );
         return true;
       }
       else {

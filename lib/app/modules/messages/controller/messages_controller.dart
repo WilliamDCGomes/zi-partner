@@ -95,6 +95,7 @@ class MessagesController extends GetxController {
           userId: LoggedUser.id,
           receiverId: recipientPerson.id,
           message: newMessage.text,
+          read: false,
         );
 
         sendingMessage.value = true;
@@ -121,5 +122,10 @@ class MessagesController extends GetxController {
       );
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
     }
+  }
+
+  closeMessageScreen() {
+    messagesList.sort((a, b) => a.inclusion.toString().compareTo(b.inclusion.toString()));
+    Get.back(result: messagesList.last);
   }
 }

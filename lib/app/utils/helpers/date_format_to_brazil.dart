@@ -16,6 +16,12 @@ class DateFormatToBrazil {
       if(date.day == todayDate.day && date.month == todayDate.month && date.year == todayDate.year) {
         return hourFromDate(date);
       }
+      else if(date.day == todayDate.day - 1 && date.month == todayDate.month && date.year == todayDate.year) {
+        return "Ontem";
+      }
+      else if(todayDate.day - date.day > 1 && todayDate.day - date.day < 7 && date.month == todayDate.month && date.year == todayDate.year) {
+        return weekDay(date);
+      }
       return DateFormat('dd-MM-yyyy').format(date).replaceAll('-', '/');
     }
     return "";

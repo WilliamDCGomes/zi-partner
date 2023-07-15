@@ -12,5 +12,5 @@ abstract class IMatchOrDislikeService {
 
   Future<List<Person>?> getNext7PeopleFromMatchs(String userId, int skip);
 
-  Future<bool> deleteMatchOrDislike(MatchOrDislike matchOrDislike);
+  Future<bool> removeMatchOrDislike(MatchOrDislike matchOrDislike);
 }

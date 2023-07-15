@@ -7,21 +7,36 @@ import '../../../utils/sharedWidgets/text_widget.dart';
 import '../../../utils/sharedWidgets/user_picture_widget.dart';
 import '../../../utils/stylePages/app_colors.dart';
 import '../../messages/page/messages_page.dart';
+import '../controller/matchs_controller.dart';
 
 class MatchCardIconWidget extends StatelessWidget {
   final Person person;
+  late final MatchsController matchsController;
 
-  const MatchCardIconWidget({
+  MatchCardIconWidget({
     Key? key,
     required this.person,
-  }) : super(key: key);
+  }) : super(key: key) {
+    matchsController = Get.find(tag: 'matchs-controller');
+  }
+
+  _refreshLastMessage() async {
+    var result = await Get.to(() => MessagesPage(
+      recipientPerson: person,
+    ));
+
+    if(result != null) {
+      try {
+        matchsController.refreshLastMessage(result);
+      }
+      catch(_){}
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(() => MessagesPage(
-        recipientPerson: person,
-      )),
+      onTap: () => _refreshLastMessage(),
       child: Card(
         elevation: 3,
         margin: EdgeInsets.only(bottom: 2.h),

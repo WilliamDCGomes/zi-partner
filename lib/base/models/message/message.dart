@@ -9,6 +9,7 @@ class Messages extends ZiPartnerCore {
   late String userId;
   late String receiverId;
   late String message;
+  late bool read;
   @JsonKey(includeFromJson: false)
   late bool itsMine;
   @JsonKey(includeFromJson: false)
@@ -18,6 +19,7 @@ class Messages extends ZiPartnerCore {
     required this.userId,
     required this.receiverId,
     required this.message,
+    required this.read,
   }){
     itsMine = userId == LoggedUser.id;
     setMessageDate();

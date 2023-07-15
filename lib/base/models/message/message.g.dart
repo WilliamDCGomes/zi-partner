@@ -10,6 +10,7 @@ Messages _$MessagesFromJson(Map<String, dynamic> json) => Messages(
       userId: json['userId'] as String,
       receiverId: json['receiverId'] as String,
       message: json['message'] as String,
+      read: json['read'] as bool,
     )
       ..id = json['id'] as String?
       ..inclusion = json['inclusion'] == null
@@ -28,4 +29,5 @@ Map<String, dynamic> _$MessagesToJson(Messages instance) => <String, dynamic>{
       'userId': instance.userId,
       'receiverId': instance.receiverId,
       'message': instance.message,
+      'read': instance.read,
     };
