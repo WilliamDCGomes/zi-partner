@@ -9,15 +9,15 @@ class SaveUserInformations {
     try {
       if(user != null) {
         var sharedPreferences = await SharedPreferences.getInstance();
-        String? oldUser = sharedPreferences.getString("user_logged");
+        String? oldUser = sharedPreferences.getString("user_name");
         if (oldUser == null) {
-          await sharedPreferences.setString("user_logged", user.userName);
+          await sharedPreferences.setString("user_name", user.userName);
         }
         else if (oldUser != user.userName) {
           var token = sharedPreferences.getString('Token');
           var expiracaoToken = sharedPreferences.getString('ExpiracaoToken');
           await sharedPreferences.clear();
-          await sharedPreferences.setString("user_logged", user.userName);
+          await sharedPreferences.setString("user_name", user.userName);
           if(token != null) {
             await sharedPreferences.setString('Token', token);
           }
@@ -34,11 +34,10 @@ class SaveUserInformations {
         if(user.email != null) {
           await sharedPreferences.setString("email", user.email!);
         }
-        await sharedPreferences.setString("name", user.name);
-        await sharedPreferences.setString("birthdate", DateFormatToBrazil.formatDate(user.birthdayDate));
-        await sharedPreferences.setString("user_name_and_last_name", user.name);
-        await sharedPreferences.setString("user_name", user.name.split(' ').first);
         await sharedPreferences.setString("user_id", user.id);
+        await sharedPreferences.setString("name", user.name.split(' ').first);
+        await sharedPreferences.setString("user_name_and_last_name", user.name);
+        await sharedPreferences.setString("birthdate", DateFormatToBrazil.formatDate(user.birthdayDate));
         switch (user.gender) {
           case TypeGender.masculine:
             await sharedPreferences.setString("gender", "Masculino");
@@ -55,9 +54,10 @@ class SaveUserInformations {
         LoggedUser.gender = user.gender;
         LoggedUser.cellPhone = user.cellphone ;
         LoggedUser.email = user.email ?? "";
-        LoggedUser.nameAndLastName = user.name;
-        LoggedUser.name = user.name.split(' ').first;
+        LoggedUser.fullName = user.name;
+        LoggedUser.name = user.name;
         LoggedUser.userName = user.userName;
+        LoggedUser.aboutMe = user.aboutMe;
         LoggedUser.id = user.id;
         if(password != null && password.isNotEmpty) {
           LoggedUser.password = password;

@@ -1,5 +1,6 @@
 import '../../models/person/person.dart';
 import '../../models/user/user.dart';
+import '../../models/userPictures/user_pictures.dart';
 import '../../viewControllers/authenticateResponse/authenticate_response.dart';
 
 abstract class IUserService {
@@ -16,6 +17,8 @@ abstract class IUserService {
   Future<bool> checkEmailAlreadyRegistered(String email);
 
   Future<Person?> getUserInformation(String userName);
+
+  Future<UserPictures?> getUserProfilePicture();
 
   Future<List<Person>?> getNextFiveUsers(int skip);
 

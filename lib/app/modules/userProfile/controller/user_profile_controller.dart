@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:zi_partner/app/modules/login/page/login_page.dart';
+import 'package:zi_partner/app/utils/helpers/date_format_to_brazil.dart';
+import 'package:zi_partner/base/models/gym/gym.dart';
 import '../../../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../../../base/services/user_service.dart';
 import '../../../../base/models/loggedUser/logged_user.dart';
 import '../../../../base/models/user/user.dart';
+import '../../../../base/models/userPictures/user_pictures.dart';
 import '../../../enums/enums.dart';
 import '../../../utils/helpers/get_profile_picture_controller.dart';
 import '../../../utils/helpers/internet_connection.dart';
@@ -64,8 +67,8 @@ class UserProfileController extends GetxController {
   late MaskTextInputFormatter maskCellPhoneFormatter;
   late List<Widget> tabsList;
   late RxList<String> genderList;
-  late RxList<String> gymsList;
-  late RxList<String> images;
+  late RxList<Gym> gymsList;
+  late RxList<UserPictures> images;
   late XFile? profilePicture;
   late final ImagePicker _picker;
   late ScrollController imagesListController;
@@ -82,12 +85,16 @@ class UserProfileController extends GetxController {
 
   @override
   void onInit() async {
+    await Future.delayed(const Duration(milliseconds: 200));
+    await loadingWithSuccessOrErrorWidget.startAnimation();
     await GetProfilePictureController.loadProfilePicture(
       loadingPicture,
       hasPicture,
       profileImagePath,
       _userService,
     );
+    await _getUserInformationAsync();
+    await loadingWithSuccessOrErrorWidget.stopAnimation(justLoading: true);
     super.onInit();
   }
 
@@ -110,8 +117,8 @@ class UserProfileController extends GetxController {
     emailInputHasError = false.obs;
     confirmEmailInputHasError = false.obs;
     genderList = <String>[].obs;
-    gymsList = <String>[].obs;
-    images = <String>[].obs;
+    gymsList = <Gym>[].obs;
+    images = <UserPictures>[].obs;
     imagesListController = ScrollController();
     nameTextController = TextEditingController();
     loginTextController = TextEditingController();
@@ -149,12 +156,25 @@ class UserProfileController extends GetxController {
   }
 
   _getUserInformation(){
-    nameTextController.text = LoggedUser.name;
+    nameTextController.text = LoggedUser.fullName;
+    loginTextController.text = LoggedUser.userName;
     birthDateTextController.text = LoggedUser.birthdayDate;
     genderSelected.value = LoggedUser.gender == TypeGender.masculine ? genderList[0] : genderList[1];
     cellPhoneTextController.text = LoggedUser.cellPhone ?? "";
     emailTextController.text = LoggedUser.email;
     confirmEmailTextController.text = LoggedUser.email;
+    aboutMeTextController.text = LoggedUser.aboutMe;
+  }
+
+  _getUserInformationAsync () async {
+    var user = await _userService.getUserInformation(loginTextController.text);
+
+    if(user != null && user.gyms != null) {
+      for(var gym in user.gyms!) {
+        gymsList.add(gym);
+      }
+      images.value = user.picture ?? <UserPictures>[];
+    }
   }
 
   bool _validPersonalInformationAndAdvanceNextStep() {
@@ -182,8 +202,18 @@ class UserProfileController extends GetxController {
 
   _setUserToUpdate(){
     user.name = nameTextController.text;
-    //user.birthdayDate = birthDateTextController.text;
-    //user.gender = genderSelected.value;
+    user.birthdayDate = DateFormatToBrazil.formatDateFromTextField(birthDateTextController.text);
+    switch (genderSelected.value) {
+      case "Masculino":
+        user.gender = TypeGender.masculine;
+        break;
+      case "Feminino":
+        user.gender = TypeGender.feminine;
+        break;
+      case "Não Informado":
+        user.gender = TypeGender.none;
+        break;
+    }
     user.cellphone = cellPhoneTextController.text;
     user.email = emailTextController.text;
     user.id = LoggedUser.id;
@@ -191,10 +221,20 @@ class UserProfileController extends GetxController {
 
   _updateLocaleUser(){
     nameTextController.text = user.name;
-    //birthDateTextController.text = user.birthdate;
-    //genderSelected.value = user.gender;
-    cellPhoneTextController.text = user.cellphone ?? "";
-    emailTextController.text = user.email ?? "";
+    birthDateTextController.text = DateFormatToBrazil.formatDate(user.birthdayDate);
+    switch (user.gender) {
+      case TypeGender.masculine:
+        genderSelected.value = "Masculino";
+        break;
+      case TypeGender.feminine:
+        genderSelected.value = "Feminino";
+        break;
+      case TypeGender.none:
+        genderSelected.value = "Não Informado";
+        break;
+    }
+    cellPhoneTextController.text = user.cellphone;
+    emailTextController.text = user.email;
     LoggedUser.id = user.id ?? "";
   }
 
@@ -452,9 +492,14 @@ class UserProfileController extends GetxController {
     if(!profileIsDisabled.value) {
       if(gymNameTextController.text.isNotEmpty){
         FocusScope.of(Get.context!).requestFocus(FocusNode());
-        gymsList.add(gymNameTextController.text);
+        gymsList.add(
+          Gym(
+            name: gymNameTextController.text,
+            selected: true,
+          ),
+        );
         gymNameTextController.clear();
-        gymsList.sort((a, b) => a.compareTo(b));
+        gymsList.sort((a, b) => a.name.compareTo(b.name));
       }
       else{
         showDialog(
@@ -487,7 +532,7 @@ class UserProfileController extends GetxController {
 
     if(validation) {
       gymsList.removeAt(index);
-      gymsList.sort((a, b) => a.compareTo(b));
+      gymsList.sort((a, b) => a.name.compareTo(b.name));
       SnackbarWidget(
         warningText: "Aviso",
         informationText: "Academia removido da lista com sucesso",
@@ -506,7 +551,13 @@ class UserProfileController extends GetxController {
 
             for(var personImage in image){
               if(images.length < 6) {
-                images.add(personImage);
+                images.add(
+                  UserPictures(
+                    userId: LoggedUser.id,
+                    mainPicture: images.isEmpty,
+                    base64: personImage,
+                  ),
+                );
                 quantity++;
               }
               else {

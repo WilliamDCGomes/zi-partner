@@ -6,8 +6,9 @@ import '../sharedWidgets/popups/information_popup.dart';
 class GetProfilePictureController {
   static loadProfilePicture(RxBool loadingPicture, RxBool hasPicture, RxString profileImagePath, IUserService userService) async {
     try{
+      var userPicture = await userService.getUserProfilePicture();
       loadingPicture.value = true;
-      //profileImagePath.value = await userService.getUserProfilePicture();
+      profileImagePath.value = userPicture?.base64 ?? "";
       loadingPicture.value = false;
       hasPicture.value = profileImagePath.value.isNotEmpty;
     }

@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/person/person.dart';
 import '../models/user/user.dart';
+import '../models/userPictures/user_pictures.dart';
 import '../viewControllers/authenticateResponse/authenticate_response.dart';
 import 'base/base_service.dart';
 import 'interfaces/iuser_service.dart';
@@ -11,7 +12,7 @@ class UserService extends BaseService implements IUserService {
     try {
       httpClient.timeout = const Duration(seconds: 30);
       final sharedPreferences = await SharedPreferences.getInstance();
-      username ??= sharedPreferences.getString('user_logged');
+      username ??= sharedPreferences.getString('user_name');
       password ??= sharedPreferences.getString('password');
 
       if (username == null || password == null) throw Exception();
@@ -103,6 +104,19 @@ class UserService extends BaseService implements IUserService {
       final response = await super.get(url, query: {"UserName": userName}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return Person.fromJson(response.body);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<UserPictures?> getUserProfilePicture() async {
+    try {
+      final token = await getToken();
+      final url = '${baseUrlApi}User/GetUserProfilePicture';
+      final response = await super.get(url, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response)) throw Exception();
+      return UserPictures.fromJson(response.body);
     } catch (_) {
       return null;
     }

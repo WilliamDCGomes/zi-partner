@@ -9,7 +9,6 @@ import '../../../../base/models/person/person.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/services/user_service.dart';
 import '../../../../base/viewControllers/authenticateResponse/authenticate_response.dart';
-import '../../../utils/helpers/format_numbers.dart';
 import '../../../utils/helpers/internet_connection.dart';
 import '../../../utils/helpers/save_user_informations.dart';
 import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
@@ -42,7 +41,7 @@ class LoginController extends GetxController {
   void onInit() async {
     sharedPreferences = await SharedPreferences.getInstance();
     appVersion.value = (await PackageInfo.fromPlatform()).version;
-    userInputController.text = FormatNumbers.stringToCpf(sharedPreferences.getString("user_logged") ?? "");
+    userInputController.text = sharedPreferences.getString("user_name") ?? "";
     if (kDebugMode) {
       userInputController.text = "Wiuta";
       passwordInputController.text = "12121212";
@@ -163,7 +162,7 @@ class LoginController extends GetxController {
       String? password = "";
 
       if (fromBiometric) {
-        username = sharedPreferences.getString("user_logged");
+        username = sharedPreferences.getString("user_name");
         password = sharedPreferences.getString("password");
 
         if (username == null || password == null) {

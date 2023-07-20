@@ -79,9 +79,9 @@ class InitialPageController extends GetxController {
 
   Future<bool> _doLoginServerKeepConnected() async {
     try {
-      LoggedUser.nameAndLastName = sharedPreferences.getString("user_name_and_last_name") ?? "";
+      LoggedUser.fullName = sharedPreferences.getString("user_name_and_last_name") ?? "";
       LoggedUser.name = sharedPreferences.getString(
-        "user_name",
+        "name",
       ) ?? "";
       LoggedUser.id = sharedPreferences.getString("user_id") ?? "";
       var result = await _doLoginServer();
@@ -100,7 +100,7 @@ class InitialPageController extends GetxController {
 
   Future<bool> _doLoginServer() async {
     try {
-      String? username = sharedPreferences.getString("user_logged");
+      String? username = sharedPreferences.getString("user_name");
       String? password = sharedPreferences.getString("password");
 
       if (username == null || password == null) {

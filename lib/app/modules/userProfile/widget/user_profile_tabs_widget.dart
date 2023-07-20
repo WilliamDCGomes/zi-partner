@@ -178,32 +178,37 @@ class UserProfileTabsWidget{
                     },
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 1.5.h),
-                  child: TextFieldWidget(
-                    focusNode: controller.confirmEmailFocusNode,
-                    controller: controller.confirmEmailTextController,
-                    hintText: "Confirme o E-mail",
-                    justRead: controller.profileIsDisabled.value,
-                    height: PlatformType.isTablet(Get.context!) ? 7.h : 9.h,
-                    width: double.infinity,
-                    keyboardType: TextInputType.emailAddress,
-                    enableSuggestions: true,
-                    hasError: controller.confirmEmailInputHasError.value,
-                    validator: (String? value) {
-                      String? validation = TextFieldValidators.emailConfirmationValidation(
-                        controller.emailTextController.text,
-                        value,
-                      );
+                Obx(
+                  () => Visibility(
+                    visible: !controller.profileIsDisabled.value,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 1.5.h),
+                      child: TextFieldWidget(
+                        focusNode: controller.confirmEmailFocusNode,
+                        controller: controller.confirmEmailTextController,
+                        hintText: "Confirme o E-mail",
+                        justRead: controller.profileIsDisabled.value,
+                        height: PlatformType.isTablet(Get.context!) ? 7.h : 9.h,
+                        width: double.infinity,
+                        keyboardType: TextInputType.emailAddress,
+                        enableSuggestions: true,
+                        hasError: controller.confirmEmailInputHasError.value,
+                        validator: (String? value) {
+                          String? validation = TextFieldValidators.emailConfirmationValidation(
+                            controller.emailTextController.text,
+                            value,
+                          );
 
-                      if(validation != null && validation != ""){
-                        controller.confirmEmailInputHasError.value = true;
-                      }
-                      else{
-                        controller.confirmEmailInputHasError.value = false;
-                      }
-                      return validation;
-                    },
+                          if(validation != null && validation != ""){
+                            controller.confirmEmailInputHasError.value = true;
+                          }
+                          else{
+                            controller.confirmEmailInputHasError.value = false;
+                          }
+                          return validation;
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -273,7 +278,7 @@ class UserProfileTabsWidget{
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: controller.gymsList.length,
                   itemBuilder: (context, index) => GymItemList(
-                    gymName: controller.gymsList[index],
+                    gymName: controller.gymsList[index].name,
                     onDelete: controller.profileIsDisabled.value ? null : () => controller.deleteGyms(index),
                   ),
                 ),
@@ -318,14 +323,16 @@ class UserProfileTabsWidget{
                     itemCount: controller.images.length,
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: controller.profileIsDisabled.value ? null : () => ViewPicture.openPicture(controller.images[index]),
+                        onTap: controller.profileIsDisabled.value ? null : () => ViewPicture.openPicture(
+                          controller.images[index].base64,
+                        ),
                         child: LazyLoadingList(
                           initialSizeOfItems: 2,
                           index: index,
                           loadMore: () {},
                           hasMore: true,
                           child: PicturePersonWidget(
-                            path: controller.images[index],
+                            path: controller.images[index].base64,
                             onDelete: () async => await controller.removePicture(index),
                           ),
                         ),

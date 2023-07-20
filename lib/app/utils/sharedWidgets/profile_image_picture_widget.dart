@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -39,8 +40,8 @@ class _ProfileImagePictureWidgetState extends State<ProfileImagePictureWidget> {
         width: 20.h,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-              widget.profileImagePath.value,
+            image: MemoryImage(
+              base64Decode(widget.profileImagePath.value),
             ),
             fit: BoxFit.cover,
           ),

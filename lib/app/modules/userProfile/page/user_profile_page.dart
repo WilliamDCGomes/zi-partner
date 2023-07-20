@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -96,7 +98,9 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                                 if(controller.profileImagePath.value.isNotEmpty){
                                   showImageViewer(
                                     context,
-                                    Image.asset(controller.profileImagePath.value).image,
+                                    Image.memory(
+                                      base64Decode(controller.profileImagePath.value),
+                                    ).image,
                                   );
                                 }
                               },

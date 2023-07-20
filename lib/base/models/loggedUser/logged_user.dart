@@ -8,6 +8,7 @@ class LoggedUser {
   static String aboutMe = "";
   static String nameInitials = "";
   static String nameAndLastName = "";
+  static String fullName = "";
   static String birthdayDate = "";
   static TypeGender gender = TypeGender.none;
   static String? cellPhone = "";
