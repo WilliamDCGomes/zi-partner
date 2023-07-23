@@ -9,6 +9,7 @@ import '../../../utils/helpers/get_profile_picture_controller.dart';
 import '../../../utils/helpers/paths.dart';
 import '../../../utils/sharedWidgets/popups/logout_popup.dart';
 import '../../settingsApp/page/settings_app_page.dart';
+import '../../userProfile/page/user_profile_page.dart';
 import '../widget/profile_card_widget.dart';
 
 class ProfileController extends GetxController {
@@ -75,5 +76,16 @@ class ProfileController extends GetxController {
       profileImagePath,
       _userService,
     );
+  }
+
+  openProfile() async {
+    try {
+      var result = await Get.to(() => const UserProfilePage());
+
+      if(result != null && profileImagePath.value != result) {
+        profileImagePath.value = result;
+      }
+    }
+    catch(_) {}
   }
 }

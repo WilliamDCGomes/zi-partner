@@ -3,18 +3,28 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/app/modules/login/page/login_page.dart';
 import 'package:zi_partner/app/utils/helpers/date_format_to_brazil.dart';
 import 'package:zi_partner/base/models/gym/gym.dart';
+import 'package:zi_partner/base/services/gym_service.dart';
+import 'package:zi_partner/base/services/picture_service.dart';
+import 'package:zi_partner/base/services/user_gym_service.dart';
 import '../../../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../../../base/services/user_service.dart';
 import '../../../../base/models/loggedUser/logged_user.dart';
+import '../../../../base/models/person/person.dart';
 import '../../../../base/models/user/user.dart';
+import '../../../../base/models/userGym/user_gym.dart';
 import '../../../../base/models/userPictures/user_pictures.dart';
+import '../../../../base/services/interfaces/igym_service.dart';
+import '../../../../base/services/interfaces/ipicture_service.dart';
+import '../../../../base/services/interfaces/iuser_gym_service.dart';
 import '../../../enums/enums.dart';
 import '../../../utils/helpers/get_profile_picture_controller.dart';
 import '../../../utils/helpers/internet_connection.dart';
 import '../../../utils/helpers/masks_for_text_fields.dart';
+import '../../../utils/helpers/save_user_informations.dart';
 import '../../../utils/helpers/text_field_validators.dart';
 import '../../../utils/helpers/valid_cellphone_mask.dart';
 import '../../../utils/helpers/view_picture.dart';
@@ -24,7 +34,6 @@ import '../../../utils/sharedWidgets/popups/confirmation_popup.dart';
 import '../../../utils/sharedWidgets/popups/information_popup.dart';
 import '../../../utils/sharedWidgets/snackbar_widget.dart';
 import '../../../utils/stylePages/app_colors.dart';
-import '../../mainMenu/page/main_menu_page.dart';
 import '../widget/user_profile_tabs_widget.dart';
 
 class UserProfileController extends GetxController {
@@ -47,7 +56,7 @@ class UserProfileController extends GetxController {
   late RxBool confirmEmailInputHasError;
   late TabController tabController;
   late TextEditingController nameTextController;
-  late TextEditingController loginTextController;
+  late TextEditingController userNameTextController;
   late TextEditingController birthDateTextController;
   late TextEditingController cellPhoneTextController;
   late TextEditingController emailTextController;
@@ -70,12 +79,15 @@ class UserProfileController extends GetxController {
   late RxList<Gym> gymsList;
   late RxList<UserPictures> images;
   late XFile? profilePicture;
-  late final ImagePicker _picker;
   late ScrollController imagesListController;
   late LoadingProfilePictureWidget loadingProfilePicture;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
   late User user;
+  late SharedPreferences sharedPreferences;
   late IUserService _userService;
+  late IGymService _gymService;
+  late IUserGymService _userGymService;
+  late IPictureService _pictureService;
 
   UserProfileController(){
     _initializeVariables();
@@ -85,6 +97,7 @@ class UserProfileController extends GetxController {
 
   @override
   void onInit() async {
+    sharedPreferences = await SharedPreferences.getInstance();
     await Future.delayed(const Duration(milliseconds: 200));
     await loadingWithSuccessOrErrorWidget.startAnimation();
     await GetProfilePictureController.loadProfilePicture(
@@ -121,7 +134,7 @@ class UserProfileController extends GetxController {
     images = <UserPictures>[].obs;
     imagesListController = ScrollController();
     nameTextController = TextEditingController();
-    loginTextController = TextEditingController();
+    userNameTextController = TextEditingController();
     birthDateTextController = TextEditingController();
     cellPhoneTextController = TextEditingController();
     emailTextController = TextEditingController();
@@ -138,12 +151,14 @@ class UserProfileController extends GetxController {
     emailFocusNode = FocusNode();
     confirmEmailFocusNode = FocusNode();
     confirmPasswordFocusNode = FocusNode();
-    _picker = ImagePicker();
     maskCellPhoneFormatter = MasksForTextFields.phoneNumberAcceptExtraNumberMask;
     loadingProfilePicture = LoadingProfilePictureWidget();
     loadingWithSuccessOrErrorWidget = LoadingWithSuccessOrErrorWidget();
     user = User.empty();
     _userService = UserService();
+    _gymService = GymService();
+    _userGymService = UserGymService();
+    _pictureService = PictureService();
   }
 
   _initializeLists() {
@@ -157,7 +172,7 @@ class UserProfileController extends GetxController {
 
   _getUserInformation(){
     nameTextController.text = LoggedUser.fullName;
-    loginTextController.text = LoggedUser.userName;
+    userNameTextController.text = LoggedUser.userName;
     birthDateTextController.text = LoggedUser.birthdayDate;
     genderSelected.value = LoggedUser.gender == TypeGender.masculine ? genderList[0] : genderList[1];
     cellPhoneTextController.text = LoggedUser.cellPhone ?? "";
@@ -167,30 +182,32 @@ class UserProfileController extends GetxController {
   }
 
   _getUserInformationAsync () async {
-    var user = await _userService.getUserInformation(loginTextController.text);
+    try {
+      var user = await _userService.getUserInformation(userNameTextController.text);
 
-    if(user != null && user.gyms != null) {
-      for(var gym in user.gyms!) {
-        gymsList.add(gym);
+      if(user == null) {
+        throw Exception();
       }
-      images.value = user.picture ?? <UserPictures>[];
+      else if(user.gyms != null) {
+        for(var gym in user.gyms!) {
+          gymsList.add(gym);
+        }
+        images.value = user.picture ?? <UserPictures>[];
+      }
     }
-  }
-
-  bool _validPersonalInformationAndAdvanceNextStep() {
-    if(genderSelected.value.isEmpty){
-      showDialog(
+    catch(_) {
+      await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
+      await showDialog(
         context: Get.context!,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return const InformationPopup(
-            warningMessage: "Informe o seu sexo.",
+            warningMessage: "Erro ao carregar o perfil!\nTente novamente mais tarde.",
           );
         },
       );
-      return false;
+      closeProfile();
     }
-    return true;
   }
 
   phoneTextFieldEdited(String cellPhoneTyped){
@@ -202,6 +219,8 @@ class UserProfileController extends GetxController {
 
   _setUserToUpdate(){
     user.name = nameTextController.text;
+    user.userName = userNameTextController.text;
+    user.password = sharedPreferences.getString("password") ?? LoggedUser.password;
     user.birthdayDate = DateFormatToBrazil.formatDateFromTextField(birthDateTextController.text);
     switch (genderSelected.value) {
       case "Masculino":
@@ -217,97 +236,105 @@ class UserProfileController extends GetxController {
     user.cellphone = cellPhoneTextController.text;
     user.email = emailTextController.text;
     user.id = LoggedUser.id;
-  }
-
-  _updateLocaleUser(){
-    nameTextController.text = user.name;
-    birthDateTextController.text = DateFormatToBrazil.formatDate(user.birthdayDate);
-    switch (user.gender) {
-      case TypeGender.masculine:
-        genderSelected.value = "Masculino";
-        break;
-      case TypeGender.feminine:
-        genderSelected.value = "Feminino";
-        break;
-      case TypeGender.none:
-        genderSelected.value = "Não Informado";
-        break;
-    }
-    cellPhoneTextController.text = user.cellphone;
-    emailTextController.text = user.email;
-    LoggedUser.id = user.id ?? "";
+    user.aboutMe = aboutMeTextController.text;
   }
 
   editButtonPressed() async {
-    FocusScope.of(Get.context!).requestFocus(FocusNode());
-    if(profileIsDisabled.value){
-      buttonText.value = "SALVAR";
-      profileIsDisabled.value = false;
+    try {
+      FocusScope.of(Get.context!).requestFocus(FocusNode());
+      if(profileIsDisabled.value){
+        buttonText.value = "SALVAR";
+        profileIsDisabled.value = false;
+      }
+      else{
+        if(await InternetConnection.validInternet(
+          "É necessário uma conexão com a internet para fazer o cadastro",
+          loadingWithSuccessOrErrorWidget,
+        ) && _validProfile()) {
+          if(gymsList.isEmpty) {
+            tabController.index = 2;
+            bool cancelMethod = false;
+            await showDialog(
+              context: Get.context!,
+              builder: (BuildContext context) {
+                return ConfirmationPopup(
+                  title: "Aviso",
+                  subTitle: "Você não adicionou nenhuma academia na sua lista, tem certeza que deseja continuar?",
+                  firstButton: () => cancelMethod = true,
+                  secondButton: () {},
+                );
+              },
+            );
+            if(cancelMethod) return;
+          }
+          if(images.isEmpty){
+            tabController.index = 3;
+            bool cancelMethod = false;
+            await showDialog(
+              context: Get.context!,
+              builder: (BuildContext context) {
+                return ConfirmationPopup(
+                  title: "Aviso",
+                  subTitle: "Você não adicionou nenhuma imagem no seu perfil, tem certeza que deseja continuar?",
+                  firstButton: () => cancelMethod = true,
+                  secondButton: () {},
+                );
+              },
+            );
+            if(cancelMethod) return;
+          }
+          if(aboutMeTextController.text.isEmpty){
+            tabController.index = 4;
+            bool cancelMethod = false;
+            await showDialog(
+              context: Get.context!,
+              builder: (BuildContext context) {
+                return ConfirmationPopup(
+                  title: "Aviso",
+                  subTitle: "Você não disse nada sobre você, tem certeza que deseja finalizar?",
+                  firstButton: () => cancelMethod = true,
+                  secondButton: () {},
+                );
+              },
+            );
+            if(cancelMethod) return;
+          }
+          await loadingWithSuccessOrErrorWidget.startAnimation();
+
+          _setUserToUpdate();
+
+          if(await _updateUser() && await _updateUserLocale()) {
+            await loadingWithSuccessOrErrorWidget.stopAnimation();
+            await showDialog(
+              context: Get.context!,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return const InformationPopup(
+                  warningMessage: "Perfil atualizado com sucesso!",
+                );
+              },
+            );
+
+            buttonText.value = "EDITAR";
+            profileIsDisabled.value = true;
+          }
+          else {
+            throw Exception();
+          }
+        }
+      }
     }
-    else{
-      await loadingWithSuccessOrErrorWidget.startAnimation();
-
-      await Future.delayed(const Duration(seconds: 1));
-
-      if(!await InternetConnection.validInternet(
-        "É necessário uma conexão com a internet para fazer o cadastro",
-        loadingWithSuccessOrErrorWidget,
-      )){
-        return;
-      }
-      if(!_validProfile()){
-        return;
-      }
-      if(gymsList.isEmpty){
-        bool cancelMethod = false;
-        await showDialog(
-          context: Get.context!,
-          builder: (BuildContext context) {
-            return ConfirmationPopup(
-              title: "Aviso",
-              subTitle: "Você não adicionou nenhuma academia na sua lista, tem certeza que deseja continuar?",
-              firstButton: () => cancelMethod = true,
-              secondButton: () {},
-            );
-          },
-        );
-        if(cancelMethod) return;
-      }
-      if(images.isEmpty){
-        bool cancelMethod = false;
-        await showDialog(
-          context: Get.context!,
-          builder: (BuildContext context) {
-            return ConfirmationPopup(
-              title: "Aviso",
-              subTitle: "Você não adicionou nenhuma imagem no seu perfil, tem certeza que deseja continuar?",
-              firstButton: () => cancelMethod = true,
-              secondButton: () {},
-            );
-          },
-        );
-        if(cancelMethod) return;
-      }
-      if(_validPersonalInformationAndAdvanceNextStep()){
-        _setUserToUpdate();
-
-        //if(await _saveUser()){
-          await loadingWithSuccessOrErrorWidget.stopAnimation();
-          await showDialog(
-            context: Get.context!,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return const InformationPopup(
-                warningMessage: "Perfil atualizado com sucesso!",
-              );
-            },
+    catch(_) {
+      await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
+      await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const InformationPopup(
+            warningMessage: "Erro ao atualizar o perfil!\nTente novamente mais tarde.",
           );
-          _updateLocaleUser();
-          buttonText.value = "EDITAR";
-          profileIsDisabled.value = true;
-          Get.offAll(() => const MainMenuPage());
-        //}
-      }
+        },
+      );
     }
   }
 
@@ -340,7 +367,7 @@ class UserProfileController extends GetxController {
       String? cellPhoneValidation = TextFieldValidators.cellPhoneValidation(cellPhoneTextController.text);
       if(cellPhoneValidation != null && cellPhoneValidation != ""){
         cellPhoneInputHasError.value = true;
-        tabController.index = 2;
+        tabController.index = 1;
         throw cellPhoneValidation;
       }
       else{
@@ -350,7 +377,7 @@ class UserProfileController extends GetxController {
       String? emailValidation = TextFieldValidators.emailValidation(emailTextController.text);
       if(emailValidation != null && emailValidation != ""){
         emailInputHasError.value = true;
-        tabController.index = 2;
+        tabController.index = 1;
         throw emailValidation;
       }
       else{
@@ -363,7 +390,7 @@ class UserProfileController extends GetxController {
       );
       if(confirmEmailvalidation != null && confirmEmailvalidation != ""){
         confirmEmailInputHasError.value = true;
-        tabController.index = 2;
+        tabController.index = 1;
         throw confirmEmailvalidation;
       }
       else{
@@ -385,109 +412,6 @@ class UserProfileController extends GetxController {
     }
   }
 
-  getProfileImage(ImageOrigin origin) async {
-    try{
-      profilePicture = await _picker.pickImage(
-        source: origin == ImageOrigin.camera ?
-          ImageSource.camera : ImageSource.gallery
-      );
-      if(profilePicture != null){
-        if(await _saveProfilePicture()){
-          imageChanged = true;
-          SnackbarWidget(
-            warningText: "Aviso",
-            informationText: "Foto de perfil alterada com sucesso.",
-            backgrondColor: AppColors.defaultColor,
-          );
-        }
-      }
-    }
-    catch(e){
-      showDialog(
-        context: Get.context!,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "Erro ao atualizar a imagem de perfil.",
-          );
-        },
-      );
-    }
-  }
-
-  Future<bool> _saveProfilePicture() async {
-    //return await _userService.sendUserProfilePicture(profilePicture!, _progressImage);
-    return true;
-  }
-
-  confirmationDeleteProfilePicture() async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    await showDialog(
-        context: Get.context!,
-        builder: (BuildContext context) {
-          return ConfirmationPopup(
-            title: "Aviso",
-            subTitle: "Tem certeza que deseja apagar a foto de perfil",
-            firstButton: () {},
-            secondButton: () => _deleteProfilePicture(),
-          );
-        },
-    );
-  }
-
-  _deleteProfilePicture() async {
-    try{
-      await loadingWithSuccessOrErrorWidget.startAnimation();
-      //await _userService.deleteProfilePicture();
-      await loadingWithSuccessOrErrorWidget.stopAnimation();
-      imageChanged = true;
-      showDialog(
-        context: Get.context!,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "Imagem de perfil apagada com sucesso!",
-          );
-        },
-      );
-      await GetProfilePictureController.loadProfilePicture(
-        loadingPicture,
-        hasPicture,
-        profileImagePath,
-        _userService,
-      );
-    }
-    catch(_){
-      await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
-      showDialog(
-        context: Get.context!,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const InformationPopup(
-            warningMessage: "Erro ao apagar a foto de perfil.\n Tente novamente mais tarde",
-          );
-        },
-      );
-    }
-  }
-
-  editProfilePicture() async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    await showDialog(
-      context: Get.context!,
-      builder: (BuildContext context) {
-        return ConfirmationPopup(
-          title: "Aviso",
-          subTitle: "Escolha o método desejado para adicionar a foto de perfil!",
-          firstButtonText: "GALERIA",
-          secondButtonText: "CÂMERA",
-          firstButton: () async => await getProfileImage(ImageOrigin.gallery),
-          secondButton: () async => await getProfileImage(ImageOrigin.camera),
-        );
-      },
-    );
-  }
-
   addGyms() {
     if(!profileIsDisabled.value) {
       if(gymNameTextController.text.isNotEmpty){
@@ -501,7 +425,7 @@ class UserProfileController extends GetxController {
         gymNameTextController.clear();
         gymsList.sort((a, b) => a.name.compareTo(b.name));
       }
-      else{
+      else {
         showDialog(
           context: Get.context!,
           barrierDismissible: false,
@@ -516,8 +440,6 @@ class UserProfileController extends GetxController {
   }
 
   deleteGyms(int index) async {
-    bool validation = false;
-
     await showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
@@ -525,20 +447,18 @@ class UserProfileController extends GetxController {
           title: "Aviso",
           subTitle: "Tem certeza que deseja remover a academia da lista?",
           firstButton: () {},
-          secondButton: () => validation = true,
+          secondButton: () {
+            gymsList.removeAt(index);
+            gymsList.sort((a, b) => a.name.compareTo(b.name));
+            SnackbarWidget(
+              warningText: "Aviso",
+              informationText: "Academia removida com sucesso",
+              backgrondColor: AppColors.defaultColor,
+            );
+          },
         );
       },
     );
-
-    if(validation) {
-      gymsList.removeAt(index);
-      gymsList.sort((a, b) => a.name.compareTo(b.name));
-      SnackbarWidget(
-        warningText: "Aviso",
-        informationText: "Academia removido da lista com sucesso",
-        backgrondColor: AppColors.defaultColor,
-      );
-    }
   }
 
   addNewPicture() async {
@@ -558,6 +478,13 @@ class UserProfileController extends GetxController {
                     base64: personImage,
                   ),
                 );
+
+                if(images.isNotEmpty && images.first.base64 != profileImagePath.value) {
+                  profileImagePath.value = images.first.base64;
+                  hasPicture.value = profileImagePath.value.isNotEmpty;
+                  update(["profile-picture"]);
+                }
+
                 quantity++;
               }
               else {
@@ -621,9 +548,82 @@ class UserProfileController extends GetxController {
           title: "Aviso",
           subTitle: "Tem certeza que deseja remover a imagem?",
           firstButton: () {},
-          secondButton: () => images.removeAt(index),
+          secondButton: () {
+            images.removeAt(index);
+
+            if(images.isNotEmpty && images.first.base64 != profileImagePath.value) {
+              profileImagePath.value = images.first.base64;
+            }
+            else if(images.isEmpty) {
+              profileImagePath.value = "";
+            }
+            hasPicture.value = profileImagePath.value.isNotEmpty;
+
+            SnackbarWidget(
+              warningText: "Aviso",
+              informationText: "Imagem removida com sucesso",
+              backgrondColor: AppColors.defaultColor,
+            );
+          },
         );
       },
+    );
+  }
+
+  Future<bool> _updateUser() async {
+    try {
+      if(!await _userService.updateUser(user) || !await _userGymService.deleteAllUserGymFromUser()) throw Exception();
+
+      for(var gym in gymsList) {
+        if(gym.id != null) {
+          if(!await _gymService.checkIfGymExist(gym.id!)){
+            if(!await _gymService.createGym(gym)) throw Exception();
+          }
+
+          if(!await _userGymService.checkIfGymExistByName(gym.id!)) {
+            if(!await _userGymService.createUserGym(
+              UserGym(userId: user.id!, gymId: gym.id!),
+            )) throw Exception();
+          }
+        }
+      }
+
+      for(var image in images) {
+        if(image.id == null) throw Exception();
+        var result = await _pictureService.createPicture(
+          UserPictures(
+            base64: image.base64,
+            mainPicture: images.indexOf(image) == 0,
+            userId: user.id!,
+          ),
+        );
+        if(result) {
+          await _pictureService.deletePicture(image.id!);
+        }
+        else {
+          throw Exception();
+        }
+      }
+
+      return true;
+    }
+    catch(_) {
+      return false;
+    }
+  }
+
+  Future<bool> _updateUserLocale() async {
+    return await SaveUserInformations.saveOptions(
+      Person.update(
+        name: user.name,
+        userName: user.userName,
+        aboutMe: user.aboutMe,
+        gender: user.gender,
+        birthdayDate: user.birthdayDate ?? DateTime.now(),
+        cellphone: user.cellphone,
+        email: user.email,
+        id: user.id ?? LoggedUser.id,
+      ),
     );
   }
 
@@ -646,6 +646,8 @@ class UserProfileController extends GetxController {
   _deleteAccount() async {
     await loadingWithSuccessOrErrorWidget.startAnimation();
     await Future.delayed(const Duration(seconds: 2));
+
+
     await loadingWithSuccessOrErrorWidget.stopAnimation();
     await showDialog(
       context: Get.context!,
@@ -657,5 +659,9 @@ class UserProfileController extends GetxController {
       },
     );
     Get.offAll(() => const LoginPage());
+  }
+
+  closeProfile() {
+    Get.back(result: profileImagePath.value);
   }
 }

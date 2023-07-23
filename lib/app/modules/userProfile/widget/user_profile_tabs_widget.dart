@@ -65,7 +65,7 @@ class UserProfileTabsWidget{
                       }
                     },
                     child: TextFieldWidget(
-                      controller: controller.loginTextController,
+                      controller: controller.userNameTextController,
                       hintText: "Login",
                       justRead: true,
                       height: PlatformType.isTablet(Get.context!) ? 7.h : 9.h,

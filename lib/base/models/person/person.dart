@@ -76,6 +76,37 @@ class Person {
     carouselController = CarouselController();
   }
 
+  Person.update({
+    required this.name,
+    required this.userName,
+    required this.aboutMe,
+    required this.gender,
+    required this.birthdayDate,
+    required this.cellphone,
+    required this.email,
+    required this.id,
+  }) {
+    lastMessage = null;
+    latitude = null;
+    longitude = null;
+    distance = null;
+    picture = null;
+    gyms = null;
+    initialsName = "NI";
+    var names = name.trim().split(" ");
+
+    if(names.isNotEmpty && names.first != ""){
+      initialsName = names.first[0];
+      if(names.length > 1 && names.last != ""){
+        initialsName += names.last[0];
+      }
+    }
+    else{
+      initialsName = "NI";
+    }
+    carouselController = CarouselController();
+  }
+
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 
   Map<String, dynamic> toJson() => _$PersonToJson(this);

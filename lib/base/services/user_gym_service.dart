@@ -9,8 +9,20 @@ class UserGymService extends BaseService implements IUserGymService {
       final url = '${baseUrlApi}UserGym/CreateUserGym';
       final response = await super.post(url, userGym.toJson());
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
+      return response.body as bool;
     } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> checkIfGymExistByName(String gymId) async {
+    try {
+      final url = '${baseUrlApi}UserGym/CheckIfUserGymExist';
+      final response = await super.get(url, query: {"GymId": gymId});
+      if (hasErrorResponse(response)) throw Exception();
+      return response.body as bool;
+    } catch (e) {
       return false;
     }
   }
@@ -22,7 +34,20 @@ class UserGymService extends BaseService implements IUserGymService {
       final url = '${baseUrlApi}UserGym/DeleteUserGym';
       final response = await super.delete(url, query: {"UserId": userId, "GymId": gymId}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
+      return response.body as bool;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> deleteAllUserGymFromUser() async {
+    try {
+      final token = await getToken();
+      final url = '${baseUrlApi}UserGym/DeleteAllUserGymFromUser';
+      final response = await super.delete(url, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body as bool;
     } catch (_) {
       return false;
     }

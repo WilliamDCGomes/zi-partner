@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:zi_partner/app/modules/userProfile/page/user_profile_page.dart';
 import '../../../../base/models/loggedUser/logged_user.dart';
 import '../../../utils/helpers/paths.dart';
 import '../../../utils/sharedWidgets/profile_image_picture_widget.dart';
@@ -70,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Center(
                   child: TextButtonWidget(
-                    onTap: () => Get.to(() => const UserProfilePage()),
+                    onTap: () => controller.openProfile(),
                     borderRadius: 2.h,
                     widgetCustom: Column(
                       mainAxisSize: MainAxisSize.min,
