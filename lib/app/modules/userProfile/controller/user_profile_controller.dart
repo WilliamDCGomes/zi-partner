@@ -21,6 +21,7 @@ import '../../../../base/services/interfaces/igym_service.dart';
 import '../../../../base/services/interfaces/ipicture_service.dart';
 import '../../../../base/services/interfaces/iuser_gym_service.dart';
 import '../../../enums/enums.dart';
+import '../../../selectGyms/page/select_gyms_page.dart';
 import '../../../utils/helpers/get_profile_picture_controller.dart';
 import '../../../utils/helpers/internet_connection.dart';
 import '../../../utils/helpers/masks_for_text_fields.dart';
@@ -38,6 +39,8 @@ import '../widget/user_profile_tabs_widget.dart';
 
 class UserProfileController extends GetxController {
   late bool imageChanged;
+  late bool gymChanged;
+  late bool profileChanged;
   late RxString nameInitials;
   late RxString userName;
   late RxString buttonText;
@@ -76,8 +79,8 @@ class UserProfileController extends GetxController {
   late MaskTextInputFormatter maskCellPhoneFormatter;
   late List<Widget> tabsList;
   late RxList<String> genderList;
-  late RxList<Gym> gymsList;
   late RxList<UserPictures> images;
+  late RxList<Gym> gymsList;
   late XFile? profilePicture;
   late ScrollController imagesListController;
   late LoadingProfilePictureWidget loadingProfilePicture;
@@ -113,6 +116,8 @@ class UserProfileController extends GetxController {
 
   _initializeVariables(){
     imageChanged = false;
+    gymChanged = false;
+    profileChanged = false;
     nameInitials = LoggedUser.nameInitials.obs;
     userName = LoggedUser.nameAndLastName.obs;
     buttonText = "EDITAR".obs;
@@ -129,9 +134,9 @@ class UserProfileController extends GetxController {
     cellPhoneInputHasError = false.obs;
     emailInputHasError = false.obs;
     confirmEmailInputHasError = false.obs;
+    images = <UserPictures>[].obs;
     genderList = <String>[].obs;
     gymsList = <Gym>[].obs;
-    images = <UserPictures>[].obs;
     imagesListController = ScrollController();
     nameTextController = TextEditingController();
     userNameTextController = TextEditingController();
@@ -185,14 +190,16 @@ class UserProfileController extends GetxController {
     try {
       var user = await _userService.getUserInformation(userNameTextController.text);
 
-      if(user == null) {
-        throw Exception();
-      }
-      else if(user.gyms != null) {
+      if(user == null) throw Exception();
+      if(user.gyms != null) {
         for(var gym in user.gyms!) {
           gymsList.add(gym);
         }
-        images.value = user.picture ?? <UserPictures>[];
+      }
+      if(user.picture != null) {
+        for(var picture in user.picture!) {
+          images.add(picture);
+        }
       }
     }
     catch(_) {
@@ -315,7 +322,9 @@ class UserProfileController extends GetxController {
               },
             );
 
+            update(["name-of-user"]);
             buttonText.value = "EDITAR";
+            profileChanged = true;
             profileIsDisabled.value = true;
           }
           else {
@@ -412,34 +421,33 @@ class UserProfileController extends GetxController {
     }
   }
 
-  addGyms() {
+  addGyms() async {
     if(!profileIsDisabled.value) {
-      if(gymNameTextController.text.isNotEmpty){
-        FocusScope.of(Get.context!).requestFocus(FocusNode());
-        gymsList.add(
-          Gym(
-            name: gymNameTextController.text,
-            selected: true,
-          ),
-        );
-        gymNameTextController.clear();
-        gymsList.sort((a, b) => a.name.compareTo(b.name));
+      List<Gym> backupGyms = <Gym>[];
+      for(var gym in gymsList) {
+        backupGyms.add(gym);
+      }
+
+      await Get.to(() => SelectGymsPage(selectedGyms: gymsList));
+      gymsList.sort((a, b) => a.name.compareTo(b.name));
+
+      if(backupGyms.length == gymsList.length) {
+        for(var gym in backupGyms) {
+          if(gym.name != gymsList[backupGyms.indexOf(gym)].name) {
+            gymChanged = true;
+            break;
+          }
+        }
       }
       else {
-        showDialog(
-          context: Get.context!,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return const InformationPopup(
-              warningMessage: "Informe o nome da academia para adicionar ela á lista!",
-            );
-          },
-        );
+        gymChanged = true;
       }
     }
   }
 
   deleteGyms(int index) async {
+    bool success = false;
+    gymChanged = true;
     await showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
@@ -450,15 +458,20 @@ class UserProfileController extends GetxController {
           secondButton: () {
             gymsList.removeAt(index);
             gymsList.sort((a, b) => a.name.compareTo(b.name));
-            SnackbarWidget(
-              warningText: "Aviso",
-              informationText: "Academia removida com sucesso",
-              backgrondColor: AppColors.defaultColor,
-            );
+            success = true;
           },
         );
       },
     );
+
+    if(success) {
+      SnackbarWidget(
+        warningText: "Aviso",
+        informationText: "Academia removida com sucesso",
+        backgrondColor: AppColors.defaultColor,
+        withPopup: true,
+      );
+    }
   }
 
   addNewPicture() async {
@@ -512,6 +525,7 @@ class UserProfileController extends GetxController {
                 curve: Curves.easeOut,
               );
             }
+            imageChanged = true;
           }
         }
         else{
@@ -541,6 +555,8 @@ class UserProfileController extends GetxController {
   }
 
   removePicture(int index) async {
+    bool success = false;
+
     await showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
@@ -550,7 +566,7 @@ class UserProfileController extends GetxController {
           firstButton: () {},
           secondButton: () {
             images.removeAt(index);
-
+            imageChanged = true;
             if(images.isNotEmpty && images.first.base64 != profileImagePath.value) {
               profileImagePath.value = images.first.base64;
             }
@@ -558,50 +574,60 @@ class UserProfileController extends GetxController {
               profileImagePath.value = "";
             }
             hasPicture.value = profileImagePath.value.isNotEmpty;
-
-            SnackbarWidget(
-              warningText: "Aviso",
-              informationText: "Imagem removida com sucesso",
-              backgrondColor: AppColors.defaultColor,
-            );
+            success = true;
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
           },
         );
       },
     );
+
+    if(success) {
+      SnackbarWidget(
+        warningText: "Aviso",
+        informationText: "Imagem removida com sucesso",
+        backgrondColor: AppColors.defaultColor,
+        withPopup: true,
+      );
+    }
   }
 
   Future<bool> _updateUser() async {
     try {
-      if(!await _userService.updateUser(user) || !await _userGymService.deleteAllUserGymFromUser()) throw Exception();
+      if(!await _userService.updateUser(user)) throw Exception();
 
-      for(var gym in gymsList) {
-        if(gym.id != null) {
-          if(!await _gymService.checkIfGymExist(gym.id!)){
-            if(!await _gymService.createGym(gym)) throw Exception();
-          }
+      if(gymChanged) {
+        if(!await _userGymService.deleteAllUserGymFromUser()) throw Exception();
 
-          if(!await _userGymService.checkIfGymExistByName(gym.id!)) {
-            if(!await _userGymService.createUserGym(
-              UserGym(userId: user.id!, gymId: gym.id!),
-            )) throw Exception();
+        for(var gym in gymsList) {
+          if(gym.id != null) {
+            if(!await _gymService.checkIfGymExist(gym.id!)){
+              if(!await _gymService.createGym(gym)) throw Exception();
+            }
+
+            if(!await _userGymService.checkIfUserGymExist(gym.id!)) {
+              if(!await _userGymService.createUserGym(
+                UserGym(userId: user.id!, gymId: gym.id!),
+              )) throw Exception();
+            }
           }
         }
       }
 
-      for(var image in images) {
-        if(image.id == null) throw Exception();
-        var result = await _pictureService.createPicture(
-          UserPictures(
-            base64: image.base64,
-            mainPicture: images.indexOf(image) == 0,
-            userId: user.id!,
-          ),
-        );
-        if(result) {
-          await _pictureService.deletePicture(image.id!);
-        }
-        else {
+      if(imageChanged) {
+        if(!await _pictureService.deleteAllPictureOfUser(user.id ?? LoggedUser.id)) {
           throw Exception();
+        }
+
+        for(var image in images) {
+          if(image.id == null || !await _pictureService.createPicture(
+            UserPictures(
+              base64: image.base64,
+              mainPicture: images.indexOf(image) == 0,
+              userId: user.id!,
+            ),
+          )) {
+            throw Exception();
+          }
         }
       }
 
@@ -647,7 +673,6 @@ class UserProfileController extends GetxController {
     await loadingWithSuccessOrErrorWidget.startAnimation();
     await Future.delayed(const Duration(seconds: 2));
 
-
     await loadingWithSuccessOrErrorWidget.stopAnimation();
     await showDialog(
       context: Get.context!,
@@ -662,6 +687,11 @@ class UserProfileController extends GetxController {
   }
 
   closeProfile() {
-    Get.back(result: profileImagePath.value);
+    if(profileChanged) {
+      Get.back(result: profileImagePath.value);
+    }
+    else {
+      Get.back();
+    }
   }
 }

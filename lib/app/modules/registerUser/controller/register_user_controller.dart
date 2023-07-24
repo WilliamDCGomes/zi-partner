@@ -410,6 +410,7 @@ class RegisterUserController extends GetxController {
         warningText: "Aviso",
         informationText: "Academia removido da lista com sucesso",
         backgrondColor: AppColors.defaultColor,
+        withPopup: true,
       );
     }
   }

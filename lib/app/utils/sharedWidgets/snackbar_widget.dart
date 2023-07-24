@@ -9,14 +9,21 @@ class SnackbarWidget {
   final String informationText;
   final Color backgrondColor;
   final int? maxLine;
+  final bool withPopup;
 
   SnackbarWidget({
     required this.warningText,
     required this.informationText,
     required this.backgrondColor,
     this.maxLine,
+    this.withPopup = false,
   }) {
-    showSnackBar(informationText);
+    if(withPopup) {
+      showSnackBarWithPopup(informationText);
+    }
+    else{
+      showSnackBar(informationText);
+    }
   }
 
   void showSnackBar(String informationText) => Get.snackbar(
@@ -43,4 +50,36 @@ class SnackbarWidget {
     backgroundColor: backgrondColor,
     margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
   );
+
+  void showSnackBarWithPopup(String informationText) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(
+      SnackBar(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextWidget(
+              warningText,
+              textColor: AppColors.whiteColor,
+              fontSize: 14.sp,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              fontWeight: FontWeight.bold,
+            ),
+            SizedBox(height: 2.h),
+            TextWidget(
+              informationText,
+              textColor: AppColors.whiteColor,
+              fontSize: 14.sp,
+              textAlign: TextAlign.center,
+              maxLines: maxLine ?? 1,
+              fontWeight: FontWeight.bold,
+            ),
+          ],
+        ),
+        backgroundColor: backgrondColor,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 4),
+      ),
+    );
+  }
 }

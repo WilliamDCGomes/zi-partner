@@ -31,7 +31,6 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () async {
         return await controller.backButtonPressed();

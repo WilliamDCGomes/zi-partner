@@ -103,7 +103,7 @@ class _LogoutPopupState extends State<LogoutPopup> {
                               fontWeight: FontWeight.bold,
                               onPressed: () async {
                                 await sharedPreferences.setBool("keep-connected", false);
-                                Get.offAll(() => LoginPage(cancelFingerPrint: true,));
+                                Get.offAll(() => const LoginPage(cancelFingerPrint: true));
                               },
                             ),
                           ],

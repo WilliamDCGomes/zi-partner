@@ -16,7 +16,7 @@ class UserGymService extends BaseService implements IUserGymService {
   }
 
   @override
-  Future<bool> checkIfGymExistByName(String gymId) async {
+  Future<bool> checkIfUserGymExist(String gymId) async {
     try {
       final url = '${baseUrlApi}UserGym/CheckIfUserGymExist';
       final response = await super.get(url, query: {"GymId": gymId});

@@ -223,32 +223,18 @@ class UserProfileTabsWidget{
           () => ListView(
             shrinkWrap: true,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextFieldWidget(
-                      controller: controller.gymNameTextController,
-                      hintText: "Nome da Academia",
-                      justRead: controller.profileIsDisabled.value,
-                      textInputAction: TextInputAction.done,
-                      height: PlatformType.isTablet(Get.context!) ? 7.h : 9.h,
-                      keyboardType: TextInputType.name,
-                      textCapitalization: TextCapitalization.words,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  ButtonWidget(
-                    hintText: "OK",
-                    widthButton: 20.w,
-                    fontWeight: FontWeight.bold,
-                    borderColor: controller.profileIsDisabled.value ? AppColors.grayBackgroundPictureColor : AppColors.defaultColor,
-                    backgroundColor: controller.profileIsDisabled.value ? AppColors.grayBackgroundPictureColor : AppColors.defaultColor,
-                    onPressed: () => controller.addGyms(),
-                  ),
-                ],
+              Center(
+                child: ButtonWidget(
+                  hintText: "Selecionar Academias",
+                  fontWeight: FontWeight.bold,
+                  widthButton: 75.w,
+                  borderColor: controller.profileIsDisabled.value ? AppColors.grayBackgroundPictureColor : AppColors.defaultColor,
+                  backgroundColor: controller.profileIsDisabled.value ? AppColors.grayBackgroundPictureColor : AppColors.defaultColor,
+                  onPressed: () => controller.addGyms(),
+                ),
+              ),
+              SizedBox(
+                height: 2.h,
               ),
               TextWidget(
                 "Academias",
@@ -333,7 +319,7 @@ class UserProfileTabsWidget{
                           hasMore: true,
                           child: PicturePersonWidget(
                             path: controller.images[index].base64,
-                            onDelete: () async => await controller.removePicture(index),
+                            onDelete: controller.profileIsDisabled.value ? null : () async => await controller.removePicture(index),
                           ),
                         ),
                       );

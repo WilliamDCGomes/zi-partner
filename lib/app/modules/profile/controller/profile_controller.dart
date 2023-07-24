@@ -84,7 +84,10 @@ class ProfileController extends GetxController {
 
       if(result != null && profileImagePath.value != result) {
         profileImagePath.value = result;
+        hasPicture.value = profileImagePath.value.isNotEmpty;
+        update(["profile-picture"]);
       }
+      update(["name-of-user"]);
     }
     catch(_) {}
   }

@@ -111,9 +111,11 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 1.h),
-                          child: Obx(
-                            () => TextWidget(
-                              "Olá, ${controller.userName.value}!",
+                          child: GetBuilder(
+                            id: "name-of-user",
+                            init: controller,
+                            builder: (_) => TextWidget(
+                              "Olá, ${LoggedUser.nameAndLastName}!",
                               textColor: AppColors.blackColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 17.sp,

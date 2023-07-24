@@ -74,10 +74,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     widgetCustom: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ProfileImagePictureWidget(
-                          hasPicture: controller.hasPicture,
-                          loadingPicture: controller.loadingPicture,
-                          profileImagePath: controller.profileImagePath,
+                        GetBuilder(
+                          id: "profile-picture",
+                          init: controller,
+                          builder: (_) => ProfileImagePictureWidget(
+                            hasPicture: controller.hasPicture,
+                            loadingPicture: controller.loadingPicture,
+                            profileImagePath: controller.profileImagePath,
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 1.h, bottom: .5.h),
@@ -88,12 +92,16 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(right: 3.w),
-                                child: TextWidget(
-                                  LoggedUser.nameAndLastName + LoggedUser.userAge,
-                                  textColor: AppColors.blackColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17.sp,
-                                  textAlign: TextAlign.center,
+                                child: GetBuilder(
+                                  id: "name-of-user",
+                                  init: controller,
+                                  builder: (_) => TextWidget(
+                                    LoggedUser.nameAndLastName + LoggedUser.userAge,
+                                    textColor: AppColors.blackColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17.sp,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               SvgPicture.asset(

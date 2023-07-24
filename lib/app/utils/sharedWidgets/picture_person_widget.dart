@@ -55,25 +55,26 @@ class PicturePersonWidget extends StatelessWidget {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: InkWell(
-              onTap: () => onDelete != null ? onDelete!() : null,
-              child: Container(
-                padding: EdgeInsets.all(.5.h),
-                margin: EdgeInsets.only(top: 1.h, right: 4.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(1.h),
-                  color: AppColors.black40TransparentColor,
-                ),
-                child: Icon(
-                  Icons.close,
-                  color: AppColors.whiteColor,
-                  size: 3.h,
+          if(onDelete != null)
+            Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: () => onDelete != null ? onDelete!() : null,
+                child: Container(
+                  padding: EdgeInsets.all(.5.h),
+                  margin: EdgeInsets.only(top: 1.h, right: 4.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(1.h),
+                    color: AppColors.black40TransparentColor,
+                  ),
+                  child: Icon(
+                    Icons.close,
+                    color: AppColors.whiteColor,
+                    size: 3.h,
+                  ),
                 ),
               ),
             ),
-          )
         ],
       ),
     );
