@@ -89,7 +89,7 @@ class LoginController extends GetxController {
           await _doLoginServer(true);
 
           if (userLogged != null) {
-            if(!await SaveUserInformations.saveOptions(_user, password: passwordInputController.text, keepConected: keepConected.value)){
+            if(!await UserInformation.saveOptions(_user, password: passwordInputController.text, keepConected: keepConected.value)){
               throw Exception();
             }
 
@@ -124,7 +124,7 @@ class LoginController extends GetxController {
         loginButtonFocusNode.requestFocus();
 
         if (userLogged != null) {
-          if(!await SaveUserInformations.saveOptions(_user, password: passwordInputController.text, keepConected: keepConected.value)){
+          if(!await UserInformation.saveOptions(_user, password: passwordInputController.text, keepConected: keepConected.value)){
             throw Exception();
           }
           await loadingWithSuccessOrErrorWidget.stopAnimation();

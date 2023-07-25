@@ -614,7 +614,7 @@ class UserProfileController extends GetxController {
       }
 
       if(imageChanged) {
-        if(!await _pictureService.deleteAllPictureOfUser(user.id ?? LoggedUser.id)) {
+        if(!await _pictureService.deleteAllPictureOfUser()) {
           throw Exception();
         }
 
@@ -639,7 +639,7 @@ class UserProfileController extends GetxController {
   }
 
   Future<bool> _updateUserLocale() async {
-    return await SaveUserInformations.saveOptions(
+    return await UserInformation.saveOptions(
       Person.update(
         name: user.name,
         userName: user.userName,
@@ -659,7 +659,7 @@ class UserProfileController extends GetxController {
       builder: (BuildContext context) {
         return ConfirmationPopup(
           title: "Escolha uma das opções",
-          subTitle: "Tem certeza que deseja apagar a sua conta?",
+          subTitle: "Tem certeza que deseja apagar a sua conta?\nIsso irá apagar permanentemente todos os seus matchs, mensagens e fotos!",
           firstButtonText: "CANCELAR",
           secondButtonText: "APAGAR",
           firstButton: () {},
@@ -670,20 +670,36 @@ class UserProfileController extends GetxController {
   }
 
   _deleteAccount() async {
-    await loadingWithSuccessOrErrorWidget.startAnimation();
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      await loadingWithSuccessOrErrorWidget.startAnimation();
+      await Future.delayed(const Duration(seconds: 2));
 
-    await loadingWithSuccessOrErrorWidget.stopAnimation();
-    await showDialog(
-      context: Get.context!,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const InformationPopup(
-          warningMessage: "Conta deletada com sucesso!",
-        );
-      },
-    );
-    Get.offAll(() => const LoginPage());
+      if(!await _userService.deleteUser() || !await UserInformation.deleteOptions()) throw Exception();
+
+      await loadingWithSuccessOrErrorWidget.stopAnimation();
+      await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const InformationPopup(
+            warningMessage: "Conta apagada com sucesso!",
+          );
+        },
+      );
+      Get.offAll(() => const LoginPage());
+    }
+    catch(_) {
+      await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
+      await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const InformationPopup(
+            warningMessage: "Erro ao apagar a sua conta!\nTente novamente mais tarde.",
+          );
+        },
+      );
+    }
   }
 
   closeProfile() {

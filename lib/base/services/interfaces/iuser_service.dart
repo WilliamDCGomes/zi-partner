@@ -26,5 +26,5 @@ abstract class IUserService {
 
   Future<bool> forgetPasswordInternal(String password);
 
-  Future<bool> deleteUser(String userId);
+  Future<bool> deleteUser();
 }

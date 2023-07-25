@@ -4,7 +4,7 @@ import '../../../base/models/person/person.dart';
 import '../../enums/enums.dart';
 import 'date_format_to_brazil.dart';
 
-class SaveUserInformations {
+class UserInformation {
   static Future<bool> saveOptions(Person? user, {String? password, bool? keepConected}) async {
     try {
       if(user != null) {
@@ -67,6 +67,30 @@ class SaveUserInformations {
         return true;
       }
       return false;
+    }
+    catch(_) {
+      return false;
+    }
+  }
+
+  static Future<bool> deleteOptions() async {
+    try {
+      var sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.clear();
+      LoggedUser.id = "";
+      LoggedUser.name = "";
+      LoggedUser.userName = "";
+      LoggedUser.aboutMe = "";
+      LoggedUser.nameInitials = "";
+      LoggedUser.nameAndLastName = "";
+      LoggedUser.fullName = "";
+      LoggedUser.birthdayDate = "";
+      LoggedUser.gender = TypeGender.none;
+      LoggedUser.cellPhone = null;
+      LoggedUser.email = "";
+      LoggedUser.password = "";
+      LoggedUser.includeDate = null;
+      return true;
     }
     catch(_) {
       return false;

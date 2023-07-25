@@ -6,11 +6,11 @@ abstract class IMatchOrDislikeService {
 
   Future<bool> updateMatchOrDislike(MatchOrDislike matchOrDislike);
 
-  Future<bool> checkIfItsAMatch(String userId, String otherUserId);
+  Future<bool> checkIfItsAMatch(String otherUserId);
 
-  Future<List<MatchOrDislike>?> getAllMatchsOrDislikes(String userId);
+  Future<List<MatchOrDislike>?> getAllMatchsOrDislikes();
 
-  Future<List<Person>?> getNext7PeopleFromMatchs(String userId, int skip);
+  Future<List<Person>?> getNext7PeopleFromMatchs(int skip);
 
   Future<bool> removeMatchOrDislike(MatchOrDislike matchOrDislike);
 }

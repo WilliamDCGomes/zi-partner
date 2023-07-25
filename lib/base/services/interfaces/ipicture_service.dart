@@ -5,9 +5,9 @@ abstract class IPictureService {
 
   Future<bool> updatePicture(UserPictures userPictures);
 
-  Future<List<UserPictures>?> getAll(String userId);
+  Future<List<UserPictures>?> getAll();
 
   Future<bool> deletePicture(String pictureId);
 
-  Future<bool> deleteAllPictureOfUser(String userId);
+  Future<bool> deleteAllPictureOfUser();
 }

@@ -125,7 +125,7 @@ class FindPeopleController extends GetxController {
         _animationInitialized = false;
         await _mainMenuController.loadingWithSuccessOrErrorWidget.stopAnimation(justLoading: true);
       }
-      if(approved && await _matchOrDislikeService.checkIfItsAMatch(LoggedUser.id, person.id)){
+      if(approved && await _matchOrDislikeService.checkIfItsAMatch(person.id)){
         await showDialog(
           context: Get.context!,
           barrierDismissible: false,

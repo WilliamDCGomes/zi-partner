@@ -87,7 +87,7 @@ class InitialPageController extends GetxController {
       var result = await _doLoginServer();
 
       if(result) {
-        if(!await SaveUserInformations.saveOptions(_user)){
+        if(!await UserInformation.saveOptions(_user)){
           throw Exception();
         }
       }

@@ -16,11 +16,11 @@ class UserLocationService extends BaseService implements IUserLocationService {
   }
 
   @override
-  Future<UserLocation?> getUserLocation(String userId) async {
+  Future<UserLocation?> getUserLocation() async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}UserLocation/GetUserLocation';
-      final response = await super.get(url, query: {"UserId": userId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.get(url, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return UserLocation.fromJson(response.body);
     } catch (_) {
@@ -29,11 +29,11 @@ class UserLocationService extends BaseService implements IUserLocationService {
   }
 
   @override
-  Future<bool> deleteUserLocation(String userId) async {
+  Future<bool> deleteUserLocation() async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}UserLocation/DeleteUserLocation';
-      final response = await super.delete(url, query: {"UserId": userId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.delete(url, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
       return response.body;
     } catch (_) {

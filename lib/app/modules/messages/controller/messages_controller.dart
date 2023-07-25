@@ -65,7 +65,7 @@ class MessagesController extends GetxController {
           await loadingWithSuccessOrErrorWidget.startAnimation();
           _animationInitialized = true;
         }
-        var messages = await _messageService.getNext15Messages(LoggedUser.id, recipientPerson.id, messagesList.length);
+        var messages = await _messageService.getNext15Messages(recipientPerson.id, messagesList.length);
 
         if(messages != null && messages.isNotEmpty) {
           _allMessagesGet = messages.length < 15;

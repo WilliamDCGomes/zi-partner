@@ -28,11 +28,11 @@ class UserGymService extends BaseService implements IUserGymService {
   }
 
   @override
-  Future<bool> deleteUserGym(String userId, String gymId) async {
+  Future<bool> deleteUserGym(String gymId) async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}UserGym/DeleteUserGym';
-      final response = await super.delete(url, query: {"UserId": userId, "GymId": gymId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.delete(url, query: {"GymId": gymId}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
       return response.body as bool;
     } catch (_) {

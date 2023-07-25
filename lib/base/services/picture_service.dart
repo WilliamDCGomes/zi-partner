@@ -29,11 +29,11 @@ class PictureService extends BaseService implements IPictureService {
   }
 
   @override
-  Future<List<UserPictures>?> getAll(String userId) async {
+  Future<List<UserPictures>?> getAll() async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}Picture/GetAll';
-      final response = await super.get(url, query: {"UserId": userId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.get(url, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return (response.body as List).map((e) => UserPictures.fromJson(e)).toList();
     } catch (_) {
@@ -55,11 +55,11 @@ class PictureService extends BaseService implements IPictureService {
   }
 
   @override
-  Future<bool> deleteAllPictureOfUser(String userId) async {
+  Future<bool> deleteAllPictureOfUser() async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}Picture/DeleteAllPictureOfUser';
-      final response = await super.delete(url, query: {"UserId": userId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.delete(url, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
       return response.body;
     } catch (_) {

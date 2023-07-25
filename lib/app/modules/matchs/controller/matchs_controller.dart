@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
 import 'package:zi_partner/base/services/match_or_dislike_service.dart';
 import '../../../../base/models/message/message.dart';
 import '../../../../base/models/person/person.dart';
@@ -50,7 +49,7 @@ class MatchsController extends GetxController {
           await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
           _animationInitialized = true;
         }
-        var people = await _matchOrDislikeService.getNext7PeopleFromMatchs(LoggedUser.id, matchsList.length);
+        var people = await _matchOrDislikeService.getNext7PeopleFromMatchs(matchsList.length);
 
         if(people != null && people.isNotEmpty) {
           _allUsersGet = people.length < 6;

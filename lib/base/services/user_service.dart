@@ -169,13 +169,13 @@ class UserService extends BaseService implements IUserService {
   }
 
   @override
-  Future<bool> deleteUser(String userId) async {
+  Future<bool> deleteUser() async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}User/DeleteUser';
-      final response = await super.delete(url, query: {"UserId": userId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.delete(url, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
+      return response.body as bool;
     } catch (_) {
       return false;
     }

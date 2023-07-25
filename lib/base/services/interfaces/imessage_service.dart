@@ -5,9 +5,9 @@ abstract class IMessageService {
 
   Future<bool> updateMessage(Messages message);
 
-  Future<List<Messages>?> getAllMessages(String userId, String receiverId);
+  Future<List<Messages>?> getAllMessages(String receiverId);
 
-  Future<List<Messages>?> getNext15Messages(String userId, String receiverId, int skip);
+  Future<List<Messages>?> getNext15Messages(String receiverId, int skip);
 
   Future<bool> deleteMessage(String messageId);
 }

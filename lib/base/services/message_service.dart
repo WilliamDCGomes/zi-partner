@@ -29,11 +29,11 @@ class MessageService extends BaseService implements IMessageService {
   }
 
   @override
-  Future<List<Messages>?> getAllMessages(String userId, String receiverId) async {
+  Future<List<Messages>?> getAllMessages(String receiverId) async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}Message/GetAllMessages';
-      final response = await super.get(url, query: {"UserId": userId, "ReceiverId": receiverId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.get(url, query: {"ReceiverId": receiverId}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return (response.body as List).map((e) => Messages.fromJson(e)).toList();
     } catch (_) {
@@ -42,11 +42,11 @@ class MessageService extends BaseService implements IMessageService {
   }
 
   @override
-  Future<List<Messages>?> getNext15Messages(String userId, String receiverId, int skip) async {
+  Future<List<Messages>?> getNext15Messages(String receiverId, int skip) async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}Message/GetNext15Messages';
-      final response = await super.get(url, query: {"UserId": userId, "ReceiverId": receiverId, "Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.get(url, query: {"ReceiverId": receiverId, "Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return (response.body as List).map((e) => Messages.fromJson(e)).toList();
     } catch (_) {

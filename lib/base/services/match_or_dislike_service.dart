@@ -43,11 +43,11 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
   }
 
   @override
-  Future<bool> checkIfItsAMatch(String userId, String otherUserId) async {
+  Future<bool> checkIfItsAMatch(String otherUserId) async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}MatchOrDislike/CheckIfItsAMatch';
-      final response = await super.get(url, query: {"UserId": userId, "OtherUserId": otherUserId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.get(url, query: {"OtherUserId": otherUserId}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return response.body;
     } catch (_) {
@@ -56,11 +56,11 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
   }
 
   @override
-  Future<List<MatchOrDislike>?> getAllMatchsOrDislikes(String userId) async {
+  Future<List<MatchOrDislike>?> getAllMatchsOrDislikes() async {
     try {
       final token = await getToken();
       final url = '${baseUrlApi}MatchOrDislike/GetAllMatchsOrDislikes';
-      final response = await super.get(url, query: {"UserId": userId}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.get(url, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return (response.body as List).map((e) => MatchOrDislike.fromJson(e)).toList();
     } catch (_) {
@@ -69,12 +69,12 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
   }
 
   @override
-  Future<List<Person>?> getNext7PeopleFromMatchs(String userId, int skip) async {
+  Future<List<Person>?> getNext7PeopleFromMatchs(int skip) async {
     try {
       final token = await getToken();
       httpClient.timeout = const Duration(seconds: 60);
       final url = '${baseUrlApi}MatchOrDislike/GetNext7PeopleFromMatchs';
-      final response = await super.get(url, query: {"UserId": userId, "Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
+      final response = await super.get(url, query: {"Skip": skip.toString()}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
 
       var peopleList = (response.body as List).map((e) => Person.fromJson(e)).toList();

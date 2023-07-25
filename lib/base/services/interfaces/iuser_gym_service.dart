@@ -5,7 +5,7 @@ abstract class IUserGymService {
 
   Future<bool> checkIfUserGymExist(String gymId);
 
-  Future<bool> deleteUserGym(String userId, String gymId);
+  Future<bool> deleteUserGym(String gymId);
 
   Future<bool> deleteAllUserGymFromUser();
 }
