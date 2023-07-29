@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../../base/viewControllers/forgetPasswordResponse/forget_password_response.dart';
 import '../../../utils/helpers/paths.dart';
 import '../../../utils/helpers/platform_type.dart';
 import '../../../utils/helpers/text_field_validators.dart';
@@ -12,7 +13,14 @@ import '../../../utils/stylePages/app_colors.dart';
 import '../controller/reset_password_controller.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({Key? key}) : super(key: key);
+  final bool resetFromForgetPassword;
+  final ForgetPasswordResponse? forgetPasswordResponse;
+
+  const ResetPasswordPage({
+    Key? key,
+    this.resetFromForgetPassword = false,
+    this.forgetPasswordResponse
+  }) : super(key: key);
 
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
@@ -23,7 +31,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   void initState() {
-    controller = Get.put(ResetPasswordController());
+    controller = Get.put(ResetPasswordController(
+      widget.resetFromForgetPassword,
+      widget.forgetPasswordResponse,
+    ));
 
     super.initState();
   }
@@ -52,18 +63,25 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const TitleWithBackButtonWidget(
+                      TitleWithBackButtonWidget(
                         title: "Redefinir Senha",
+                        showAsBackButton: !widget.resetFromForgetPassword,
                       ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const InformationContainerWidget(
+                            InformationContainerWidget(
                               iconPath: Paths.redefinirSenha,
                               textColor: AppColors.whiteColor,
                               backgroundColor: AppColors.defaultColor,
-                              informationText: "Informe sua senha atual e sua nova senha para prosseguir!",
+                              marginContainer: EdgeInsets.only(
+                                top: PlatformType.isTablet(context) ? 7.h : 5.h,
+                                bottom: 2.h,
+                              ),
+                              informationText: !widget.resetFromForgetPassword ?
+                              "Informe sua senha atual e sua nova senha para prosseguir!" :
+                              "Informe a nova senha para prosseguir!",
                             ),
                             Expanded(
                               child: Form(
@@ -71,44 +89,45 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 child: ListView(
                                   shrinkWrap: true,
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 1.h),
-                                      child: Obx(
-                                        () => TextFieldWidget(
-                                          controller: controller.oldPasswordInput,
-                                          hintText: "Senha Atual",
-                                          height: PlatformType.isTablet(context) ? 7.h : 9.h,
-                                          width: double.infinity,
-                                          textInputAction: TextInputAction.next,
-                                          hasError: controller.oldPasswordInputHasError.value,
-                                          validator: (String? value) {
-                                            String? validation = TextFieldValidators.passwordValidation(value);
-                                            controller.oldPasswordInputHasError.value = validation != null && validation != "";
-                                            return validation;
-                                          },
-                                          onEditingComplete: (){
-                                            controller.newPasswordFocusNode.requestFocus();
-                                          },
-                                          isPassword: controller.oldPasswordVisible.value,
-                                          iconTextField: GestureDetector(
-                                            onTap: () {
-                                              controller.oldPasswordVisible.value =
-                                              !controller.oldPasswordVisible.value;
+                                    if(!widget.resetFromForgetPassword)
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 1.h),
+                                        child: Obx(
+                                          () => TextFieldWidget(
+                                            controller: controller.oldPasswordInput,
+                                            hintText: "Senha Atual",
+                                            height: PlatformType.isTablet(context) ? 7.h : 9.h,
+                                            width: double.infinity,
+                                            textInputAction: TextInputAction.next,
+                                            hasError: controller.oldPasswordInputHasError.value,
+                                            validator: (String? value) {
+                                              String? validation = TextFieldValidators.passwordValidation(value);
+                                              controller.oldPasswordInputHasError.value = validation != null && validation != "";
+                                              return validation;
                                             },
-                                            child: Icon(
-                                              controller.oldPasswordVisible.value
-                                                  ? Icons.visibility_off
-                                                  : Icons.visibility,
-                                              color: AppColors.defaultColor,
-                                              size: 2.5.h,
+                                            onEditingComplete: (){
+                                              controller.newPasswordFocusNode.requestFocus();
+                                            },
+                                            isPassword: controller.oldPasswordVisible.value,
+                                            iconTextField: GestureDetector(
+                                              onTap: () {
+                                                controller.oldPasswordVisible.value =
+                                                !controller.oldPasswordVisible.value;
+                                              },
+                                              child: Icon(
+                                                controller.oldPasswordVisible.value
+                                                    ? Icons.visibility_off
+                                                    : Icons.visibility,
+                                                color: AppColors.defaultColor,
+                                                size: 2.5.h,
+                                              ),
                                             ),
+                                            keyboardType: TextInputType.visiblePassword,
                                           ),
-                                          keyboardType: TextInputType.visiblePassword,
                                         ),
                                       ),
-                                    ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 1.5.h),
+                                      padding: EdgeInsets.only(top: !widget.resetFromForgetPassword ? 1.5.h : 1.h),
                                       child: Obx(
                                         () => TextFieldWidget(
                                           controller: controller.newPasswordInput,
@@ -192,7 +211,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(2.h),
+                              padding: EdgeInsets.symmetric(vertical: 2.h),
                               child: ButtonWidget(
                                 hintText: "REDEFINIR SENHA",
                                 focusNode: controller.resetPasswordButtonFocusNode,

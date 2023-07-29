@@ -5,12 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/models/loggedUser/logged_user.dart';
 import '../../../../base/services/user_service.dart';
+import '../../../../base/viewControllers/forgetPasswordResponse/forget_password_response.dart';
 import '../../../utils/helpers/internet_connection.dart';
+import '../../../utils/helpers/save_user_informations.dart';
 import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
 import '../../../utils/sharedWidgets/popups/information_popup.dart';
 import '../../login/page/login_page.dart';
 
 class ResetPasswordController extends GetxController {
+  final bool resetFromForgetPassword;
   late TextEditingController oldPasswordInput;
   late TextEditingController newPasswordInput;
   late TextEditingController confirmNewPasswordInput;
@@ -27,9 +30,10 @@ class ResetPasswordController extends GetxController {
   late final LocalAuthentication fingerPrintAuth;
   late SharedPreferences sharedPreferences;
   late LoadingWithSuccessOrErrorWidget loadingWithSuccessOrErrorWidget;
+  final ForgetPasswordResponse? forgetPasswordResponse;
   late IUserService _userService;
 
-  ResetPasswordController(){
+  ResetPasswordController(this.resetFromForgetPassword, this.forgetPasswordResponse){
     _initializeVariables();
   }
 
@@ -104,31 +108,36 @@ class ResetPasswordController extends GetxController {
           await loadingWithSuccessOrErrorWidget.startAnimation();
           await Future.delayed(const Duration(milliseconds: 500));
           if(await InternetConnection.checkConnection()){
-            var valid = await _validPasswordReset();
+            bool? valid = resetFromForgetPassword;
+            if(!valid) valid = await _validPasswordReset();
 
             if(valid ?? false){
-              if(await _userService.forgetPasswordInternal(newPasswordInput.text)){
+              if((!resetFromForgetPassword && await _userService.forgetPasswordInternal(newPasswordInput.text)) ||
+                  (resetFromForgetPassword && forgetPasswordResponse != null && await _userService.forgetPasswordWithId(forgetPasswordResponse!.userId, newPasswordInput.text))){
                 await loadingWithSuccessOrErrorWidget.stopAnimation();
                 await showDialog(
                   context: Get.context!,
                   barrierDismissible: false,
                   builder: (BuildContext context) {
-                    return const InformationPopup(
-                      warningMessage: "Senha alterada com sucesso!\nNecessário refazer o login.",
+                    return InformationPopup(
+                      success: true,
+                      warningMessage: "Senha alterada com sucesso!${!resetFromForgetPassword ? "\nNecessário refazer o login." : ""}",
                     );
                   },
                 );
 
-                await sharedPreferences.setBool("keep-connected", false);
-                await sharedPreferences.remove("user_finger_print");
+                await UserInformation.deleteOptions();
                 await Get.offAll(() => const LoginPage());
                 return;
+              }
+              else {
+                throw Exception();
               }
             }
             else if(valid == null) {
               throw Exception();
             }
-            else{
+            else if(!resetFromForgetPassword) {
               await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);
               showDialog(
                 context: Get.context!,

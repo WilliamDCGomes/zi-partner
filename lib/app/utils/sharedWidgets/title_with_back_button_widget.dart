@@ -5,6 +5,7 @@ import 'package:zi_partner/app/utils/sharedWidgets/text_widget.dart';
 import '../stylePages/app_colors.dart';
 
 class TitleWithBackButtonWidget extends StatelessWidget {
+  final bool showAsBackButton;
   final String title;
   final Color? titleColor;
   final IconData? rightIcon;
@@ -18,6 +19,7 @@ class TitleWithBackButtonWidget extends StatelessWidget {
     this.backButtonPressedFuctionOverride,
     this.rightIcon,
     this.onTapRightIcon,
+    this.showAsBackButton = true,
   }) : super(key: key);
 
   @override
@@ -29,31 +31,36 @@ class TitleWithBackButtonWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(
-              onTap: backButtonPressedFuctionOverride ?? () => Get.back(),
-              child: Padding(
-                padding: EdgeInsets.only(right: 2.w),
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: titleColor ?? AppColors.defaultColor,
-                  size: 3.h,
+            Visibility(
+              visible: showAsBackButton,
+              child: InkWell(
+                onTap: backButtonPressedFuctionOverride ?? () => Get.back(),
+                child: Padding(
+                  padding: EdgeInsets.only(right: 2.w),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: titleColor ?? AppColors.defaultColor,
+                    size: 3.h,
+                  ),
                 ),
               ),
             ),
             Expanded(
-              child: Row(children: [
-                InkWell(
-                  onTap: backButtonPressedFuctionOverride ?? () => Get.back(),
-                  child: TextWidget(
-                    title,
-                    textColor: titleColor ?? AppColors.defaultColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.sp,
-                    textAlign: TextAlign.start,
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: showAsBackButton ? backButtonPressedFuctionOverride ?? () => Get.back() : null,
+                    child: TextWidget(
+                      title,
+                      textColor: titleColor ?? AppColors.defaultColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.sp,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                ),
-                Expanded(child: Container()),
-              ]),
+                  Expanded(child: Container()),
+                ],
+              ),
             ),
             if (rightIcon != null)
               InkWell(

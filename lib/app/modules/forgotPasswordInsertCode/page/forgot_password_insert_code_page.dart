@@ -3,27 +3,32 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../utils/helpers/paths.dart';
 import '../../../utils/helpers/platform_type.dart';
-import '../../../utils/helpers/text_field_validators.dart';
 import '../../../utils/sharedWidgets/button_widget.dart';
 import '../../../utils/sharedWidgets/information_container_widget.dart';
-import '../../../utils/sharedWidgets/text_field_widget.dart';
+import '../../../utils/sharedWidgets/pin_put_widget.dart';
+import '../../../utils/sharedWidgets/text_widget.dart';
 import '../../../utils/sharedWidgets/title_with_back_button_widget.dart';
 import '../../../utils/stylePages/app_colors.dart';
-import '../controller/forgot_password_controller.dart';
+import '../controller/forgot_password_insert_code_controller.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key,}) : super(key: key);
+class ForgotPasswordInsertCodePage extends StatefulWidget {
+  final String userEmail;
+
+  const ForgotPasswordInsertCodePage({
+    Key? key,
+    required this.userEmail,
+  }) : super(key: key);
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  State<ForgotPasswordInsertCodePage> createState() => _ForgotPasswordInsertCodePageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  late ForgotPasswordController controller;
+class _ForgotPasswordInsertCodePageState extends State<ForgotPasswordInsertCodePage> {
+  late ForgotPasswordInsertCodeController controller;
 
   @override
   void initState() {
-    controller = Get.put(ForgotPasswordController());
+    controller = Get.put(ForgotPasswordInsertCodeController(widget.userEmail));
     super.initState();
   }
 
@@ -53,13 +58,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleWithBackButtonWidget(
-                          title: "Esqueceu a Senha",
+                          title: "Validação do Código",
                         ),
                         InformationContainerWidget(
                           iconPath: Paths.iconeExibicaoEsqueciSenha,
                           textColor: AppColors.whiteColor,
                           backgroundColor: AppColors.defaultColor,
-                          informationText: "Informe o seu E-mail para recuperar a sua senha.",
+                          informationText: "Informe o código enviado \npara o E-mail.",
                           marginContainer: EdgeInsets.only(
                             top: PlatformType.isTablet(context) ? 7.h : 5.h,
                             bottom: 2.h,
@@ -67,37 +72,46 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                         Expanded(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                child: Form(
-                                  key: controller.formKey,
-                                  child: Obx(
-                                    () => TextFieldWidget(
-                                      controller: controller.emailInputController,
-                                      hintText: "Informe o E-mail",
-                                      height: PlatformType.isTablet(context) ? 7.h : 9.h,
-                                      width: double.infinity,
-                                      keyboardType: TextInputType.emailAddress,
-                                      enableSuggestions: true,
-                                      hasError: controller.emailInputHasError.value,
-                                      validator: (String? value) {
-                                        String? validation = TextFieldValidators.emailValidation(value);
-                                        if(validation != null && validation != ""){
-                                          controller.emailInputHasError.value = true;
-                                        }
-                                        else{
-                                          controller.emailInputHasError.value = false;
-                                        }
-                                        return validation;
-                                      },
+                              Padding(
+                                padding: EdgeInsets.only(left: 2.w, top: 2.h, right: 2.w,),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    PinPutWidget(
+                                      pinController: controller.pinPutEmailController,
+                                      height: 7.h,
+                                      width: 6.h,
                                     ),
-                                  ),
+                                    Obx(
+                                      () => Visibility(
+                                        visible: controller.showReSendCode.value,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 1.5.h),
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: InkWell(
+                                              onTap: () => controller.reSendButtonPressed(),
+                                              child: TextWidget(
+                                                "Gerar novo código?",
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                                textColor: AppColors.defaultColor,
+                                                textDecoration: TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(bottom: 2.h,),
                                 child: ButtonWidget(
-                                  hintText: "ENVIAR",
+                                  hintText: "VALIDAR",
                                   fontWeight: FontWeight.bold,
                                   widthButton: 90.w,
                                   onPressed: () {

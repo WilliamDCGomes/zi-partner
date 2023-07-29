@@ -3,6 +3,7 @@ import '../models/person/person.dart';
 import '../models/user/user.dart';
 import '../models/userPictures/user_pictures.dart';
 import '../viewControllers/authenticateResponse/authenticate_response.dart';
+import '../viewControllers/forgetPasswordResponse/forget_password_response.dart';
 import 'base/base_service.dart';
 import 'interfaces/iuser_service.dart';
 
@@ -144,10 +145,34 @@ class UserService extends BaseService implements IUserService {
   }
 
   @override
-  Future<bool> forgetPassword(String userName, String password) async {
+  Future<ForgetPasswordResponse?> validationForgetPasswordCode(String userEmail, String code) async {
+    try {
+      final url = '${baseUrlApi}User/ValidationForgetPasswordCode';
+      final response = await super.put(url, null, query: {"UserEmail": userEmail, "Code": code});
+      if (hasErrorResponse(response)) throw Exception();
+      return ForgetPasswordResponse.fromJson(response.body);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<ForgetPasswordResponse?> forgetPassword(String userEmail) async {
     try {
       final url = '${baseUrlApi}User/ForgetPassword';
-      final response = await super.put(url, null, query: {"UserName": userName, "Password": password});
+      final response = await super.put(url, null, query: {"UserEmail": userEmail});
+      if (hasErrorResponse(response)) throw Exception();
+      return ForgetPasswordResponse.fromJson(response.body);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> forgetPasswordWithId(String userId, String password) async {
+    try {
+      final url = '${baseUrlApi}User/ForgetPasswordWithId';
+      final response = await super.put(url, null, query: {"UserId": userId, "Password": password});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
       return response.body;
     } catch (_) {

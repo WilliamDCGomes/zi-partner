@@ -2,6 +2,7 @@ import '../../models/person/person.dart';
 import '../../models/user/user.dart';
 import '../../models/userPictures/user_pictures.dart';
 import '../../viewControllers/authenticateResponse/authenticate_response.dart';
+import '../../viewControllers/forgetPasswordResponse/forget_password_response.dart';
 
 abstract class IUserService {
   Future<AuthenticateResponse?> authenticate({String? username, String? password});
@@ -22,7 +23,11 @@ abstract class IUserService {
 
   Future<List<Person>?> getNextFiveUsers(int skip);
 
-  Future<bool> forgetPassword(String userName, String password);
+  Future<ForgetPasswordResponse?> validationForgetPasswordCode(String userEmail, String code);
+
+  Future<ForgetPasswordResponse?> forgetPassword(String userEmail);
+
+  Future<bool> forgetPasswordWithId(String userId, String password);
 
   Future<bool> forgetPasswordInternal(String password);
 
