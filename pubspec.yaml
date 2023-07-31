@@ -37,6 +37,7 @@ dependencies:
   easy_image_viewer: ^1.2.0
   flutter_flavorizr: ^2.1.5
   lazy_loading_list: ^1.0.1
+  onesignal_flutter: ^3.5.1
   package_info_plus: ^3.0.3
   dropdown_textfield: ^1.0.8
   shared_preferences: ^2.0.20

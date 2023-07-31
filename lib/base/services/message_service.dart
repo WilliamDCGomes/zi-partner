@@ -6,8 +6,9 @@ class MessageService extends BaseService implements IMessageService {
   @override
   Future<bool> createMessage(Messages message) async {
     try {
+      final token = await getToken();
       final url = '${baseUrlApi}Message/CreateMessage';
-      final response = await super.post(url, message.toJson());
+      final response = await super.post(url, message.toJson(), headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return response.body != null;
     } catch (_) {

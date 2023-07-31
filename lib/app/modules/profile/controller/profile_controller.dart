@@ -3,7 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/utils/stylePages/app_colors.dart';
+import 'package:zi_partner/base/services/notifications_service.dart';
 import 'package:zi_partner/base/services/user_service.dart';
+import '../../../../base/models/loggedUser/logged_user.dart';
+import '../../../../base/services/interfaces/inotifications_service.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../utils/helpers/get_profile_picture_controller.dart';
 import '../../../utils/helpers/paths.dart';
@@ -42,7 +45,11 @@ class ProfileController extends GetxController {
           color: AppColors.defaultColor,
         ),
         titleIconPath: "Configurações",
-        onTap: () => Get.to(() => const SettingsAppPage()),
+        onTap: () async {
+          final INotificationsService _notificationsService = NotificationsService();
+          await _notificationsService.sendNotification(LoggedUser.playerId, "Testando notificações");
+        },
+        //onTap: () => Get.to(() => const SettingsAppPage()),
       ),
       ProfileCardWidget(
         iconCard: SvgPicture.asset(

@@ -7,8 +7,9 @@ class MatchOrDislikeService extends BaseService implements IMatchOrDislikeServic
   @override
   Future<bool> createMatchOrDislike(MatchOrDislike matchOrDislike) async {
     try {
+      final token = await getToken();
       final url = '${baseUrlApi}MatchOrDislike/CreateMatchOrDislike';
-      final response = await super.post(url, matchOrDislike.toJson());
+      final response = await super.post(url, matchOrDislike.toJson(), headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response)) throw Exception();
       return response.body != null;
     } catch (_) {
