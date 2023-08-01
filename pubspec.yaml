@@ -104,21 +104,21 @@ flavorizr:
       android:
         applicationId: "com.zipartner.zi_partner_dev"
       ios:
-        bundleId: "com.zipartner.zi_partner_dev"
+        bundleId: "com.zipartner.zi-partner-dev"
     hmlg:
       app:
         name: "Zi Partner HMLG"
       android:
         applicationId: "com.zipartner.zi_partner_hmlg"
       ios:
-        bundleId: "com.zipartner.zi_partner_hmlg"
+        bundleId: "com.zipartner.zi-partner-hmlg"
     prod:
       app:
         name: "Zi Partner"
       android:
         applicationId: "com.zipartner.zi_partner"
       ios:
-        bundleId: "com.zipartner.zi_partner"
+        bundleId: "com.zipartner.zi-partner"
 
 flutter:
   uses-material-design: true

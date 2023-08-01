@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main_hmlg.dart
+ASSET_PREFIX=hmlg
+BUNDLE_NAME=Zi Partner HMLG
+BUNDLE_DISPLAY_NAME=Zi Partner HMLG
