@@ -12,6 +12,7 @@ class User extends ZiPartnerCore {
   late String cellphone;
   late String email;
   late String password;
+  late String playerId;
   late DateTime? birthdayDate;
   late TypeGender gender;
 

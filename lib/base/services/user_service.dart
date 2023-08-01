@@ -62,12 +62,25 @@ class UserService extends BaseService implements IUserService {
   }
 
   @override
+  Future<bool> updatePlayerId(String playerId) async {
+    try {
+      final token = await getToken();
+      final url = '${baseUrlApi}User/UpdatePlayerId';
+      final response = await super.put(url, null, query: {"PlayerId": playerId}, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response) || response.body is! bool) throw Exception();
+      return response.body as bool;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
   Future<bool> checkUserNameAlreadyRegistered(String userName) async {
     try {
       final url = '${baseUrlApi}User/CheckUserNameAlreadyRegistered';
       final response = await super.get(url, query: {"UserName": userName});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
+      return response.body as bool;
     } catch (_) {
       return false;
     }
@@ -79,7 +92,7 @@ class UserService extends BaseService implements IUserService {
       final url = '${baseUrlApi}User/CheckCellphoneAlreadyRegistered';
       final response = await super.get(url, query: {"Cellphone": cellphone});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
+      return response.body as bool;
     } catch (_) {
       return false;
     }
@@ -91,7 +104,7 @@ class UserService extends BaseService implements IUserService {
       final url = '${baseUrlApi}User/CheckEmailAlreadyRegistered';
       final response = await super.get(url, query: {"Email": email});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
+      return response.body as bool;
     } catch (_) {
       return false;
     }
@@ -174,7 +187,7 @@ class UserService extends BaseService implements IUserService {
       final url = '${baseUrlApi}User/ForgetPasswordWithId';
       final response = await super.put(url, null, query: {"UserId": userId, "Password": password});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
+      return response.body as bool;
     } catch (_) {
       return false;
     }
@@ -187,7 +200,7 @@ class UserService extends BaseService implements IUserService {
       final url = '${baseUrlApi}User/ForgetPasswordInternal';
       final response = await super.put(url, null, query: {"Password": password}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
-      return response.body;
+      return response.body as bool;
     } catch (_) {
       return false;
     }

@@ -32,7 +32,7 @@ void initOneSignal() async {
   if(! await OneSignal.shared.userProvidedPrivacyConsent()) OneSignal.shared.promptUserForPushNotificationPermission();
 
   OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-    print("Notificação nova: ${result.notification.body}");
+
   });
 
   var status = await OneSignal.shared.getDeviceState();

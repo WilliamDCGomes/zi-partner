@@ -25,7 +25,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       ..alteration = json['alteration'] == null
           ? null
           : DateTime.parse(json['alteration'] as String)
-      ..active = ZiPartnerCore.fromJsonActive(json['active']);
+      ..active = ZiPartnerCore.fromJsonActive(json['active'])
+      ..playerId = json['playerId'] as String;
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
@@ -38,6 +39,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'cellphone': instance.cellphone,
       'email': instance.email,
       'password': instance.password,
+      'playerId': instance.playerId,
       'birthdayDate': instance.birthdayDate?.toIso8601String(),
       'gender': _$TypeGenderEnumMap[instance.gender]!,
     };

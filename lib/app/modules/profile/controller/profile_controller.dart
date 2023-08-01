@@ -11,7 +11,6 @@ import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../utils/helpers/get_profile_picture_controller.dart';
 import '../../../utils/helpers/paths.dart';
 import '../../../utils/sharedWidgets/popups/logout_popup.dart';
-import '../../settingsApp/page/settings_app_page.dart';
 import '../../userProfile/page/user_profile_page.dart';
 import '../widget/profile_card_widget.dart';
 

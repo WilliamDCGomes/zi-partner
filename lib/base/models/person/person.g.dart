@@ -26,10 +26,13 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           : Messages.fromJson(json['lastMessage'] as Map<String, dynamic>),
       cellphone: json['cellphone'] as String?,
       email: json['email'] as String?,
-    )..id = json['id'] as String;
+    )
+      ..id = json['id'] as String
+      ..playerId = json['playerId'] as String;
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'id': instance.id,
+      'playerId': instance.playerId,
       'name': instance.name,
       'userName': instance.userName,
       'aboutMe': instance.aboutMe,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/app/modules/login/page/login_page.dart';
 import 'package:zi_partner/app/utils/helpers/date_format_to_brazil.dart';
@@ -224,7 +225,7 @@ class UserProfileController extends GetxController {
     );
   }
 
-  _setUserToUpdate(){
+  _setUserToUpdate() async {
     user.name = nameTextController.text;
     user.userName = userNameTextController.text;
     user.password = sharedPreferences.getString("password") ?? LoggedUser.password;
@@ -244,6 +245,10 @@ class UserProfileController extends GetxController {
     user.email = emailTextController.text;
     user.id = LoggedUser.id;
     user.aboutMe = aboutMeTextController.text;
+
+    var status = await OneSignal.shared.getDeviceState();
+    user.playerId = status != null ? status.userId ?? "" : "";
+    LoggedUser.playerId = user.playerId;
   }
 
   editButtonPressed() async {
@@ -308,7 +313,7 @@ class UserProfileController extends GetxController {
           }
           await loadingWithSuccessOrErrorWidget.startAnimation();
 
-          _setUserToUpdate();
+          await _setUserToUpdate();
 
           if(await _updateUser() && await _updateUserLocale()) {
             await loadingWithSuccessOrErrorWidget.stopAnimation();

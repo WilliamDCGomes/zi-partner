@@ -10,6 +10,7 @@ part 'person.g.dart';
 @JsonSerializable()
 class Person {
   late String id;
+  late String playerId;
   late String name;
   late String userName;
   @JsonKey(includeFromJson: false)
