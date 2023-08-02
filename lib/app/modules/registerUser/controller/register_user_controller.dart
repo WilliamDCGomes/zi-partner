@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:uuid/uuid.dart';
 import 'package:zi_partner/app/enums/enums.dart';
 import 'package:zi_partner/base/models/gym/gym.dart';
 import 'package:zi_partner/base/models/user/user.dart';
@@ -13,7 +13,6 @@ import 'package:zi_partner/base/services/interfaces/igym_service.dart';
 import 'package:zi_partner/base/services/picture_service.dart';
 import 'package:zi_partner/base/services/user_gym_service.dart';
 import 'package:zi_partner/base/services/user_service.dart';
-import '../../../../base/models/loggedUser/logged_user.dart';
 import '../../../../base/models/userPictures/user_pictures.dart';
 import '../../../../base/services/interfaces/ipicture_service.dart';
 import '../../../../base/services/interfaces/iuser_gym_service.dart';
@@ -261,9 +260,10 @@ class RegisterUserController extends GetxController {
     if(activeStep.value < 5) {
       activeStep.value ++;
     } else {
-      var status = await OneSignal.shared.getDeviceState();
+      /*var status = await OneSignal.shared.getDeviceState();
       newUser.playerId = status != null ? status.userId ?? "" : "";
-      LoggedUser.playerId = newUser.playerId;
+      LoggedUser.playerId = newUser.playerId;*/
+      newUser.playerId = const Uuid().v4();
       await _saveUser();
     }
   }

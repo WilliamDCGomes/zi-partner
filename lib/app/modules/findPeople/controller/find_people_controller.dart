@@ -38,7 +38,7 @@ class FindPeopleController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 200));
     await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
     _animationInitialized = true;
-    await _updatePlayerId();
+    //await _updatePlayerId();
     await _sendLocation();
     await getNextFivePeople();
     await _checkFingerPrintUser();

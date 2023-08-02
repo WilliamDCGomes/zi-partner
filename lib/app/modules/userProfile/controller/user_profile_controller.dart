@@ -246,9 +246,9 @@ class UserProfileController extends GetxController {
     user.id = LoggedUser.id;
     user.aboutMe = aboutMeTextController.text;
 
-    var status = await OneSignal.shared.getDeviceState();
+    /*var status = await OneSignal.shared.getDeviceState();
     user.playerId = status != null ? status.userId ?? "" : "";
-    LoggedUser.playerId = user.playerId;
+    LoggedUser.playerId = user.playerId;*/
   }
 
   editButtonPressed() async {
