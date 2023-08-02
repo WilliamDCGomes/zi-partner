@@ -23,7 +23,7 @@ buildFlavor(Flavor flavor) async {
   };
   MaterialColor colorCustom = MaterialColor(0XFFC42404, color);
   runApp(App(color: colorCustom));
-  initOneSignal();
+  //initOneSignal();
 }
 
 void initOneSignal() async {
