@@ -51,7 +51,7 @@ class UserInformation {
         }
 
         LoggedUser.birthdayDate = DateFormatToBrazil.formatDate(user.birthdayDate);
-        LoggedUser.playerId = user.playerId;
+        //LoggedUser.playerId = user.playerId;
         LoggedUser.gender = user.gender;
         LoggedUser.cellPhone = user.cellphone ;
         LoggedUser.email = user.email ?? "";

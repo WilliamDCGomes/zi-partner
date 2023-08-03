@@ -43,7 +43,7 @@ class LoginController extends GetxController {
     appVersion.value = (await PackageInfo.fromPlatform()).version;
     userInputController.text = sharedPreferences.getString("user_name") ?? "";
     if (kDebugMode) {
-      userInputController.text = "Wiuta";
+      userInputController.text = "Willgomes";
       passwordInputController.text = "12121212";
     }
     await _getKeepConnected();
