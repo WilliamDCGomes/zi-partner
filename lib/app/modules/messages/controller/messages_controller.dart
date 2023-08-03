@@ -125,7 +125,12 @@ class MessagesController extends GetxController {
   }
 
   closeMessageScreen() {
-    messagesList.sort((a, b) => a.inclusion.toString().compareTo(b.inclusion.toString()));
-    Get.back(result: messagesList.last);
+    if(messagesList.isNotEmpty) {
+      messagesList.sort((a, b) => a.inclusion.toString().compareTo(b.inclusion.toString()));
+      Get.back(result: messagesList.last);
+    }
+    else {
+      Get.back(result: null);
+    }
   }
 }
