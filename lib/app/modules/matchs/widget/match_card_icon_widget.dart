@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
 import '../../../../base/models/person/person.dart';
 import '../../../utils/helpers/date_format_to_brazil.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
@@ -33,6 +34,10 @@ class MatchCardIconWidget extends StatelessWidget {
     }
   }
 
+  bool _unReadMessages() {
+    return person.lastMessage != null && !person.lastMessage!.read && person.lastMessage!.userId != LoggedUser.id;
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -40,7 +45,7 @@ class MatchCardIconWidget extends StatelessWidget {
       child: Card(
         elevation: 3,
         margin: EdgeInsets.only(bottom: 2.h),
-        color: person.lastMessage != null && !person.lastMessage!.read ? AppColors.orangeColorWithOpacity : AppColors.whiteColorWithVeryLowOpacity,
+        color: _unReadMessages() ? AppColors.defaultColor : AppColors.whiteColorWithVeryLowOpacity,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(2.h),
         ),
@@ -63,7 +68,7 @@ class MatchCardIconWidget extends StatelessWidget {
                             person.name,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w700,
-                            textColor: person.lastMessage != null && !person.lastMessage!.read ? AppColors.whiteColor : AppColors.blackColor,
+                            textColor: _unReadMessages() ? AppColors.whiteColor : AppColors.blackColor,
                             textAlign: TextAlign.start,
                           ),
                         ),
@@ -72,8 +77,8 @@ class MatchCardIconWidget extends StatelessWidget {
                           child: TextWidget(
                             DateFormatToBrazil.getMessageDateOrHourFormated(person.lastMessage?.inclusion),
                             fontSize: 14.sp,
-                            fontWeight: person.lastMessage != null && !person.lastMessage!.read ? FontWeight.bold : FontWeight.w500,
-                            textColor: person.lastMessage != null && !person.lastMessage!.read ? AppColors.whiteColor : AppColors.blackTransparentColor,
+                            fontWeight: _unReadMessages() ? FontWeight.bold : FontWeight.w500,
+                            textColor: _unReadMessages() ? AppColors.whiteColor : AppColors.blackTransparentColor,
                             textAlign: TextAlign.end,
                           ),
                         ),
@@ -84,9 +89,9 @@ class MatchCardIconWidget extends StatelessWidget {
                     ),
                     TextWidget(
                       person.lastMessage != null ? person.lastMessage!.message : "",
-                      fontSize: person.lastMessage != null && !person.lastMessage!.read ? 17.sp : 16.sp,
-                      fontWeight: person.lastMessage != null && !person.lastMessage!.read ? FontWeight.bold : FontWeight.w500,
-                      textColor: person.lastMessage != null && !person.lastMessage!.read ? AppColors.whiteColor : AppColors.blackTransparentColor,
+                      fontSize: _unReadMessages() ? 17.sp : 16.sp,
+                      fontWeight: _unReadMessages() ? FontWeight.bold : FontWeight.w500,
+                      textColor: _unReadMessages() ? AppColors.whiteColor : AppColors.blackTransparentColor,
                       textAlign: TextAlign.start,
                     ),
                   ],

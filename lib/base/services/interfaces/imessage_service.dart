@@ -15,5 +15,7 @@ abstract class IMessageService {
 
   Future<Messages?> getLastNewMessages(String receiverId);
 
+  Future<DateTime> getDateTimeToNewMessage();
+
   Future<bool> deleteMessage(String messageId);
 }

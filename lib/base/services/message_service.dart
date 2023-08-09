@@ -1,3 +1,5 @@
+import 'package:zi_partner/app/utils/helpers/date_format_to_brazil.dart';
+
 import '../models/message/message.dart';
 import 'base/base_service.dart';
 import 'interfaces/imessage_service.dart';
@@ -91,6 +93,20 @@ class MessageService extends BaseService implements IMessageService {
       return Messages.fromJson(response.body);
     } catch (_) {
       return null;
+    }
+  }
+
+  @override
+  Future<DateTime> getDateTimeToNewMessage() async {
+    try {
+      final token = await getToken();
+      final url = '${baseUrlApi}Message/GetDateTimeToNewMessage';
+      final response = await super.get(url, headers: {"Authorization": 'Bearer $token'});
+      if (hasErrorResponse(response)) throw Exception();
+      var date = DateFormatToBrazil.convertDateFromNewMessage(response.body as String);
+      return date;
+    } catch (_) {
+      return DateTime.now();
     }
   }
 

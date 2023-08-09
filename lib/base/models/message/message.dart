@@ -20,6 +20,8 @@ class Messages extends ZiPartnerCore {
     required this.receiverId,
     required this.message,
     required this.read,
+    super.inclusion,
+    super.alteration,
   }){
     itsMine = userId == LoggedUser.id;
     setMessageDate();

@@ -73,7 +73,7 @@ class MessagesController extends GetxController {
             message.setMessageDate();
             if(!messagesList.any((x) => x.id == message.id)) {
               messagesList.add(message);
-              scrollController.jumpTo(scrollController.position.maxScrollExtent);
+              await _moveListScroll();
             }
             if(!message.read) message.read = await _setMessageAsRead(message);
           }
@@ -99,7 +99,7 @@ class MessagesController extends GetxController {
           for(var message in messages) {
             message.setMessageDate();
             if(!messagesList.any((x) => x.id == message.id)) messagesList.add(message);
-            if(!message.read) await _setMessageAsRead(message);
+            if(!message.read) message.read = await _setMessageAsRead(message);
           }
         }
         else {
@@ -128,11 +128,14 @@ class MessagesController extends GetxController {
   sendMessage() async {
     try {
       if(newMessage.text.isNotEmpty) {
+        var messageDate = await _messageService.getDateTimeToNewMessage();
         var message = Messages(
           userId: LoggedUser.id,
           receiverId: recipientPerson.id,
           message: newMessage.text,
           read: false,
+          inclusion: messageDate,
+          alteration: messageDate,
         );
 
         sendingMessage.value = true;

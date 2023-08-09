@@ -117,7 +117,6 @@ class MatchsController extends GetxController {
     var withoutMessages = matchsList.where((match) => match.lastMessage == null).toList();
     if(withMessages.isNotEmpty) {
       withMessages.sort((a, b) => b.lastMessage!.alteration.toString().compareTo(a.lastMessage!.alteration.toString()));
-      withMessages.sort((a, b) => a.lastMessage!.read.toString().compareTo(b.lastMessage!.read.toString()));
     }
     matchsList.clear();
     matchsList.addAll(withMessages);

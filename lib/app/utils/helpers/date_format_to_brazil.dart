@@ -150,6 +150,27 @@ class DateFormatToBrazil {
     return DateTime(todayDate.year, todayDate.month, 1);
   }
 
+  static DateTime convertDateFromNewMessage(String dateAndHour) {
+    try {
+      var dateAndHourSepareted = dateAndHour.split('T');
+      var justDate = dateAndHourSepareted[0].split('-');
+      var justHour = dateAndHourSepareted[1].split('.');
+      var hour = justHour[0].split(':');
+
+      return DateTime(
+        int.parse(justDate[0]),
+        int.parse(justDate[1]),
+        int.parse(justDate[2]),
+        int.parse(hour[0]),
+        int.parse(hour[1]),
+        int.parse(hour[2]),
+      );
+    }
+    catch(_){
+      return DateTime.now();
+    }
+  }
+
   static DateTime lastDateOfMonth() {
     DateTime todayDate = DateTime.now();
     return DateTime(todayDate.year, todayDate.month + 1, 0);
