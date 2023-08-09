@@ -40,7 +40,7 @@ class MatchCardIconWidget extends StatelessWidget {
       child: Card(
         elevation: 3,
         margin: EdgeInsets.only(bottom: 2.h),
-        color: AppColors.whiteColorWithVeryLowOpacity,
+        color: person.lastMessage != null && !person.lastMessage!.read ? AppColors.orangeColorWithOpacity : AppColors.whiteColorWithVeryLowOpacity,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(2.h),
         ),
@@ -63,7 +63,7 @@ class MatchCardIconWidget extends StatelessWidget {
                             person.name,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w700,
-                            textColor: AppColors.blackColor,
+                            textColor: person.lastMessage != null && !person.lastMessage!.read ? AppColors.whiteColor : AppColors.blackColor,
                             textAlign: TextAlign.start,
                           ),
                         ),
@@ -72,8 +72,8 @@ class MatchCardIconWidget extends StatelessWidget {
                           child: TextWidget(
                             DateFormatToBrazil.getMessageDateOrHourFormated(person.lastMessage?.inclusion),
                             fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            textColor: AppColors.blackTransparentColor,
+                            fontWeight: person.lastMessage != null && !person.lastMessage!.read ? FontWeight.bold : FontWeight.w500,
+                            textColor: person.lastMessage != null && !person.lastMessage!.read ? AppColors.whiteColor : AppColors.blackTransparentColor,
                             textAlign: TextAlign.end,
                           ),
                         ),
@@ -84,9 +84,9 @@ class MatchCardIconWidget extends StatelessWidget {
                     ),
                     TextWidget(
                       person.lastMessage != null ? person.lastMessage!.message : "",
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      textColor: AppColors.blackTransparentColor,
+                      fontSize: person.lastMessage != null && !person.lastMessage!.read ? 17.sp : 16.sp,
+                      fontWeight: person.lastMessage != null && !person.lastMessage!.read ? FontWeight.bold : FontWeight.w500,
+                      textColor: person.lastMessage != null && !person.lastMessage!.read ? AppColors.whiteColor : AppColors.blackTransparentColor,
                       textAlign: TextAlign.start,
                     ),
                   ],

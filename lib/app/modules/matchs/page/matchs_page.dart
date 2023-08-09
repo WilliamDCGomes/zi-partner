@@ -119,12 +119,16 @@ class _MatchsPageState extends State<MatchsPage> {
                           maxLines: 2,
                         ),
                       ),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: controller.matchsList.length,
-                        controller: controller.scrollController,
-                        itemBuilder: (context, index) => MatchCardIconWidget(
-                          person: controller.matchsList[index],
+                      child: GetBuilder(
+                        init: controller,
+                        id: 'matchs-list',
+                        builder: (_) => ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.matchsList.length,
+                          controller: controller.scrollController,
+                          itemBuilder: (context, index) => MatchCardIconWidget(
+                            person: controller.matchsList[index],
+                          ),
                         ),
                       ),
                     ),

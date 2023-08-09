@@ -4,14 +4,18 @@ import 'package:zi_partner/base/services/match_or_dislike_service.dart';
 import '../../../../base/models/message/message.dart';
 import '../../../../base/models/person/person.dart';
 import '../../../../base/services/interfaces/imatch_or_dislike_service.dart';
+import '../../../../base/services/interfaces/imessage_service.dart';
+import '../../../../base/services/message_service.dart';
 import '../../mainMenu/controller/main_menu_controller.dart';
 
 class MatchsController extends GetxController {
   late bool _allUsersGet;
+  late bool _canUpdate;
   late bool _animationInitialized;
   late RxList<Person> matchsList;
   late ScrollController scrollController;
   late MainMenuController _mainMenuController;
+  late IMessageService _messageService;
   late IMatchOrDislikeService _matchOrDislikeService;
 
   MatchsController() {
@@ -25,11 +29,13 @@ class MatchsController extends GetxController {
     await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
     _animationInitialized = true;
     await getNext7Match();
+    _searchNewMessages();
     super.onInit();
   }
 
   _initializeVariables() {
     _allUsersGet = false;
+    _canUpdate = true;
     _animationInitialized = false;
     matchsList = <Person>[].obs;
     scrollController = ScrollController();
@@ -39,7 +45,28 @@ class MatchsController extends GetxController {
         getNext7Match();
       }
     });
+    _messageService = MessageService();
     _matchOrDislikeService = MatchOrDislikeService();
+  }
+
+  _searchNewMessages() async {
+    try {
+      while(_canUpdate) {
+        await Future.delayed(const Duration(seconds: 2));
+
+        for(var match in matchsList) {
+          var message = await _messageService.getLastNewMessages(match.id);
+
+          if(message != null && (match.lastMessage == null || match.lastMessage!.alteration!.compareTo(message.alteration!) < 0)) {
+            message.setMessageDate();
+            refreshLastMessage(message);
+          }
+        }
+      }
+    }
+    catch(_) {
+
+    }
   }
 
   getNext7Match({bool ignoreLimitation = false}) async {
@@ -60,6 +87,7 @@ class MatchsController extends GetxController {
         else {
           _allUsersGet = true;
         }
+        _orderList();
       }
     }
     catch(_) {}
@@ -72,7 +100,27 @@ class MatchsController extends GetxController {
   }
 
   refreshLastMessage(Messages message) {
-    matchsList.firstWhere((element) => element.id == message.receiverId).lastMessage = message;
-    matchsList.refresh();
+    try {
+      matchsList.firstWhere((element) => element.id == message.receiverId || element.id == message.userId).lastMessage = message;
+      _orderList();
+
+      matchsList.refresh();
+      update(['matchs-list']);
+    }
+    catch(_) {
+
+    }
+  }
+
+  _orderList() {
+    var withMessages = matchsList.where((match) => match.lastMessage != null).toList();
+    var withoutMessages = matchsList.where((match) => match.lastMessage == null).toList();
+    if(withMessages.isNotEmpty) {
+      withMessages.sort((a, b) => b.lastMessage!.alteration.toString().compareTo(a.lastMessage!.alteration.toString()));
+      withMessages.sort((a, b) => a.lastMessage!.read.toString().compareTo(b.lastMessage!.read.toString()));
+    }
+    matchsList.clear();
+    matchsList.addAll(withMessages);
+    matchsList.addAll(withoutMessages);
   }
 }

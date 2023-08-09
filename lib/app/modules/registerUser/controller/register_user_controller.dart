@@ -535,7 +535,7 @@ class RegisterUserController extends GetxController {
           );
         },
       );
-      Get.offAll(() => const LoginPage());
+      Get.offAll(() => const LoginPage(cancelFingerPrint: true,));
     }
     catch(_){
       await loadingWithSuccessOrErrorWidget.stopAnimation(fail: true);

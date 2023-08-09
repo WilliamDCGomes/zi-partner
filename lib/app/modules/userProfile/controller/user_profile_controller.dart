@@ -323,6 +323,7 @@ class UserProfileController extends GetxController {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return const InformationPopup(
+                  success: true,
                   warningMessage: "Perfil atualizado com sucesso!",
                 );
               },
@@ -688,6 +689,7 @@ class UserProfileController extends GetxController {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return const InformationPopup(
+            success: true,
             warningMessage: "Conta apagada com sucesso!",
           );
         },

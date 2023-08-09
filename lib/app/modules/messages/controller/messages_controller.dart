@@ -9,6 +9,7 @@ import '../../../utils/sharedWidgets/loading_with_success_or_error_widget.dart';
 
 class MessagesController extends GetxController {
   late bool _allMessagesGet;
+  late bool _canUpdate;
   late bool _animationInitialized;
   late RxBool sendingMessage;
   late RxList<Messages> messagesList;
@@ -28,6 +29,7 @@ class MessagesController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 200));
     await loadingWithSuccessOrErrorWidget.startAnimation();
     await _getNext15Messages();
+    _searchNewMessages();
 
     if(scrollController.hasClients) {
       WidgetsBinding.instance.addPostFrameCallback((_){
@@ -39,6 +41,7 @@ class MessagesController extends GetxController {
 
   _initializeVariables() {
     _allMessagesGet = false;
+    _canUpdate = true;
     _animationInitialized = false;
     sendingMessage = false.obs;
     messagesList = <Messages>[].obs;
@@ -58,6 +61,30 @@ class MessagesController extends GetxController {
     _messageService = MessageService();
   }
 
+  _searchNewMessages() async {
+    try {
+      while(_canUpdate) {
+        await Future.delayed(const Duration(seconds: 2));
+
+        var messages = await _messageService.getNewMessages(recipientPerson.id);
+
+        if(messages != null && messages.isNotEmpty) {
+          for(var message in messages) {
+            message.setMessageDate();
+            if(!messagesList.any((x) => x.id == message.id)) {
+              messagesList.add(message);
+              scrollController.jumpTo(scrollController.position.maxScrollExtent);
+            }
+            if(!message.read) message.read = await _setMessageAsRead(message);
+          }
+        }
+      }
+    }
+    catch(_) {
+
+    }
+  }
+
   _getNext15Messages() async {
     try {
       if(!_allMessagesGet) {
@@ -72,6 +99,7 @@ class MessagesController extends GetxController {
           for(var message in messages) {
             message.setMessageDate();
             if(!messagesList.any((x) => x.id == message.id)) messagesList.add(message);
+            if(!message.read) await _setMessageAsRead(message);
           }
         }
         else {
@@ -85,6 +113,15 @@ class MessagesController extends GetxController {
         _animationInitialized = false;
         await loadingWithSuccessOrErrorWidget.stopAnimation(justLoading: true);
       }
+    }
+  }
+
+  Future<bool> _setMessageAsRead(Messages message) async {
+    try {
+      return await _messageService.setMessageAsRead(message);
+    }
+    catch(_) {
+      return false;
     }
   }
 
@@ -125,6 +162,7 @@ class MessagesController extends GetxController {
   }
 
   closeMessageScreen() {
+    _canUpdate = false;
     if(messagesList.isNotEmpty) {
       messagesList.sort((a, b) => a.inclusion.toString().compareTo(b.inclusion.toString()));
       Get.back(result: messagesList.last);

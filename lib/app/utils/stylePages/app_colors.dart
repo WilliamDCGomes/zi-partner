@@ -13,6 +13,7 @@ class AppColors {
   static const Color defaultColor = Color(0XFFC42404);
   static final Color defaultColorWithOpacity = const Color(0XFFB6350E).withOpacity(.6);
   static const Color orangeColor = Color(0XFFEA6F55);
+  static final Color orangeColorWithOpacity = const Color(0XFFEA6F55).withOpacity(.6);
   static const Color greenColor = Color(0XFF4CCC93);
   static const Color successGreenColor = Color(0XFF076D54);
   static const Color redColor = Color(0XFFC81B1B);
