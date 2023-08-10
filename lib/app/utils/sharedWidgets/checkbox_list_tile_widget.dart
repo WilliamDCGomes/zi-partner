@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/app/utils/sharedWidgets/text_button_widget.dart';
 import 'package:zi_partner/app/utils/sharedWidgets/text_widget.dart';
+import '../helpers/platform_type.dart';
 import '../stylePages/app_colors.dart';
 
 class CheckboxListTileWidget extends StatefulWidget {
@@ -43,7 +44,7 @@ class _CheckboxListTileWidgetState extends State<CheckboxListTileWidget> {
       widget.radioText,
       textColor: widget.titleColor ?? AppColors.blackColor,
       fontWeight: FontWeight.bold,
-      fontSize: 15.sp,
+      fontSize: PlatformType.isAndroid() ? 15.sp : 14.sp,
       maxLines: 1,
       textAlign: TextAlign.start,
     ),

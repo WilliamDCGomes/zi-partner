@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 5.h),
+                                      padding: EdgeInsets.only(top: PlatformType.isAndroid() ? 5.h : 2.h),
                                       child: Stack(
                                         children: [
                                           Obx(
@@ -237,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 ),
                                                 TextButtonWidget(
                                                   hintText: "Esqueceu a Senha?",
-                                                  fontSize: 15.sp,
+                                                  fontSize: PlatformType.isAndroid() ? 15.sp : 14.sp,
                                                   height: 3.5.h,
                                                   componentPadding: EdgeInsets.zero,
                                                   onTap: () => Get.to(() => const ForgotPasswordPage())
@@ -249,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 3.h),
+                                      padding: EdgeInsets.only(top: PlatformType.isAndroid() ? 3.h : 2.h),
                                       child: ButtonWidget(
                                         hintText: "LOGAR",
                                         fontWeight: FontWeight.bold,
@@ -259,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 2.5.h),
+                                      padding: EdgeInsets.only(top: PlatformType.isAndroid() ? 2.5.h : 2.h),
                                       child: TextButtonWidget(
                                         onTap: () => Get.to(() => const RegisterUserPage()),
                                         richText: const RichTextTwoDifferentWidget(

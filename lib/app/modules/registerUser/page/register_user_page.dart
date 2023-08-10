@@ -61,12 +61,9 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                             padding: EdgeInsets.symmetric(horizontal: 2.h,),
                             child: Align(
                               alignment: Alignment.centerLeft,
-                              child: SizedBox(
-                                width: 30.w,
-                                child: TitleWithBackButtonWidget(
-                                  title: "Cadastro",
-                                  backButtonPressedFuctionOverride: () async => await controller.backButtonOverridePressed(),
-                                ),
+                              child: TitleWithBackButtonWidget(
+                                title: "Cadastro",
+                                backButtonPressedFuctionOverride: () async => await controller.backButtonOverridePressed(),
                               ),
                             ),
                           ),
