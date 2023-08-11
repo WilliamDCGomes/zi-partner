@@ -1,0 +1,18 @@
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKPhotoGallery/DKPhotoGallery/Preview/PDFPreview/DKPhotoPDFPreviewVC.swift":
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPDFPreviewVC.swiftconstvalues"
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPDFPreviewVC.swiftdeps"
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPDFPreviewVC.o"
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPDFPreviewVC.d"
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPDFPreviewVC.dia"
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKPhotoGallery/DKPhotoGallery/DKPhotoIncrementalIndicator.swift":
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoIncrementalIndicator.dia"
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoIncrementalIndicator.swiftdeps"
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoIncrementalIndicator.o"
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoIncrementalIndicator.d"
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoIncrementalIndicator.swiftconstvalues"
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKPhotoGallery/DKPhotoGallery/Preview/PlayerPreview/DKPhotoPlayerPreviewVC.swift":
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPlayerPreviewVC.d"
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPlayerPreviewVC.swiftconstvalues"
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPlayerPreviewVC.o"
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPlayerPreviewVC.swiftdeps"
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKPhotoGallery.build/Objects-normal/arm64/DKPhotoPlayerPreviewVC.dia"

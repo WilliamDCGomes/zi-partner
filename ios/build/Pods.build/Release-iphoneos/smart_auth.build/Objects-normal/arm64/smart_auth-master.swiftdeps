@@ -1,0 +1,6 @@
+version: "Apple Swift version 5.9 (swiftlang-5.9.0.114.10 clang-1500.0.29.1)"
+options: "17c0e09f8cd166c690f39d64cf8ec4e0d635426d6df6f5be5f9dcfc47d429bf8"
+build_start_time: [1691715390, 511345000]
+build_end_time: [1691715402, 717938000]
+inputs:
+  "/Users/williamdouglascostagomes/.pub-cache/hosted/pub.dev/smart_auth-1.1.1/ios/Classes/SwiftSmartAuthPlugin.swift": [1690849398, 490248283]

@@ -1,0 +1,29 @@
+dependencies: \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/FirebaseMessaging.build/module.modulemap \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenManager.m \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenManager.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Public/FirebaseMessaging/FIRMessaging.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseInstallations/Source/Library/Private/FirebaseInstallationsInternal.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/FirebaseInstallations.build/module.modulemap \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/Target\ Support\ Files/FirebaseInstallations/FirebaseInstallations-umbrella.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FirebaseInstallations.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FIRInstallations.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FIRInstallationsAuthTokenResult.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FIRInstallationsErrors.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingConstants.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingDefines.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingLogger.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingCode.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/NSError+FIRMessaging.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAuthKeychain.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAuthService.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinService.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingUtilities.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinPreferences.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinStore.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenDeleteOperation.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenOperation.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenFetchOperation.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenInfo.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAPNSInfo.h \
+  /Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenStore.h

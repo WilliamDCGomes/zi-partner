@@ -1,0 +1,18 @@
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/Model/DKAsset.swift":
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset.o"
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset.d"
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset.swiftconstvalues"
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset.dia"
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset.swiftdeps"
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/Model/DKAsset+Export.swift":
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Export.o"
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Export.d"
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Export.swiftconstvalues"
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Export.swiftdeps"
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Export.dia"
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/Model/DKAsset+Fetch.swift":
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Fetch.swiftdeps"
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Fetch.swiftconstvalues"
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Fetch.d"
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Fetch.dia"
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKAsset+Fetch.o"

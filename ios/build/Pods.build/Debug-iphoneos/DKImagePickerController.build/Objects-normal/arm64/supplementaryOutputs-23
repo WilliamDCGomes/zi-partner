@@ -1,0 +1,18 @@
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/DKImagePickerController.swift":
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerController.d"
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerController.swiftconstvalues"
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerController.o"
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerController.swiftdeps"
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerController.dia"
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/DKImagePickerControllerBaseUIDelegate.swift":
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerBaseUIDelegate.swiftconstvalues"
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerBaseUIDelegate.dia"
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerBaseUIDelegate.d"
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerBaseUIDelegate.swiftdeps"
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerBaseUIDelegate.o"
+"/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/Resource/DKImagePickerControllerResource.swift":
+  swift-dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerResource.swiftdeps"
+  diagnostics: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerResource.dia"
+  const-values: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerResource.swiftconstvalues"
+  dependencies: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerResource.d"
+  object: "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/DKImagePickerController.build/Objects-normal/arm64/DKImagePickerControllerResource.o"

@@ -1,0 +1,12 @@
+version: "Apple Swift version 5.9 (swiftlang-5.9.0.114.10 clang-1500.0.29.1)"
+options: "6a4107108c949d4d8916e5208d70addd3941ff2c9cdc429cbaf7c70cb11d0a09"
+build_start_time: [1691715390, 520176000]
+build_end_time: [1691715402, 758686000]
+inputs:
+  "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/SwiftyGif/SwiftyGif/NSImage+SwiftyGif.swift": [1691715375, 184751313]
+  "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/SwiftyGif/SwiftyGif/NSImageView+SwiftyGif.swift": [1691715375, 185942193]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/SwiftyGif/SwiftyGif/ObjcAssociatedWeakObject.swift"
+  : [1691715375, 184965147]
+  "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/SwiftyGif/SwiftyGif/SwiftyGifManager.swift": [1691715375, 185687858]
+  "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/SwiftyGif/SwiftyGif/UIImage+SwiftyGif.swift": [1691715375, 185247190]
+  "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift": [1691715375, 184520353]

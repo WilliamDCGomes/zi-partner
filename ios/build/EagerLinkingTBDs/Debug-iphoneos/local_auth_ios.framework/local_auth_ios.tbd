@@ -1,0 +1,37 @@
+{
+  "main_library": {
+    "exported_symbols": [
+      {
+        "data": {
+          "global": [
+            "_local_auth_iosVersionNumber",
+            "_local_auth_iosVersionString"
+          ],
+          "objc_class": [
+            "PodsDummy_local_auth_ios",
+            "FLTLocalAuthPlugin"
+          ]
+        }
+      }
+    ],
+    "flags": [
+      {
+        "attributes": [
+          "not_app_extension_safe"
+        ]
+      }
+    ],
+    "install_names": [
+      {
+        "name": "@rpath/local_auth_ios.framework/local_auth_ios"
+      }
+    ],
+    "target_info": [
+      {
+        "min_deployment": "11",
+        "target": "arm64-ios"
+      }
+    ]
+  },
+  "tapi_tbd_version": 5
+}

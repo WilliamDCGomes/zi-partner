@@ -1,0 +1,51 @@
+version: "Apple Swift version 5.9 (swiftlang-5.9.0.114.10 clang-1500.0.29.1)"
+options: "fa1dfc862cc90af57f6ebd244f8deb1bb95fa251c2a2637767f8e2d8d2fd66bf"
+build_start_time: [1691715409, 535891000]
+build_end_time: [1691715414, 59623000]
+inputs:
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/DKImageBaseManager.swift"
+  : [1691715353, 394388812]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/DKImageDataManager.swift"
+  : [1691715353, 393414308]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/DKImageGroupDataManager.swift"
+  : [1691715353, 393711559]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/Model/DKAsset+Export.swift"
+  : [1691715353, 394899731]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/Model/DKAsset+Fetch.swift"
+  : [1691715353, 395460900]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/Model/DKAsset.swift"
+  : [1691715353, 395693234]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImageDataManager/Model/DKAssetGroup.swift"
+  : [1691715353, 395137899]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/DKImageAssetExporter.swift"
+  : [1691715353, 396464779]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/DKImageExtensionController.swift"
+  : [1691715353, 396169778]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/DKImagePickerController.swift"
+  : [1691715353, 396735072]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/DKImagePickerControllerBaseUIDelegate.swift"
+  : [1691715353, 396896406]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/DKPopoverViewController.swift"
+  : [1691715353, 397356116]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/Resource/DKImagePickerControllerResource.swift"
+  : [1691715353, 413070263]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/Cell/DKAssetGroupCellItemProtocol.swift"
+  : [1691715353, 398584787]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/Cell/DKAssetGroupDetailBaseCell.swift"
+  : [1691715353, 398820247]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/Cell/DKAssetGroupDetailCameraCell.swift"
+  : [1691715353, 398198453]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/Cell/DKAssetGroupDetailImageCell.swift"
+  : [1691715353, 398956997]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/Cell/DKAssetGroupDetailVideoCell.swift"
+  : [1691715353, 398337911]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/DKAssetGroupDetailVC.swift"
+  : [1691715353, 397956118]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/DKAssetGroupGridLayout.swift"
+  : [1691715353, 397711409]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/DKAssetGroupListVC.swift"
+  : [1691715353, 399105831]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/DKImagePickerController/View/DKPermissionView.swift"
+  : [1691715353, 397574200]
+  ? "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/Pods/DKImagePickerController/Sources/Extensions/DKImageExtensionGallery.swift"
+  : [1691715353, 392505429]

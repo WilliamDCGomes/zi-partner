@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.9 (swiftlang-5.9.0.114.10 clang-1500.0.29.1)"
+options: "86d57a4b2a6ba3c5d09f5579b03e1edc91d338d0bcc4e440a06bcbcbe2feaefb"
+build_start_time: [1691715390, 511307000]
+build_end_time: [1691715402, 735567000]
+inputs:
+  "/Users/williamdouglascostagomes/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.0/darwin/Classes/PathProviderPlugin.swift": [1680705309, 624911958]
+  "/Users/williamdouglascostagomes/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.0/darwin/Classes/messages.g.swift": [1680705309, 625190490]

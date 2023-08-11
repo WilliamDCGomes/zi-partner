@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/build/ios/Debug-iphoneos/smart_auth/smart_auth.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/smart_auth.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/build/ios/Debug-iphoneos/smart_auth/smart_auth.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "smart_auth-Swift.h",
+      'external-contents': "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Debug-iphoneos/smart_auth.build/unextended-interface-header.h",
+    }]
+    }]
+}

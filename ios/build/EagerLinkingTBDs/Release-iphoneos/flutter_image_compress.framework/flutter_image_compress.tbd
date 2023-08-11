@@ -1,0 +1,68 @@
+{
+  "main_library": {
+    "exported_symbols": [
+      {
+        "data": {
+          "global": [
+            "_flutter_image_compressVersionNumber",
+            "_kSYImagePropertyCIFFUniqueModelID",
+            "_kSYImagePropertyCIFFMaxAperture",
+            "_flutter_image_compressVersionString",
+            "_kSYImagePropertyExifAuxAutoFocusInfo",
+            "_kSYImagePropertyCIFFMinAperture",
+            "_kSYImagePropertyPictureStyle",
+            "_showLog",
+            "_kSYImagePropertyExifAuxImageStabilization"
+          ],
+          "objc_class": [
+            "SYMetadataExifAux",
+            "SYMetadataPNG",
+            "SYMetadataMakerMinolta",
+            "SYMetadataIPTC",
+            "SYMetadataIPTCContactInfo",
+            "CompressListHandler",
+            "SYMetadata",
+            "SYMetadataMakerPentax",
+            "SYMetadataMakerNikon",
+            "SYMetadataTIFF",
+            "SYMetadataMakerFuji",
+            "SYMetadataMakerOlympus",
+            "SYMetadataCIFF",
+            "SYMetadataDNG",
+            "SYMetadataJFIF",
+            "CompressHandler",
+            "SYMetadataExif",
+            "SYMetadataMakerCanon",
+            "SYMetadata8BIM",
+            "ImageCompressPlugin",
+            "SYMetadataBase",
+            "SYMetadataRaw",
+            "CompressFileHandler",
+            "SYMetadataGIF",
+            "SYMetadataGPS",
+            "PodsDummy_flutter_image_compress"
+          ]
+        }
+      }
+    ],
+    "flags": [
+      {
+        "attributes": [
+          "not_app_extension_safe"
+        ]
+      }
+    ],
+    "install_names": [
+      {
+        "name": "@rpath/flutter_image_compress.framework/flutter_image_compress"
+      }
+    ],
+    "target_info": [
+      {
+        "min_deployment": "12",
+        "target": "arm64-ios"
+      }
+    ]
+  },
+  "tapi_tbd_version": 5
+}

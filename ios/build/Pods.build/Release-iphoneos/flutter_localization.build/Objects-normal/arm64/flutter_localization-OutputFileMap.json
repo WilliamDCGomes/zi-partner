@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/flutter_localization-master.swiftconstvalues",
+    "dependencies" : "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/flutter_localization-master.d",
+    "diagnostics" : "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/flutter_localization-master.dia",
+    "emit-module-dependencies" : "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/flutter_localization-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/flutter_localization-master-emit-module.dia",
+    "swift-dependencies" : "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/flutter_localization-master.swiftdeps"
+  },
+  "/Users/williamdouglascostagomes/.pub-cache/hosted/pub.dev/flutter_localization-0.1.10/ios/Classes/SwiftFlutterLocalizationPlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/SwiftFlutterLocalizationPlugin.o",
+    "llvm-bc" : "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/SwiftFlutterLocalizationPlugin.bc",
+    "object" : "/Users/williamdouglascostagomes/Documents/Projetos/Flutter/zi-partner/ios/build/Pods.build/Release-iphoneos/flutter_localization.build/Objects-normal/arm64/SwiftFlutterLocalizationPlugin.o"
+  }
+}

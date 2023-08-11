@@ -1,0 +1,8 @@
+version: "Apple Swift version 5.9 (swiftlang-5.9.0.114.10 clang-1500.0.29.1)"
+options: "d6616035dae253dec0505d518f712117725eb4e359de82297bd40a16bb6e9294"
+build_start_time: [1691715390, 511307000]
+build_end_time: [1691715402, 725957000]
+inputs:
+  ? "/Users/williamdouglascostagomes/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.1.5/darwin/Classes/SharedPreferencesPlugin.swift"
+  : [1678328476, 841087262]
+  "/Users/williamdouglascostagomes/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.1.5/darwin/Classes/messages.g.swift": [1678328476, 846129625]
