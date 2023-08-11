@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
@@ -47,6 +48,7 @@ class LoginController extends GetxController {
       passwordInputController.text = "12121212";
     }
     await _getKeepConnected();
+
     if (!cancelFingerPrint) {
       await _checkBiometricSensor();
     }

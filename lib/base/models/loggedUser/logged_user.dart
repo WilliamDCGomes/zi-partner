@@ -15,7 +15,7 @@ class LoggedUser {
   static String email = "";
   static String password = "";
   static DateTime? includeDate;
-  static String playerId = "";
+  static String deviceToken = "";
 
   static String get name => _name;
 

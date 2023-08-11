@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/base/models/matchOrDislike/match_or_dislike.dart';
 import 'package:zi_partner/base/services/user_service.dart';
@@ -38,7 +37,6 @@ class FindPeopleController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 200));
     await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
     _animationInitialized = true;
-    //await _updatePlayerId();
     await _sendLocation();
     await getNextFivePeople();
     await _checkFingerPrintUser();
@@ -63,10 +61,8 @@ class FindPeopleController extends GetxController {
 
   _updatePlayerId() async {
     try {
-      var status = await OneSignal.shared.getDeviceState();
-      var playerId = status != null ? status.userId ?? "" : "";
-      LoggedUser.playerId = playerId;
-      await _userService.updatePlayerId(playerId);
+      LoggedUser.deviceToken = "";
+      await _userService.updatePlayerId(LoggedUser.deviceToken);
     }
     catch(_) {}
   }

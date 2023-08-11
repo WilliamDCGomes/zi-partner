@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "223376734997",
+    "project_id": "zipartner",
+    "storage_bucket": "zipartner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223376734997:android:38bc74cda29a89e055071c",
+        "android_client_info": {
+          "package_name": "com.zipartner.zi_partner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "223376734997-er75odahveos90op2gmpqqeqfb1f0oj4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zipartner.zi_partner",
+            "certificate_hash": "e03be066e2edfa126f0dc22895e95a545656a5e8"
+          }
+        },
+        {
+          "client_id": "223376734997-aencr2mhf9e1h21i7d884hq78jvions2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5HM4dJO6pEuKH6AybMTh4EBB28N7g5Ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "223376734997-aencr2mhf9e1h21i7d884hq78jvions2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "223376734997-ldhjb66pja93lv3p1k6ntal0k7air6jg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zipartner.zi-partner"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
