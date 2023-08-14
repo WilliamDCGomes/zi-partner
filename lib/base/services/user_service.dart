@@ -62,11 +62,11 @@ class UserService extends BaseService implements IUserService {
   }
 
   @override
-  Future<bool> updatePlayerId(String playerId) async {
+  Future<bool> updateDeviceToken(String deviceToken) async {
     try {
       final token = await getToken();
-      final url = '${baseUrlApi}User/UpdatePlayerId';
-      final response = await super.put(url, null, query: {"PlayerId": playerId}, headers: {"Authorization": 'Bearer $token'});
+      final url = '${baseUrlApi}User/UpdateDeviceToken';
+      final response = await super.put(url, null, query: {"DeviceToken": deviceToken}, headers: {"Authorization": 'Bearer $token'});
       if (hasErrorResponse(response) || response.body is! bool) throw Exception();
       return response.body as bool;
     } catch (e) {

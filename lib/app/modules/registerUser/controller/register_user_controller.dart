@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:uuid/uuid.dart';
 import 'package:zi_partner/app/enums/enums.dart';
 import 'package:zi_partner/base/models/gym/gym.dart';
 import 'package:zi_partner/base/models/user/user.dart';
@@ -260,10 +259,6 @@ class RegisterUserController extends GetxController {
     if(activeStep.value < 5) {
       activeStep.value ++;
     } else {
-      /*var status = await OneSignal.shared.getDeviceState();
-      newUser.playerId = status != null ? status.userId ?? "" : "";
-      LoggedUser.playerId = newUser.playerId;*/
-      newUser.playerId = const Uuid().v4();
       await _saveUser();
     }
   }

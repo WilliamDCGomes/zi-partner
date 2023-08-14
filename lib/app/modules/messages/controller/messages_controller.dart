@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
 import '../../../../base/models/message/message.dart';
 import '../../../../base/models/person/person.dart';
@@ -12,6 +13,7 @@ class MessagesController extends GetxController {
   late bool _canUpdate;
   late bool _animationInitialized;
   late RxBool sendingMessage;
+  late RxDouble messageFieldSize;
   late RxList<Messages> messagesList;
   late FocusNode newMessageFocusNode;
   late Person recipientPerson;
@@ -43,6 +45,7 @@ class MessagesController extends GetxController {
     _allMessagesGet = false;
     _canUpdate = true;
     _animationInitialized = false;
+    messageFieldSize = 6.h.obs;
     sendingMessage = false.obs;
     messagesList = <Messages>[].obs;
     newMessageFocusNode = FocusNode();
@@ -172,6 +175,15 @@ class MessagesController extends GetxController {
     }
     else {
       Get.back(result: null);
+    }
+  }
+
+  getMessageFieldSize() {
+    var value = 6.h * (newMessage.text.length / 44);
+    if(value < 6.h) {
+      messageFieldSize.value = 6.h;
+    } else {
+      messageFieldSize.value = value;
     }
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:zi_partner/app/utils/helpers/platform_type.dart';
 import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
@@ -72,7 +71,8 @@ class NotificationHelper {
       await platform?.createNotificationChannel(_androidChannel);
     }
     else {
-      final platform = _localNotifications.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+      /// TODO Fazer para o IOS
+      //final platform = _localNotifications.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
       //await platform?.createNotificationChannel(_i);
     }
   }
@@ -109,7 +109,5 @@ class NotificationHelper {
 
   Future<void> getDeviceToken() async {
     LoggedUser.deviceToken = await firebaseMessaging.getToken() ?? "";
-    Clipboard.setData(ClipboardData(text: LoggedUser.deviceToken));
-    print("Inicio do script\n${LoggedUser.deviceToken}\nFim do script");
   }
 }

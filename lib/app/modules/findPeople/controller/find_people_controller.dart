@@ -9,6 +9,7 @@ import '../../../../base/models/person/person.dart';
 import '../../../../base/services/interfaces/imatch_or_dislike_service.dart';
 import '../../../../base/services/interfaces/iuser_service.dart';
 import '../../../../base/services/match_or_dislike_service.dart';
+import '../../../utils/helpers/notification_helper.dart';
 import '../../../utils/helpers/send_location.dart';
 import '../../../utils/sharedWidgets/popups/confirmation_popup.dart';
 import '../../../utils/sharedWidgets/popups/information_popup.dart';
@@ -37,6 +38,7 @@ class FindPeopleController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 200));
     await _mainMenuController.loadingWithSuccessOrErrorWidget.startAnimation();
     _animationInitialized = true;
+    await _updateDeviceToken();
     await _sendLocation();
     await getNextFivePeople();
     await _checkFingerPrintUser();
@@ -59,10 +61,10 @@ class FindPeopleController extends GetxController {
     _matchOrDislikeService = MatchOrDislikeService();
   }
 
-  _updatePlayerId() async {
+  _updateDeviceToken() async {
     try {
-      LoggedUser.deviceToken = "";
-      await _userService.updatePlayerId(LoggedUser.deviceToken);
+      await NotificationHelper().getDeviceToken();
+      if(LoggedUser.deviceToken != null) await _userService.updateDeviceToken(LoggedUser.deviceToken!);
     }
     catch(_) {}
   }

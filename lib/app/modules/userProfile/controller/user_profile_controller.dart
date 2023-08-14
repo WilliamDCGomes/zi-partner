@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zi_partner/app/modules/login/page/login_page.dart';
 import 'package:zi_partner/app/utils/helpers/date_format_to_brazil.dart';
+import 'package:zi_partner/app/utils/helpers/notification_helper.dart';
 import 'package:zi_partner/base/models/gym/gym.dart';
 import 'package:zi_partner/base/services/gym_service.dart';
 import 'package:zi_partner/base/services/picture_service.dart';
@@ -245,11 +245,8 @@ class UserProfileController extends GetxController {
     user.email = emailTextController.text;
     user.id = LoggedUser.id;
     user.aboutMe = aboutMeTextController.text;
-    user.playerId = const Uuid().v4();
-
-    /*var status = await OneSignal.shared.getDeviceState();
-    user.playerId = status != null ? status.userId ?? "" : "";
-    LoggedUser.playerId = user.playerId;*/
+    await NotificationHelper().getDeviceToken();
+    user.deviceToken = LoggedUser.deviceToken;
   }
 
   editButtonPressed() async {

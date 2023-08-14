@@ -10,7 +10,7 @@ part 'person.g.dart';
 @JsonSerializable()
 class Person {
   late String id;
-  late String playerId;
+  late String deviceToken;
   late String name;
   late String userName;
   @JsonKey(includeFromJson: false)
@@ -41,6 +41,7 @@ class Person {
     required this.picture,
     required this.gender,
     required this.birthdayDate,
+    required this.deviceToken,
     this.lastMessage,
     this.cellphone,
     this.email,
@@ -66,6 +67,7 @@ class Person {
     aboutMe = "";
     longitude = "";
     latitude = "";
+    deviceToken = "";
     birthdayDate = DateTime.now();
     distance = null;
     gyms = null;

@@ -21,18 +21,17 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           .toList(),
       gender: $enumDecode(_$TypeGenderEnumMap, json['gender']),
       birthdayDate: DateTime.parse(json['birthdayDate'] as String),
+      deviceToken: json['deviceToken'] as String,
       lastMessage: json['lastMessage'] == null
           ? null
           : Messages.fromJson(json['lastMessage'] as Map<String, dynamic>),
       cellphone: json['cellphone'] as String?,
       email: json['email'] as String?,
-    )
-      ..id = json['id'] as String
-      ..playerId = json['playerId'] as String;
+    )..id = json['id'] as String;
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'id': instance.id,
-      'playerId': instance.playerId,
+      'deviceToken': instance.deviceToken,
       'name': instance.name,
       'userName': instance.userName,
       'aboutMe': instance.aboutMe,

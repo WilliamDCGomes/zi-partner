@@ -17,6 +17,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           ? null
           : DateTime.parse(json['birthdayDate'] as String),
       gender: $enumDecode(_$TypeGenderEnumMap, json['gender']),
+      deviceToken: json['deviceToken'] as String,
     )
       ..id = json['id'] as String?
       ..inclusion = json['inclusion'] == null
@@ -25,8 +26,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       ..alteration = json['alteration'] == null
           ? null
           : DateTime.parse(json['alteration'] as String)
-      ..active = ZiPartnerCore.fromJsonActive(json['active'])
-      ..playerId = json['playerId'] as String;
+      ..active = ZiPartnerCore.fromJsonActive(json['active']);
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
@@ -39,7 +39,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'cellphone': instance.cellphone,
       'email': instance.email,
       'password': instance.password,
-      'playerId': instance.playerId,
+      'deviceToken': instance.deviceToken,
       'birthdayDate': instance.birthdayDate?.toIso8601String(),
       'gender': _$TypeGenderEnumMap[instance.gender]!,
     };

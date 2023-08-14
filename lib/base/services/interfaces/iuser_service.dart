@@ -11,7 +11,7 @@ abstract class IUserService {
 
   Future<bool> updateUser(User user);
 
-  Future<bool> updatePlayerId(String playerId);
+  Future<bool> updateDeviceToken(String deviceToken);
 
   Future<bool> checkUserNameAlreadyRegistered(String userName);
 

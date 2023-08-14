@@ -12,7 +12,7 @@ class User extends ZiPartnerCore {
   late String cellphone;
   late String email;
   late String password;
-  late String playerId;
+  late String deviceToken;
   late DateTime? birthdayDate;
   late TypeGender gender;
 
@@ -25,6 +25,7 @@ class User extends ZiPartnerCore {
     required this.password,
     required this.birthdayDate,
     required this.gender,
+    required this.deviceToken,
   });
 
   User.empty() {
@@ -34,6 +35,7 @@ class User extends ZiPartnerCore {
     cellphone = "";
     email = "";
     password = "";
+    deviceToken = "";
     gender = TypeGender.none;
   }
 

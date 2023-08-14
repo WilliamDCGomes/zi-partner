@@ -11,14 +11,14 @@ Messages _$MessagesFromJson(Map<String, dynamic> json) => Messages(
       receiverId: json['receiverId'] as String,
       message: json['message'] as String,
       read: json['read'] as bool,
+      inclusion: json['inclusion'] == null
+          ? null
+          : DateTime.parse(json['inclusion'] as String),
+      alteration: json['alteration'] == null
+          ? null
+          : DateTime.parse(json['alteration'] as String),
     )
       ..id = json['id'] as String?
-      ..inclusion = json['inclusion'] == null
-          ? null
-          : DateTime.parse(json['inclusion'] as String)
-      ..alteration = json['alteration'] == null
-          ? null
-          : DateTime.parse(json['alteration'] as String)
       ..active = ZiPartnerCore.fromJsonActive(json['active']);
 
 Map<String, dynamic> _$MessagesToJson(Messages instance) => <String, dynamic>{

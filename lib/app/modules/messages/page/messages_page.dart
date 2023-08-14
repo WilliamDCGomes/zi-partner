@@ -7,7 +7,7 @@ import 'package:zi_partner/app/utils/helpers/date_format_to_brazil.dart';
 import 'package:zi_partner/app/utils/stylePages/app_colors.dart';
 import '../../../../base/models/person/person.dart';
 import '../../../utils/sharedWidgets/button_widget.dart';
-import '../../../utils/sharedWidgets/text_field_widget.dart';
+import '../../../utils/sharedWidgets/text_field_resize_widget.dart';
 import '../../../utils/sharedWidgets/text_widget.dart';
 import '../../../utils/sharedWidgets/user_picture_widget.dart';
 import '../controller/messages_controller.dart';
@@ -229,38 +229,38 @@ class _MessagesPageState extends State<MessagesPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: TextFieldWidget(
-                              focusNode: controller.newMessageFocusNode,
-                              controller: controller.newMessage,
-                              hintText: "Mensagem",
-                              height: 9.h,
-                              width: double.infinity,
-                              enableSuggestions: true,
-                              textCapitalization: TextCapitalization.sentences,
-                              keyboardType: TextInputType.text,
+                      Padding(
+                        padding: EdgeInsets.only(top: 2.h, bottom: 1.h),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: TextFieldResizeWidget(
+                                focusNode: controller.newMessageFocusNode,
+                                controller: controller.newMessage,
+                                hintText: "Mensagem",
+                                height: 6.h,
+                                maxLength: 450,
+                                width: double.infinity,
+                                enableSuggestions: true,
+                                textCapitalization: TextCapitalization.sentences,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          ButtonWidget(
-                            widthButton: 15.w,
-                            fontWeight: FontWeight.bold,
-                            child: Icon(
-                              Icons.send,
-                              color: AppColors.whiteColor,
-                              size: 3.h,
+                            SizedBox(
+                              width: 2.w,
                             ),
-                            onPressed: () => controller.sendMessage(),
-                          ),
-                        ],
+                            ButtonWidget(
+                              widthButton: 15.w,
+                              fontWeight: FontWeight.bold,
+                              child: Icon(
+                                Icons.send,
+                                color: AppColors.whiteColor,
+                                size: 3.h,
+                              ),
+                              onPressed: () => controller.sendMessage(),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
