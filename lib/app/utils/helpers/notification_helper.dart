@@ -6,7 +6,7 @@ import 'package:zi_partner/base/models/loggedUser/logged_user.dart';
 
 class NotificationHelper {
   final firebaseMessaging = FirebaseMessaging.instance;
-  final icLauncher = "@drawable/ic_launcher";
+  final icLauncher = "@mipmap/ic_launcher";
 
   final _androidChannel = const AndroidNotificationChannel(
     'high importance_channel',
@@ -49,7 +49,7 @@ class NotificationHelper {
 
   Future initLocalNotifications() async {
     const iOS = DarwinInitializationSettings();
-    const android = AndroidInitializationSettings("@drawable/ic_launcher");
+    const android = AndroidInitializationSettings("@mipmap/ic_launcher");
 
     const settings = InitializationSettings(
       android: android,
