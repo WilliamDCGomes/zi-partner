@@ -1,20 +1,23 @@
 # Zi Partner
 
 ## Este aplicativo foi feito na intenção de permitir que você encontre outras pessoas que estejam interessadas em treinar com você. Ele funciona mostrando pessoas próximas a você e suas informações, como treinos e academias que frequenta. Caso vocês deem um MATCH um no outro, um chat interno é aberto no aplicativo para que vocês possam marcar um treino juntos.
+## This application was created with the intention of enabling you to find other individuals who are interested in working out together. It operates by showing people near you along with their information, such as the workouts they do and the gyms they attend. If you both MATCH with each other, an internal chat is opened within the app, allowing you to schedule a workout session together.
 
-### Tela de Login
+### Tela de Login | Login Screen
 
 #### A primeira tela que temos é a tela de Login, onde o usuário irá se autenticar no aplicativo.
+#### The first screen we have is the Login Screen, where the user will authenticate within the app.
 
 ![Tela de Login](https://raw.githubusercontent.com/WilliamDCGomes/zi-partner/main/readmefiles/Tela%20de%20Login.jpg)
 
-### Fluxo de Cadastro
+### Fluxo de Cadastro | Registration Flow
 
 #### Caso seja o primeiro acesso, o usuário pode criar uma conta nova no aplicativo.
+#### In case it's the first access, the user can create a new account within the app.
 
 ![Fluxo de Cadastro](https://raw.githubusercontent.com/WilliamDCGomes/zi-partner/main/readmefiles/Fluxo%20de%20Cadastro.jpg)
 
-### Recuperar a Senha
+### Recuperar a Senha | Password Recovery
 
 #### Também é permitido recuperar a senha do aplicativo, basta que o usuário informe o E-mail usado no cadastro, que será enviado um código de validação para ele recuperar a senha.
 
