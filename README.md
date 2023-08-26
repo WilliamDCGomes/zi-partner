@@ -1,6 +1,6 @@
 # Zi Partner
 
-## Esse aplicativo foi feito na intenção de permitir que você encontre outras pessoas que estejam interessadas em treinar com você. Ele funciona mostrando pessoas próximas a você e suas informações, como treinos e academias que frequenta. Caso vocês deem um MATCH um no outro, um chat interno é aberto no aplicativo para que vocês possam marcar um treino juntos.
+## Este aplicativo foi feito na intenção de permitir que você encontre outras pessoas que estejam interessadas em treinar com você. Ele funciona mostrando pessoas próximas a você e suas informações, como treinos e academias que frequenta. Caso vocês deem um MATCH um no outro, um chat interno é aberto no aplicativo para que vocês possam marcar um treino juntos.
 
 ### Tela de Login
 
